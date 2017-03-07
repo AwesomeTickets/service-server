@@ -1,6 +1,6 @@
 # Tickets-Server
 
-Server of a movie tickets system powered by Thymeleaf & Spring.
+Server of a movie tickets system powered by Spring & Thymeleaf.
 
 ## Build & Run
 
@@ -14,4 +14,4 @@ Server of a movie tickets system powered by Thymeleaf & Spring.
     $ mvn tomcat7:run
     ```
 
-3. Visit http://localhost:8080/tickets.
+3. The application should be available at `http://localhost:8080/tickets`.
