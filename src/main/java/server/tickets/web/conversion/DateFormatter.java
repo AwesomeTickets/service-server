@@ -17,7 +17,7 @@
  * 
  * =============================================================================
  */
-package thymeleafexamples.stsm.web.conversion;
+package server.tickets.web.conversion;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

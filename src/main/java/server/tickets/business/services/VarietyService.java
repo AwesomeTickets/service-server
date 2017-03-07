@@ -17,34 +17,35 @@
  * 
  * =============================================================================
  */
-package thymeleafexamples.stsm.business.services;
+package server.tickets.business.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import thymeleafexamples.stsm.business.entities.SeedStarter;
-import thymeleafexamples.stsm.business.entities.repositories.SeedStarterRepository;
+
+import server.tickets.business.entities.Variety;
+import server.tickets.business.entities.repositories.VarietyRepository;
 
 @Service
-public class SeedStarterService {
+public class VarietyService {
     
     @Autowired
-    private SeedStarterRepository seedstarterRepository; 
+    private VarietyRepository varietyRepository; 
     
     
-    public SeedStarterService() {
+    public VarietyService() {
         super();
     }
     
     
     
-    public List<SeedStarter> findAll() {
-        return this.seedstarterRepository.findAll();
+    public List<Variety> findAll() {
+        return this.varietyRepository.findAll();
     }
 
-    public void add(final SeedStarter seedStarter) {
-        this.seedstarterRepository.add(seedStarter);
+    public Variety findById(final Integer id) {
+        return this.varietyRepository.findById(id);
     }
     
 }
