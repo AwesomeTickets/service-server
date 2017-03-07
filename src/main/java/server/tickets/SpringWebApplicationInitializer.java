@@ -17,14 +17,15 @@
  * 
  * =============================================================================
  */
-package thymeleafexamples.stsm;
+package server.tickets;
 
 import javax.servlet.Filter;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import thymeleafexamples.stsm.business.SpringBusinessConfig;
-import thymeleafexamples.stsm.web.SpringWebConfig;
+
+import server.tickets.business.SpringBusinessConfig;
+import server.tickets.web.SpringWebConfig;
 
 
 public class SpringWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {

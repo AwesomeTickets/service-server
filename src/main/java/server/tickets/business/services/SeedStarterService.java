@@ -17,45 +17,35 @@
  * 
  * =============================================================================
  */
-package thymeleafexamples.stsm.business.entities;
+package server.tickets.business.services;
 
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class Row {
+import server.tickets.business.entities.SeedStarter;
+import server.tickets.business.entities.repositories.SeedStarterRepository;
 
-    private Variety variety = null;
-    private Integer seedsPerCell = null;
+@Service
+public class SeedStarterService {
+    
+    @Autowired
+    private SeedStarterRepository seedstarterRepository; 
     
     
-    
-    
-    public Row() {
+    public SeedStarterService() {
         super();
     }
-
-
-    public Variety getVariety() {
-        return this.variety;
+    
+    
+    
+    public List<SeedStarter> findAll() {
+        return this.seedstarterRepository.findAll();
     }
 
-
-    public void setVariety(final Variety variety) {
-        this.variety = variety;
+    public void add(final SeedStarter seedStarter) {
+        this.seedstarterRepository.add(seedStarter);
     }
-
-    public Integer getSeedsPerCell() {
-        return this.seedsPerCell;
-    }
-
-    public void setSeedsPerCell(final Integer seedsPerCell) {
-        this.seedsPerCell = seedsPerCell;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Row [variety=" + this.variety + ", seedsPerCell=" + this.seedsPerCell + "]";
-    }
-
     
 }
