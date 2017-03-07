@@ -17,7 +17,7 @@
  *
  * =============================================================================
  */
-package thymeleafexamples.stsm.web;
+package server.tickets.web;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -34,8 +34,9 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-import thymeleafexamples.stsm.web.conversion.DateFormatter;
-import thymeleafexamples.stsm.web.conversion.VarietyFormatter;
+
+import server.tickets.web.conversion.DateFormatter;
+import server.tickets.web.conversion.VarietyFormatter;
 
 @Configuration
 @EnableWebMvc

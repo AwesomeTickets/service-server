@@ -14,4 +14,4 @@ Server of a movie tickets system powered by Thymeleaf & Spring.
     $ mvn tomcat7:run
     ```
 
-3. Once started, the application should be available at http://localhost:8080/stsm.
+3. Visit http://localhost:8080/tickets.

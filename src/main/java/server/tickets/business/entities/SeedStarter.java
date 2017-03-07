@@ -17,7 +17,7 @@
  * 
  * =============================================================================
  */
-package thymeleafexamples.stsm.business.entities;
+package server.tickets.business.entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
