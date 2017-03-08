@@ -17,36 +17,38 @@
  * 
  * =============================================================================
  */
-package server.tickets.web.conversion;
+package com.tickets.business.entities.repositories;
 
-import java.text.ParseException;
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.Formatter;
+import org.springframework.stereotype.Repository;
 
-import server.tickets.business.entities.Variety;
-import server.tickets.business.services.VarietyService;
+import com.tickets.business.entities.SeedStarter;
 
 
-public class VarietyFormatter implements Formatter<Variety> {
+@Repository
+public class SeedStarterRepository {
 
-    @Autowired
-    private VarietyService varietyService;
-
-
-    public VarietyFormatter() {
+    private final List<SeedStarter> seedStarters = new ArrayList<SeedStarter>();
+    
+    
+    
+    public SeedStarterRepository() {
         super();
     }
-
-    public Variety parse(final String text, final Locale locale) throws ParseException {
-        final Integer varietyId = Integer.valueOf(text);
-        return this.varietyService.findById(varietyId);
+    
+    
+    
+    public List<SeedStarter> findAll() {
+        return new ArrayList<SeedStarter>(this.seedStarters);
     }
 
-
-    public String print(final Variety object, final Locale locale) {
-        return (object != null ? object.getId().toString() : "");
+    
+    public void add(final SeedStarter seedStarter) {
+        this.seedStarters.add(seedStarter);
     }
-
+    
+    
+    
 }

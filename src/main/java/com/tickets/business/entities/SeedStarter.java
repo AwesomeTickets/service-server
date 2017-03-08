@@ -17,7 +17,7 @@
  * 
  * =============================================================================
  */
-package server.tickets.business.entities;
+package com.tickets.business.entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;

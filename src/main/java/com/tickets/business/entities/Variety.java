@@ -17,35 +17,34 @@
  * 
  * =============================================================================
  */
-package server.tickets.business.services;
+package com.tickets.business.entities;
 
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import server.tickets.business.entities.SeedStarter;
-import server.tickets.business.entities.repositories.SeedStarterRepository;
+public class Variety {
 
-@Service
-public class SeedStarterService {
-    
-    @Autowired
-    private SeedStarterRepository seedstarterRepository; 
+    private Integer id = null;
+    private String name = null;
     
     
-    public SeedStarterService() {
+    public Variety() {
         super();
     }
-    
-    
-    
-    public List<SeedStarter> findAll() {
-        return this.seedstarterRepository.findAll();
+
+
+    public Integer getId() {
+        return this.id;
+    }
+    public void setId(final Integer id) {
+        this.id = id;
     }
 
-    public void add(final SeedStarter seedStarter) {
-        this.seedstarterRepository.add(seedStarter);
+
+    public String getName() {
+        return this.name;
+    }
+    public void setName(final String name) {
+        this.name = name;
     }
     
 }

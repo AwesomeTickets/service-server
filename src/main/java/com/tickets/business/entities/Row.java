@@ -17,38 +17,45 @@
  * 
  * =============================================================================
  */
-package server.tickets.business.entities.repositories;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
-import server.tickets.business.entities.SeedStarter;
+package com.tickets.business.entities;
 
 
-@Repository
-public class SeedStarterRepository {
 
-    private final List<SeedStarter> seedStarters = new ArrayList<SeedStarter>();
+public class Row {
+
+    private Variety variety = null;
+    private Integer seedsPerCell = null;
     
     
     
-    public SeedStarterRepository() {
+    
+    public Row() {
         super();
     }
-    
-    
-    
-    public List<SeedStarter> findAll() {
-        return new ArrayList<SeedStarter>(this.seedStarters);
+
+
+    public Variety getVariety() {
+        return this.variety;
     }
 
-    
-    public void add(final SeedStarter seedStarter) {
-        this.seedStarters.add(seedStarter);
+
+    public void setVariety(final Variety variety) {
+        this.variety = variety;
     }
-    
-    
+
+    public Integer getSeedsPerCell() {
+        return this.seedsPerCell;
+    }
+
+    public void setSeedsPerCell(final Integer seedsPerCell) {
+        this.seedsPerCell = seedsPerCell;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Row [variety=" + this.variety + ", seedsPerCell=" + this.seedsPerCell + "]";
+    }
+
     
 }

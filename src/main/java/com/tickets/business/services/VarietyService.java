@@ -17,15 +17,15 @@
  * 
  * =============================================================================
  */
-package server.tickets.business.services;
+package com.tickets.business.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import server.tickets.business.entities.Variety;
-import server.tickets.business.entities.repositories.VarietyRepository;
+import com.tickets.business.entities.Variety;
+import com.tickets.business.entities.repositories.VarietyRepository;
 
 @Service
 public class VarietyService {
