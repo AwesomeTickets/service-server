@@ -5,7 +5,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   
-  <groupId>server</groupId>
+  <groupId>com</groupId>
   <artifactId>tickets</artifactId>
   <version>1.0</version>
   

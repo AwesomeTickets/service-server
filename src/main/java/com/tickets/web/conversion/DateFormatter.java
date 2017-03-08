@@ -17,7 +17,7 @@
  * 
  * =============================================================================
  */
-package server.tickets.web.conversion;
+package com.tickets.web.conversion;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
