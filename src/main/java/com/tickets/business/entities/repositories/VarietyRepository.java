@@ -17,7 +17,7 @@
  * 
  * =============================================================================
  */
-package server.tickets.business.entities.repositories;
+package com.tickets.business.entities.repositories;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -26,7 +26,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import server.tickets.business.entities.Variety;
+import com.tickets.business.entities.Variety;
 
 
 @Repository

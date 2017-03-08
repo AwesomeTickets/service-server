@@ -17,15 +17,15 @@
  * 
  * =============================================================================
  */
-package server.tickets;
+package com.tickets;
 
 import javax.servlet.Filter;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import server.tickets.business.SpringBusinessConfig;
-import server.tickets.web.SpringWebConfig;
+import com.tickets.business.SpringBusinessConfig;
+import com.tickets.web.SpringWebConfig;
 
 
 public class SpringWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {

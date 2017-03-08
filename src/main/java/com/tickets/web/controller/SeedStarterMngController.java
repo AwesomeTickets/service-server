@@ -17,7 +17,7 @@
  * 
  * =============================================================================
  */
-package server.tickets.web.controller;
+package com.tickets.web.controller;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -32,13 +32,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import server.tickets.business.entities.Feature;
-import server.tickets.business.entities.Row;
-import server.tickets.business.entities.SeedStarter;
-import server.tickets.business.entities.Type;
-import server.tickets.business.entities.Variety;
-import server.tickets.business.services.SeedStarterService;
-import server.tickets.business.services.VarietyService;
+import com.tickets.business.entities.Feature;
+import com.tickets.business.entities.Row;
+import com.tickets.business.entities.SeedStarter;
+import com.tickets.business.entities.Type;
+import com.tickets.business.entities.Variety;
+import com.tickets.business.services.SeedStarterService;
+import com.tickets.business.services.VarietyService;
 
 
 @Controller
