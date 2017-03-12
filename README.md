@@ -17,7 +17,7 @@ Server of a movie tickets system powered by Spring & Thymeleaf.
     or
 
     ```bash
-    $ python build.py
+    $ python server.py
     ```
 
 3. The application should be available at `http://localhost:8080/tickets`.
