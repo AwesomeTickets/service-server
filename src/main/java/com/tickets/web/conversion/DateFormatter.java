@@ -31,7 +31,7 @@ public class DateFormatter implements Formatter<Date> {
     }
 
     private SimpleDateFormat createDateFormat(final Locale locale) {
-        final String format = this.messageSource.getMessage("date.format", null, locale);
+        final String format = messageSource.getMessage("date.format", null, locale);
         final SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         dateFormat.setLenient(false);
         return dateFormat;
