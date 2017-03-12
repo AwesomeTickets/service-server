@@ -8,10 +8,16 @@ Server of a movie tickets system powered by Spring & Thymeleaf.
 
 2. Run commands below:
 
-    ```bash
+    ```sh
     $ mvn clean
     $ mvn compile
     $ mvn tomcat7:run
+    ```
+
+    or
+
+    ```sh
+    $ python build.py
     ```
 
 3. The application should be available at `http://localhost:8080/tickets`.

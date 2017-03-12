@@ -49,6 +49,11 @@
     <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
     <thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
     <springframework.version>4.3.3.RELEASE</springframework.version>
+    
+    <hibernate.version>5.0.11.Final</hibernate.version>
+    <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
+    <datasource-dbcp.version>7.0.65</datasource-dbcp.version>
+    <guava.version>17.0</guava.version>
   </properties>
   
   <build>
@@ -208,6 +213,11 @@
       <version>${springframework.version}</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-orm</artifactId>
+        <version>${springframework.version}</version>
+    </dependency>
 
         
     <dependency>
@@ -223,6 +233,36 @@
       <version>5.3.2.Final</version>
     </dependency>
 
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>${hibernate.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.javassist</groupId>
+        <artifactId>javassist</artifactId>
+        <version>3.18.1-GA</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql-connector-java.version}</version>
+        <scope>runtime</scope>
+    </dependency>    
+
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-dbcp</artifactId>
+        <version>${datasource-dbcp.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
