@@ -214,11 +214,16 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-orm</artifactId>
-        <version>${springframework.version}</version>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${springframework.version}</version>
     </dependency>
 
+	<dependency>
+	    <groupId>org.springframework.data</groupId>
+	    <artifactId>spring-data-jpa</artifactId>
+	    <version>1.11.1.RELEASE</version>
+	</dependency>
         
     <dependency>
       <groupId>javax.validation</groupId>
