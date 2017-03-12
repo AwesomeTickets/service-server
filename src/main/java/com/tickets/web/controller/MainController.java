@@ -1,14 +1,10 @@
 package com.tickets.web.controller;
 
-import java.util.Calendar;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tickets.business.entities.User;
 import com.tickets.business.services.UserService;
@@ -17,37 +13,40 @@ import com.tickets.business.services.UserService;
 @Controller
 public class MainController {
 
-    
     @Autowired
     private UserService userService;
-    
     
     
     public MainController() {
         super();
     }
 
-    
-    @ModelAttribute("allSeedStarters")
-    public List<User> populateUsers() {
-        return this.userService.findAll();
+  
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public String index() {
+        return "index";
     }
     
-    
-    @RequestMapping({"/"})
-    public String showSeedstarters(final User seedStarter) {
-        seedStarter.setDatePlanted(Calendar.getInstance().getTime());
-        return "seedstartermng";
-    }
-    
-    @RequestMapping(value="/seedstartermng", params={"save"})
-    public String saveSeedstarter(final User user, final BindingResult bindingResult, final ModelMap model) {
-        if (bindingResult.hasErrors()) {
-            return "seedstartermng";
-        }
-        this.userService.add(user);
-        model.clear();
-        return "redirect:/index";
+    @RequestMapping(path = "/register", method = RequestMethod.POST)
+    public String register(final User user, final Model model) {
+    	if (userService.hasUsername(user.getUsername())) {
+            model.addAttribute("msg", "Register failed. Username exists.");
+    	} else {
+            userService.create(user);
+            model.addAttribute("msg", "Register " + user.toString() + " succeed.");
+    	}
+        return "response";
     }
 
+    @RequestMapping(path = "/login", method = RequestMethod.POST)
+    public String login(final User user, final Model model) {
+    	if (!userService.hasUsername(user.getUsername())) {
+            model.addAttribute("msg", "Login failed. Username doesn't exist.");
+    	} else if (userService.permitLogin(user.getUsername(), user.getPassword())) {
+            model.addAttribute("msg", "Login " + user.toString() + " succeed.");
+    	} else {
+    		model.addAttribute("msg", "Login failed. Incorrect password.");
+    	}
+        return "response";
+    }
 }

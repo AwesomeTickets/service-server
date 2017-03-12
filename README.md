@@ -8,7 +8,7 @@ Server of a movie tickets system powered by Spring & Thymeleaf.
 
 2. Run commands below:
 
-    ```sh
+    ```bash
     $ mvn clean
     $ mvn compile
     $ mvn tomcat7:run
@@ -16,7 +16,7 @@ Server of a movie tickets system powered by Spring & Thymeleaf.
 
     or
 
-    ```sh
+    ```bash
     $ python build.py
     ```
 

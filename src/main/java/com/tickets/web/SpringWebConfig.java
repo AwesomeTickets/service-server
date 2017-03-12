@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -16,35 +15,24 @@ import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
-import com.tickets.web.conversion.DateFormatter;
-
 
 @Configuration
 @EnableWebMvc
 @ComponentScan
-public class SpringWebConfig
-        extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+public class SpringWebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
-
 
     public SpringWebConfig() {
         super();
     }
-
 
     public void setApplicationContext(final ApplicationContext applicationContext)
             throws BeansException {
         this.applicationContext = applicationContext;
     }
 
-
-
-    /* ******************************************************************* */
-    /*  GENERAL CONFIGURATION ARTIFACTS                                    */
-    /*  Static Resources, i18n Messages, Formatters (Conversion Service)   */
-    /* ******************************************************************* */
-
+    
     /*
      *  Dispatcher configuration for serving static resources
      */
@@ -66,29 +54,8 @@ public class SpringWebConfig
         return messageSource;
     }
 
-    /*
-     * Add formatter for class {@link thymeleafexamples.stsm.business.entities.Variety}
-     * and {@link java.util.Date} in addition to the one registered by default
-     */
-    @Override
-    public void addFormatters(final FormatterRegistry registry) {
-        super.addFormatters(registry);
-        registry.addFormatter(varietyFormatter());
-        registry.addFormatter(dateFormatter());
-    }
-
-    @Bean
-    public VarietyFormatter varietyFormatter() {
-        return new VarietyFormatter();
-    }
-
-    @Bean
-    public DateFormatter dateFormatter() {
-        return new DateFormatter();
-    }
-
-
-
+    
+    
     /* **************************************************************** */
     /*  THYMELEAF-SPECIFIC ARTIFACTS                                    */
     /*  TemplateResolver <- TemplateEngine <- ViewResolver              */
