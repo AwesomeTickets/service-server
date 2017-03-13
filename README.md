@@ -2,6 +2,8 @@
 
 Server of a movie tickets system powered by Spring & Thymeleaf.
 
+[Dashboard](http://stevennl.com/post/dashboard-of-tickets-system/) [Client](https://github.com/Liveipool/Tickets-Client)
+
 ## Build & Run
 
 1. Download [Maven](http://maven.apache.org/download.cgi).
