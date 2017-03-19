@@ -35,7 +35,7 @@ public class SpringBusinessConfig {
         final BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/tickets?createDatabaseIfNotExist=true&useSSL=false");
-        dataSource.setUsername("sl");
+        dataSource.setUsername("root");
         dataSource.setPassword("123456");
         return dataSource;
     }

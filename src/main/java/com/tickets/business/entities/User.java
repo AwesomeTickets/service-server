@@ -27,9 +27,12 @@ public class User {
     
     
     public User() {
-        super();
     }
     
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
     
 	@Override
     public String toString() {
