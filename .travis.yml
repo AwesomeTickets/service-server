@@ -1,0 +1,20 @@
+sudo: required
+
+language: java
+
+os:
+  - linux
+
+services:
+  - mysql
+
+branches:
+  only:
+    - master
+    - /^(dev)|(dev_.*)$/
+
+before_script:
+  - mysqladmin -u root password "123456"
+
+script:
+  - mvn test
