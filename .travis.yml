@@ -1,0 +1,17 @@
+sudo: required
+
+language: java
+
+os:
+  - linux
+
+services:
+  - mysql
+
+branches:
+  only:
+    - master
+    - /^(dev)|(dev_.*)$/
+
+script:
+  - mvn test
