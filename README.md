@@ -1,10 +1,6 @@
-# Tickets-Server
-
-[![Build Status](https://travis-ci.org/stevennl/Tickets-Server.svg?branch=master)](https://travis-ci.org/stevennl/Tickets-Server)
+# Tickets-Server [![Build Status](https://travis-ci.org/stevennl/Tickets-Server.svg?branch=master)](https://travis-ci.org/stevennl/Tickets-Server)
 
 Server of a movie tickets system powered by Spring & Thymeleaf.
-
-[Dashboard](http://stevennl.com/post/dashboard-of-tickets-system/) [Client](https://github.com/Liveipool/Tickets-Client)
 
 ## Installation
 
