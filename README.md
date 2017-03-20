@@ -6,7 +6,7 @@ Server of a movie tickets system powered by Spring & Thymeleaf.
 
 1. Download [Maven](http://maven.apache.org/download.cgi).
 
-2. Run commands below:
+2. Build and run the server using commands below:
 
     ```bash
     $ mvn clean
@@ -22,7 +22,7 @@ Server of a movie tickets system powered by Spring & Thymeleaf.
 
 3. The application should be available at `http://localhost:8080/tickets`
 
-4. To run unit tests, run commands below:
+4. Run unit tests:
 
     ```bash
     $ mvn test
