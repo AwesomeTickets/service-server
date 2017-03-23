@@ -2,6 +2,8 @@
 
 Server of a movie tickets system powered by Spring & Thymeleaf.
 
+[Dashboard](http://stevennl.com/post/dashboard-of-tickets-system/)
+
 ## Installation
 
 1. Download [Maven](http://maven.apache.org/download.cgi).
