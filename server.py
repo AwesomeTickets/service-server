@@ -3,4 +3,4 @@
 
 import os
 
-os.system("sudo mvn clean tomcat7:run-war")
+os.system("sudo mvn clean compile tomcat7:run")
