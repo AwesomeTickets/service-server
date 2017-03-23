@@ -9,7 +9,7 @@ Server of a movie tickets system powered by Spring & Thymeleaf.
 2. Build and run:
 
     ```sh
-    $ sudo mvn clean tomcat7:run-war
+    $ sudo mvn clean compile tomcat7:run
     ```
 
     or
@@ -19,3 +19,9 @@ Server of a movie tickets system powered by Spring & Thymeleaf.
     ```
 
 3. The application should be available at `http://localhost`
+
+4. Run unit tests:
+
+    ```sh
+    $ mvn test
+    ```
