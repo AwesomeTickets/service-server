@@ -6,24 +6,16 @@ Server of a movie tickets system powered by Spring & Thymeleaf.
 
 1. Download [Maven](http://maven.apache.org/download.cgi).
 
-2. Build and run the server using commands below:
+2. Build and run:
 
-    ```bash
-    $ mvn clean
-    $ mvn compile
-    $ mvn tomcat7:run
+    ```sh
+    $ sudo mvn clean tomcat7:run-war
     ```
 
     or
 
-    ```bash
+    ```sh
     $ python server.py
     ```
 
-3. The application should be available at `http://localhost:8080/tickets`
-
-4. Run unit tests:
-
-    ```bash
-    $ mvn test
-    ```
+3. The application should be available at `http://localhost`

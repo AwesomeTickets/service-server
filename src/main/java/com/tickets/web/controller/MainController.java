@@ -1,18 +1,23 @@
 package com.tickets.web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.tickets.SpringWebApplicationInitializer;
 import com.tickets.business.entities.User;
 import com.tickets.business.services.UserService;
 
 
 @Controller
 public class MainController {
-
+	
+	private static final Logger LOG = LoggerFactory.getLogger(SpringWebApplicationInitializer.class);
+	
     @Autowired
     private UserService userService;
     
@@ -24,11 +29,13 @@ public class MainController {
   
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String index() {
+    	LOG.info("GET /");
         return "index";
     }
     
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public String register(final User user, final Model model) {
+    	LOG.info("POST /register");
     	if (userService.hasUsername(user.getUsername())) {
             model.addAttribute("msg", "Register failed. Username exists.");
     	} else {
@@ -40,6 +47,7 @@ public class MainController {
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public String login(final User user, final Model model) {
+    	LOG.info("POST /login");
     	if (!userService.hasUsername(user.getUsername())) {
             model.addAttribute("msg", "Login failed. Username doesn't exist.");
     	} else if (userService.permitLogin(user.getUsername(), user.getPassword())) {

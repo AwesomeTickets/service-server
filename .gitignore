@@ -5,4 +5,4 @@ bin/
 .settings/
 .idea/
 *.iml
-
+log.txt
