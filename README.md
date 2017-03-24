@@ -1,8 +1,8 @@
-# Tickets-Server [![Build Status](https://travis-ci.org/stevennl/Tickets-Server.svg?branch=master)](https://travis-ci.org/stevennl/Tickets-Server)
+# Tickets-Server [![Build Status](https://travis-ci.org/AwesomeTickets/Tickets-Server.svg?branch=master)](https://travis-ci.org/AwesomeTickets/Tickets-Server)
 
-Server of a movie tickets system powered by Spring & Thymeleaf.
+Server of a movie tickets system powered by Spring.
 
-[Dashboard](http://stevennl.com/post/dashboard-of-tickets-system/)
+[Dashboard](https://github.com/AwesomeTickets/Dashboard)
 
 ## Installation
 
@@ -27,3 +27,7 @@ Server of a movie tickets system powered by Spring & Thymeleaf.
     ```sh
     $ mvn test
     ```
+
+## License
+
+See the [LICENSE](./LICENSE) file for license rights and limitations.
