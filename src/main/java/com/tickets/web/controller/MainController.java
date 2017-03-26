@@ -8,16 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.tickets.SpringWebApplicationInitializer;
 import com.tickets.business.entities.User;
 import com.tickets.business.services.UserService;
 
 
 @Controller
 public class MainController {
-	
-	private static final Logger LOG = LoggerFactory.getLogger(SpringWebApplicationInitializer.class);
-	
+
+	private static final Logger LOG = LoggerFactory.getLogger("tickets");
+
     @Autowired
     private UserService userService;
     
