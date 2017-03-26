@@ -2,5 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import os
+import platform
 
-os.system("sudo mvn clean compile tomcat7:run")
+if platform.system() == "Windows":
+    os.system("mvn clean compile tomcat7:run")
+elif platform.system() == "Linux":
+    os.system("sudo mvn clean compile tomcat7:run")
