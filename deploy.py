@@ -3,7 +3,7 @@
 
 import os
 
-cmd = 'sudo mvn tomcat7:run-war'
+cmd = 'sudo mvn clean tomcat7:run-war'
 
 pid = os.popen("sudo ps -ef | grep '%s' | grep -v grep "
                "| awk '{ print $2 }'" % cmd).read()

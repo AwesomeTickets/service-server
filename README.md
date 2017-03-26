@@ -6,18 +6,37 @@ Server of a movie tickets system powered by Spring.
 
 ## Installation
 
-1. Download [Maven](http://maven.apache.org/download.cgi).
+### Database
 
-2. Build and run:
+1. Download [MySQL](https://dev.mysql.com/downloads/mysql/).
 
-    ```sh
-    $ sudo mvn clean compile tomcat7:run
+2. User settings:
+
+    ```
+    username: root
+    password: 123456
     ```
 
-    or
+3. Initialize database:
+
+    ```sh
+    $ python initDB.py
+    ```
+
+### Server
+
+1. Download [Maven](http://maven.apache.org/download.cgi).
+
+2. Build and run on foreground:
 
     ```sh
     $ python server.py
+    ```
+
+    or on background:
+
+    ```sh
+    $ python deploy.py
     ```
 
 3. The application should be available at `http://localhost`
