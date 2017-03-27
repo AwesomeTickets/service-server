@@ -15,7 +15,7 @@
 
     <context:component-scan base-package="com.tickets"/>
 
-    <mvc:resources mapping="/imges/**" location="/images/" />
+    <mvc:resources mapping="/images/**" location="/images/" />
     <mvc:resources mapping="/css/**" location="/css/" />
     <mvc:resources mapping="/js/**" location="/js/" />
 
@@ -44,7 +44,7 @@
         <!-- Enabling the SpringEL compiler with Spring 4.2.4 or newer can speed up  -->
         <!-- execution in most scenarios, but might be incompatible with specific    -->
         <!-- cases when expressions in one template are reused across different data -->
-        <!-- ypes, so this flag is "false" by default for safer backwards            -->
+        <!-- types, so this flag is "false" by default for safer backwards            -->
         <!-- compatibility.                                                          -->
         <property name="enableSpringELCompiler" value="true" />
     </bean>
