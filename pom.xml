@@ -54,6 +54,7 @@
     <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
     <datasource-dbcp.version>7.0.65</datasource-dbcp.version>
     <guava.version>17.0</guava.version>
+    <hibernate-c3p0.version>5.0.11.Final</hibernate-c3p0.version>
   </properties>
   
   <build>
@@ -240,7 +241,14 @@
         <artifactId>mysql-connector-java</artifactId>
         <version>${mysql-connector-java.version}</version>
         <scope>runtime</scope>
-    </dependency>    
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-c3p0</artifactId>
+      <version>${hibernate-c3p0.version}</version>
+    </dependency>
 
     
     <dependency>
