@@ -42,7 +42,7 @@
         <property name="jpaProperties">
             <props>
                 <!-- Hibernate config -->
-                <!-- Dialet could be DIY -->
+                <!-- Dialect could be DIY -->
                 <prop key="hibernate.dialect">com.tickets.business.MySQL5Dialect</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
 
@@ -62,7 +62,9 @@
     </bean>
 
     <!-- Enable the repositories scan -->
-    <jpa:repositories base-package="com.tickets.business.entities"  transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory"/>
+    <jpa:repositories base-package="com.tickets.business.entities"
+                      transaction-manager-ref="transactionManager"
+                      entity-manager-factory-ref="entityManagerFactory"/>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
