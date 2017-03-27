@@ -8,8 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration({
-        "file:src/main/webapp/WEB-INF/tickets-servlet.xml"})
+@ContextConfiguration({"file:src/main/webapp/WEB-INF/tickets-servlet.xml"})
 @Transactional
 public abstract class BaseTest {
 }
