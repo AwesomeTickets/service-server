@@ -49,7 +49,7 @@
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
         <thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
         <springframework.version>4.3.3.RELEASE</springframework.version>
-
+        <jackson.version>2.5.4</jackson.version>
         <hibernate.version>5.0.11.Final</hibernate.version>
         <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
         <datasource-dbcp.version>7.0.65</datasource-dbcp.version>
@@ -302,6 +302,17 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>4.0.2.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
     </dependencies>
