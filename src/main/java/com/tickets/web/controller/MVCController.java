@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.tickets.business.entities.User;
 import com.tickets.business.services.UserService;
 
-
+/**
+ * MVC Controller.
+ */
 @Controller
-public class MainController {
+public class MVCController {
 
 	private static final Logger LOG = LoggerFactory.getLogger("tickets");
 
@@ -21,7 +23,7 @@ public class MainController {
     private UserService userService;
     
     
-    public MainController() {
+    public MVCController() {
         super();
     }
 
