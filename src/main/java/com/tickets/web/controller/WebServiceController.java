@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 /**
  * Controller of RESTFul web service.
@@ -27,6 +29,13 @@ public class WebServiceController {
         RestResult result = new RestResult();
         result.put("username:", "tickets");
         result.put("password:", "123456");
+        ArrayList<Object> data = new ArrayList<Object>();
+        data.add("string");
+        data.add(666);
+        LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+        map.put("key", "value");
+        data.add(map);
+        result.put("list_of_data", data);
         return result;
     }
 
