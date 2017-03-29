@@ -106,7 +106,7 @@ public class Movie implements Serializable {
         this.title = title;
     }
 
-    @Column(name = "rating", columnDefinition="number(2,1) default 0.0")
+    @Column(name = "rating", columnDefinition="float(2,1) default 0.0")
     public float getRating() {
         return rating;
     }
