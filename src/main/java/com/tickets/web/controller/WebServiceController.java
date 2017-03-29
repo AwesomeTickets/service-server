@@ -1,10 +1,9 @@
 package com.tickets.web.controller;
 
-import com.tickets.business.entities.ErrorResult;
-import com.tickets.business.entities.RestResult;
+import com.tickets.web.util.ErrorResult;
+import com.tickets.web.util.RestResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
