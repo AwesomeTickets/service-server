@@ -1,4 +1,4 @@
-package com.tickets.business.entities;
+package com.tickets.web.util;
 
 /**
  * Error result of RESTFul web service.
