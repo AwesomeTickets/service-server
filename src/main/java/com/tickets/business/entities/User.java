@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,13 +33,17 @@ public class User {
         this.username = username;
         this.password = password;
     }
-    
-	@Override
+
+    @Override
     public String toString() {
-        return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
+        final StringBuilder sb = new StringBuilder("User [");
+        sb.append("id=").append(id);
+        sb.append(", username=").append(username);
+        sb.append(", password=").append(password);
+        sb.append(']');
+        return sb.toString();
     }
 
-	
     public String getUsername() {
 		return username;
 	}
