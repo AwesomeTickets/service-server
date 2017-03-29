@@ -1,4 +1,4 @@
-package com.tickets.business.entities;
+package com.tickets.web.util;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
