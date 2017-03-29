@@ -4,10 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by CrazeWong on 2017/3/29.
- * Movie entity
- */
+
 @Entity
 @Table(name = "movie")
 public class Movie implements Serializable {
@@ -35,7 +32,8 @@ public class Movie implements Serializable {
     public Movie() {
     }
 
-    public Movie(Country country, MovieStatus movieStatus, MovieType movieType, String title, float rating, int length, String posterSmall, String posterLarge) {
+    public Movie(Country country, MovieStatus movieStatus, MovieType movieType,
+                 String title, float rating, int length, String posterSmall, String posterLarge) {
         this.country = country;
         this.movieStatus = movieStatus;
         this.movieType = movieType;

@@ -3,10 +3,7 @@ package com.tickets.business.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by CrazeWong on 2017/3/29.
- * Movie type entity, such as 2D/3D IMAX
- */
+
 @Entity
 @Table(name = "movie_type")
 public class MovieType implements Serializable {
