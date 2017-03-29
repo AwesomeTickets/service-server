@@ -83,13 +83,14 @@ CREATE TABLE IF NOT EXISTS movie_has_style (
 INSERT INTO country (name)        VALUES ('美国'), ('中国');
 INSERT INTO movie_status (status) VALUES ('on'), ('soon');
 INSERT INTO movie_type (type)     VALUES ('2D'), ('3D'), ('3D IMAX');
-INSERT INTO movie_style (style)   VALUES ('剧情'), ('动作'), ('冒险'), ('爱情'), ('奇幻'), ('歌舞'), ('悬疑'), ('恐怖');
+INSERT INTO movie_style (style)   VALUES ('剧情'), ('动作'), ('冒险'), ('爱情'), ('奇幻'), ('歌舞'), ('悬疑'), ('恐怖'), ('犯罪'), ('科幻');
 
 INSERT INTO movie
 (countryID, movieStatusID, movieTypeID, pubdate, title, rating, length, posterSmall, posterLarge)
 VALUES
-(1, 1, 3, '2017-03-17', "美女与野兽", 8.5, 130, "http://img5.mtime.cn/mg/2017/01/25/112238.41908889_270X405X4.jpg", "http://img.inmywordz.com/uploads/20170323152259_9.jpg"),
-(2, 2, 1, '2017-03-31', "绑架者", DEFAULT, 95, "http://img5.mtime.cn/mg/2017/03/13/101155.93555664_270X405X4.jpg", "http://img.tvmao.com/focuspic/movie/191435/cate_focus_pic.jpg");
+(1, 1, 2, '2017-03-17', "美女与野兽", 8.5, 130, "http://120.25.76.106:8080/images/s_beauty_and_the_beast.jpg", "http://120.25.76.106:8080/images/l_beauty_and_the_beast.png"),
+(1, 2, 3, '2017-04-14', "速度与激情8", DEFAULT, 136, "http://120.25.76.106:8080/images/s_furious8.jpg", "http://120.25.76.106:8080/images/l_furious8.png"),
+(1, 2, 3, '2017-04-07', "攻壳机动队", DEFAULT, 107, "http://120.25.76.106:8080/images/s_ghost_in_the_shell.jpg", "http://120.25.76.106:8080/images/l_ghost_in_the_shell.png");
 
 INSERT INTO movie_has_style (movieID, movieStyleID)
-VALUES (1, 4), (1, 5), (1, 6), (2, 1), (2, 2), (2, 3);
+VALUES (1, 4), (1, 5), (1, 6), (2, 2), (2, 9), (3, 2), (3, 9), (3, 10);
