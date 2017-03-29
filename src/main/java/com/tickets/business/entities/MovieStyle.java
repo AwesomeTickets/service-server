@@ -1,0 +1,68 @@
+package com.tickets.business.entities;
+
+import javax.persistence.*;
+import java.io.Serializable;
+
+/**
+ * Created by CrazeWong on 2017/3/29.
+ * Movie style entity, such as ??
+ */
+@Entity
+@Table(name = "movie_style")
+public class MovieStyle implements Serializable {
+
+    private Integer movieStyleID;
+
+    private String style;
+
+    public MovieStyle() {
+    }
+
+    public MovieStyle(String style) {
+        this.style = style;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "movieStyleID")
+    public Integer getMovieStyleID() {
+        return movieStyleID;
+    }
+
+    public void setMovieStyleID(Integer movieStyleID) {
+        this.movieStyleID = movieStyleID;
+    }
+
+    @Column(name = "style", nullable = false, unique = true, length=16)
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MovieStyle)) return false;
+
+        MovieStyle that = (MovieStyle) o;
+
+        return getMovieStyleID().equals(that.getMovieStyleID());
+    }
+
+    @Override
+    public int hashCode() {
+        return getMovieStyleID().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("MovieStyle [");
+        sb.append("movieStyleID=").append(movieStyleID);
+        sb.append(", style=").append(style);
+        sb.append(']');
+        return sb.toString();
+    }
+}
