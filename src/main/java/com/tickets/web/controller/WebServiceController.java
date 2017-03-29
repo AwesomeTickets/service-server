@@ -5,9 +5,7 @@ import com.tickets.business.entities.RestResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +18,7 @@ import java.util.LinkedHashMap;
 @RestController
 @RequestMapping("/resource")
 public class WebServiceController {
-    private static final Logger LOG = LoggerFactory.getLogger("tickets");
+    private static final Logger LOG = LoggerFactory.getLogger(WebServiceController.class);
 
     @RequestMapping(path = "/testRest", method = RequestMethod.GET)
     public RestResult testRest(HttpServletRequest request, HttpServletResponse response) {
