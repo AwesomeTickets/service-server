@@ -15,6 +15,7 @@ branches:
 
 before_script:
   - mysqladmin -u root password "123456"
+  - python initDB.py
 
 script:
   - mvn test
