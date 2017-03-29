@@ -1,4 +1,4 @@
-package com.tickets.business.entities.repositories.user;
+package com.tickets.business.entities.repositories;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import com.tickets.business.entities.User;
 
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long>, UserDao {
+public interface UserRepository extends CrudRepository<User, Long> {
 	
     List<User> findByUsername(String username);
     

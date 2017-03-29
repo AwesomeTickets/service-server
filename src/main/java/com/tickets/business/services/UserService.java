@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tickets.business.entities.User;
-import com.tickets.business.entities.repositories.user.UserRepository;
+import com.tickets.business.entities.repositories.UserRepository;
 
 
 @Service

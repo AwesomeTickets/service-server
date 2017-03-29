@@ -1,5 +1,6 @@
 package test;
 
+import com.tickets.business.services.MovieService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,17 +13,25 @@ import static org.junit.Assert.assertTrue;
 
 
 public class ApplicationTest extends BaseTest {
-	
-	@Autowired
-	private UserService userService;
-	
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private MovieService movieService;
+
     @Test
-    public void test()  {
-    	String username = "Alice", password = "123456";
-    	assertFalse(userService.hasUsername(username));
+    public void testUser()  {
+        String username = "Alice", password = "123456";
+        assertFalse(userService.hasUsername(username));
         userService.create(new User(username, password));
         assertTrue(userService.hasUsername(username));
         assertTrue(userService.permitLogin(username, password));
         assertFalse(userService.permitLogin(username, "XXX"));
+    }
+
+    @Test
+    public void testMovie() {
+        // TODO testMovie()
     }
 }
