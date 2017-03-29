@@ -3,10 +3,7 @@ package com.tickets.business.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by CrazeWong on 2017/3/29.
- * Movie style entity, such as ??
- */
+
 @Entity
 @Table(name = "movie_style")
 public class MovieStyle implements Serializable {
