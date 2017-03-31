@@ -39,33 +39,22 @@ public class MovieServiceController {
     @RequestMapping(path = "/on_show", method = RequestMethod.GET)
     public RestResult getOnShow(HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        //return new RestResult(movieService.getMovieByStatus("on"));
-        RestResult result = new RestResult();
-        // TODO GET /resource/movie/on_show
-        result.put("count",9);
-        int[] array = {1, 4, 5, 8, 9, 10, 11, 15, 16};
-        result.put("movies", array);
-        return result;
+        return new RestResult(movieService.getMovieByStatus("on"));
     }
 
     @RequestMapping(path = "/coming_soon", method = RequestMethod.GET)
     public RestResult getComingSoon(HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        //return new RestResult(movieService.getMovieByStatus("soon"));
-        RestResult result = new RestResult();
-        result.put("count",9);
-        int[] array = {2, 3, 6, 7, 12, 13, 14, 17, 18};
-        result.put("movies", array);
-        return result;
+        return new RestResult(movieService.getMovieByStatus("soon"));
     }
 
     @RequestMapping(path = "/popular", method = RequestMethod.GET)
     public RestResult getPopular(@RequestParam(value="count", defaultValue="3") int count,
                                  HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
+        // TODO GET /resource/movie/popular?count=XXX
         RestResult result = new RestResult();
         result.put("count", count);
-        // TODO GET /resource/movie/popular?count=XXX
         ArrayList<Object> data = new ArrayList<Object>();
         LinkedHashMap<String, Object> map1 = new LinkedHashMap<String, Object>();
         map1.put("id",1);
