@@ -6,10 +6,7 @@ import com.tickets.web.util.RestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -60,26 +57,28 @@ public class MovieService {
         movieTypeRepo.save(movieType);
     }
 
-    public RestResult getMovieByStatus(String status) {
+    public LinkedHashMap<String, Object> getMovieByStatus(String status) {
         if (!status.equals("soon") && !status.equals("on")) return null;
 
         List<Long> movieIDs = (List<Long>)(List) movieRepo.findByStatus(movieStatusRepo.findByStatus(status).get(0));
-        RestResult re = new RestResult();
+        LinkedHashMap<String, Object> re = new LinkedHashMap<String, Object>();
 
         re.put("count", movieIDs.size());
         re.put("movies", movieIDs);
         return re;
     }
 
-    public RestResult getMovie(Long movieID) {
+    public LinkedHashMap<String, Object> getMovie(Long movieID) {
         Movie movie = movieRepo.findOne(movieID);
+        if (movie == null) return null;
+
         List<MovieHasStyle> styles = movieHasStyleRepo.findByMovie(movie);
         List<String> stylesStrings = new ArrayList<String>();
         for (MovieHasStyle ms : styles) {
             stylesStrings.add(ms.getMovieStyle().getStyle());
         }
 
-        RestResult re = new RestResult();
+        LinkedHashMap<String, Object> re = new LinkedHashMap<String, Object>();
 
         re.put("id", movie.getMovieID());
         re.put("title", movie.getTitle());
