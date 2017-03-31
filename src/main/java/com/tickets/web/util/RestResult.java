@@ -1,6 +1,5 @@
 package com.tickets.web.util;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -9,5 +8,11 @@ import java.util.Map;
  */
 public class RestResult extends LinkedHashMap<String, Object> {
 
-    // Just use interfaces of LinkedHashMap
+    public RestResult(Map<? extends String, ?> m) {
+        super(m);
+    }
+
+    public RestResult() {
+        super();
+    }
 }
