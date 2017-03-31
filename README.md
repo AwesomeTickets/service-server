@@ -39,7 +39,7 @@ Server of a movie tickets system powered by Spring.
     $ python deploy.py
     ```
 
-3. The application should be available at `http://localhost`
+3. The application should be available at http://localhost:8080
 
 4. Run unit tests:
 
