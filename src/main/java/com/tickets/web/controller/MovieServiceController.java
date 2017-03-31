@@ -1,6 +1,5 @@
 package com.tickets.web.controller;
 
-
 import com.tickets.business.services.MovieService;
 import com.tickets.web.util.ErrorResult;
 import com.tickets.web.util.RestResult;
@@ -25,7 +24,7 @@ public class MovieServiceController {
     private MovieService movieService;
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public RestResult getMovie(@PathVariable long id, HttpServletRequest request, HttpServletResponse response) {
+    public RestResult getMovie(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         LinkedHashMap<String, Object> re = movieService.getMovie(id);
         if (re == null) {

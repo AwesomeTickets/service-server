@@ -9,13 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * Created by CrazeWong on 2017/3/29.
- */
+
 @Repository
-public interface MovieHasStyleRepository extends CrudRepository<MovieHasStyle, MovieHasStylePK>{
-    // TODO MovieHasStyleRepository
+public interface MovieHasStyleRepository extends CrudRepository<MovieHasStyle, MovieHasStylePK> {
+
     List<MovieHasStyle> findByMovie(Movie movie);
 
     List<MovieHasStyle> findByMovieStyle(MovieStyle movieStyle);
+
 }

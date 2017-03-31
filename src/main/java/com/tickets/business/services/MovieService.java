@@ -30,31 +30,9 @@ public class MovieService {
     @Autowired
     private MovieStatusRepository movieStatusRepo;
 
+
     public MovieService() {
         super();
-    }
-
-    public void createMovie(Movie movie, List<MovieStyle> movieStyles) {
-        movieRepo.save(movie);
-        for (MovieStyle ms : movieStyles) {
-            movieHasStyleRepo.save(new MovieHasStyle(movie, ms));
-        }
-    }
-
-    public void createCountry(Country country) {
-        countryRepo.save(country);
-    }
-
-    public void createMovieStatus(MovieStatus movieStatus) {
-        movieStatusRepo.save(movieStatus);
-    }
-
-    public void createMovieStyle(MovieStyle movieStyle) {
-        movieStyleRepo.save(movieStyle);
-    }
-
-    public void createMovieType(MovieType movieType) {
-        movieTypeRepo.save(movieType);
     }
 
     public LinkedHashMap<String, Object> getMovieByStatus(String status) {
@@ -68,7 +46,7 @@ public class MovieService {
         return re;
     }
 
-    public LinkedHashMap<String, Object> getMovie(Long movieID) {
+    public LinkedHashMap<String, Object> getMovie(Integer movieID) {
         Movie movie = movieRepo.findOne(movieID);
         if (movie == null) return null;
 
@@ -93,6 +71,4 @@ public class MovieService {
         re.put("movieStyle", stylesStrings);
         return re;
     }
-
-    // TODO MovieService
 }

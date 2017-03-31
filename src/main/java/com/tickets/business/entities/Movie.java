@@ -9,7 +9,7 @@ import java.util.Date;
 @Table(name = "movie")
 public class Movie implements Serializable {
 
-    private Long movieID;
+    private Integer movieID;
 
     private Country country;
 
@@ -47,11 +47,11 @@ public class Movie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "movieID")
-    public Long getMovieID() {
+    public Integer getMovieID() {
         return movieID;
     }
 
-    public void setMovieID(Long movieID) {
+    public void setMovieID(Integer movieID) {
         this.movieID = movieID;
     }
 
