@@ -8,10 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
-public interface MovieRepository extends CrudRepository<Movie, Long> {
-    // TODO MovieRepository
+public interface MovieRepository extends CrudRepository<Movie, Integer> {
 
     @Query("select m.movieID from Movie m where m.movieStatus = ?1")
     List<Object> findByStatus(MovieStatus movieStatus);
+
 }
