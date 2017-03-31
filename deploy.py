@@ -3,10 +3,10 @@
 
 import os
 
-cmd = 'sudo mvn clean tomcat7:run-war'
+cmd = 'mvn clean tomcat7:run-war'
 
-pid = os.popen("sudo ps -ef | grep '%s' | grep -v grep "
-               "| awk '{ print $2 }'" % cmd).read()
+pid = os.popen("ps -ef | grep 'tomcat7:run-war' | grep -v grep "
+               "| awk '{ print $2 }'").read()
 
 if len(pid) > 0:
     os.system("sudo kill %s" % pid)
