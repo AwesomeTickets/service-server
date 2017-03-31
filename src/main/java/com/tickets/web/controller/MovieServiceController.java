@@ -20,6 +20,7 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/resource/movie")
 public class MovieServiceController {
+
     private static final Logger LOG = LoggerFactory.getLogger(MovieServiceController.class);
 
     @Autowired

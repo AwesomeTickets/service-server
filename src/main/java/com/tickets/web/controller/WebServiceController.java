@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 @RestController
 @RequestMapping("/resource")
 public class WebServiceController {
+
     private static final Logger LOG = LoggerFactory.getLogger(WebServiceController.class);
 
     @RequestMapping(path = "/testRest", method = RequestMethod.GET)
