@@ -12,18 +12,18 @@ import com.tickets.business.entities.User;
 import com.tickets.business.services.UserService;
 
 /**
- * MVC Controller.
+ * Controller that returns a view.
  */
 @Controller
-public class MVCController {
+public class ViewController {
 
-	private static final Logger LOG = LoggerFactory.getLogger("tickets");
+	private static final Logger LOG = LoggerFactory.getLogger(ViewController.class);
 
     @Autowired
     private UserService userService;
     
     
-    public MVCController() {
+    public ViewController() {
         super();
     }
 
