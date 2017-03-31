@@ -17,9 +17,6 @@ public class ApplicationTest extends BaseTest {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private MovieService movieService;
-
     @Test
     public void testUser()  {
         String username = "Alice", password = "123456";
@@ -28,10 +25,5 @@ public class ApplicationTest extends BaseTest {
         assertTrue(userService.hasUsername(username));
         assertTrue(userService.permitLogin(username, password));
         assertFalse(userService.permitLogin(username, "XXX"));
-    }
-
-    @Test
-    public void testMovie() {
-        // TODO testMovie()
     }
 }
