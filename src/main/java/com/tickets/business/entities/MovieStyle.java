@@ -56,7 +56,7 @@ public class MovieStyle implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("MovieStyle [");
+        final StringBuilder sb = new StringBuilder("MovieStyleRepository [");
         sb.append("movieStyleID=").append(movieStyleID);
         sb.append(", style=").append(style);
         sb.append(']');
