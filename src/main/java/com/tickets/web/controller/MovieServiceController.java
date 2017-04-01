@@ -1,6 +1,5 @@
 package com.tickets.web.controller;
 
-
 import com.tickets.business.entities.Movie;
 import com.tickets.business.entities.MovieStyle;
 import com.tickets.business.services.MovieService;
@@ -17,12 +16,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+
 /**
  * Movie RESTFul web service controller.
  */
 @RestController
 @RequestMapping("/resource/movie")
 public class MovieServiceController {
+
     private static final Logger LOG = LoggerFactory.getLogger(MovieServiceController.class);
 
     @Autowired
@@ -82,9 +83,23 @@ public class MovieServiceController {
     public RestResult getPopular(@RequestParam(value="count", defaultValue="3") int count,
                                  HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
+        // TODO GET /resource/movie/popular?count=XXX
         RestResult result = new RestResult();
         result.put("count", count);
-        // TODO GET /resource/movie/popular?count=XXX
+        ArrayList<Object> data = new ArrayList<Object>();
+        LinkedHashMap<String, Object> map1 = new LinkedHashMap<String, Object>();
+        map1.put("id",1);
+        map1.put("posterURL","https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/1.png");
+        data.add(map1);
+        LinkedHashMap<String, Object> map2 = new LinkedHashMap<String, Object>();
+        map2.put("id",2);
+        map2.put("posterURL", "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/2.png");
+        data.add(map2);
+        LinkedHashMap<String, Object> map3 = new LinkedHashMap<String, Object>();
+        map3.put("id",3);
+        map3.put("posterURL", "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/3.png");
+        data.add(map3);
+        result.put("subjects",data);
         return result;
     }
 }

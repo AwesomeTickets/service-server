@@ -8,7 +8,6 @@ import java.util.Map;
  */
 public class RestResult extends LinkedHashMap<String, Object> {
 
-    // Just use interfaces of LinkedHashMap
     public RestResult(Map<? extends String, ?> m) {
         super(m);
     }

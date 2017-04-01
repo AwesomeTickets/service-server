@@ -27,42 +27,17 @@ public class MovieService {
     @Autowired
     private MovieStatusRepository movieStatusRepo;
 
+
     public MovieService() {
         super();
     }
 
-    public void createMovie(Movie movie) {
-        movieRepo.save(movie);
-    }
-
-    public void createCountry(Country country) {
-        countryRepo.save(country);
-    }
-
-    public void createMovieStatus(MovieStatus movieStatus) {
-        movieStatusRepo.save(movieStatus);
-    }
-
-    public void createMovieStyle(MovieStyle movieStyle) {
-        movieStyleRepo.save(movieStyle);
-    }
-
-    public void createMovieType(MovieType movieType) {
-        movieTypeRepo.save(movieType);
-    }
-
     public List<Integer> getMovieByStatus(String status) {
         if (!status.equals("soon") && !status.equals("on")) return null;
-
         return  movieRepo.findByStatus(movieStatusRepo.findByStatus(status).get(0));
-//        return movieIDs;
     }
 
     public Movie getMovie(Integer movieID) {
-        Movie movie = movieRepo.findOne(movieID);
-        if (movie == null) return null;
-        else return movie;
+        return movieRepo.findOne(movieID);
     }
-
-    // TODO MovieService
 }
