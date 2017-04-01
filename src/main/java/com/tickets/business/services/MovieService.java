@@ -2,7 +2,8 @@ package com.tickets.business.services;
 
 import com.tickets.business.entities.*;
 import com.tickets.business.entities.repositories.*;
-import com.tickets.web.util.RestResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,63 +13,41 @@ import java.util.*;
 @Service
 public class MovieService {
 
+    private static final Logger LOG = LoggerFactory.getLogger(MovieService.class);
+
     @Autowired
     private MovieRepository movieRepo;
-
-    @Autowired
-    private CountryRepository countryRepo;
-
-    @Autowired
-    private MovieHasStyleRepository movieHasStyleRepo;
-
-    @Autowired
-    private MovieStyleRepository movieStyleRepo;
-
-    @Autowired
-    private MovieTypeRepository movieTypeRepo;
-
-    @Autowired
-    private MovieStatusRepository movieStatusRepo;
 
 
     public MovieService() {
         super();
     }
 
-    public LinkedHashMap<String, Object> getMovieByStatus(String status) {
-        if (!status.equals("soon") && !status.equals("on")) return null;
-
-        List<Long> movieIDs = (List<Long>)(List) movieRepo.findByStatus(movieStatusRepo.findByStatus(status).get(0));
-        LinkedHashMap<String, Object> re = new LinkedHashMap<String, Object>();
-
-        re.put("count", movieIDs.size());
-        re.put("movies", movieIDs);
-        return re;
+    /**
+     * Return the movie entity whose ID equals to @param movieID.
+     */
+    public Movie getMovie(Integer movieID) {
+        return movieRepo.findOne(movieID);
     }
 
-    public LinkedHashMap<String, Object> getMovie(Integer movieID) {
-        Movie movie = movieRepo.findOne(movieID);
-        if (movie == null) return null;
+    /**
+     * Return the list of ID of movie whose status equals to @param status.
+     */
+    public List<Integer> getMovieByStatus(String status) {
+        return movieRepo.findByMovieStatus(status);
+    }
 
-        List<MovieHasStyle> styles = movieHasStyleRepo.findByMovie(movie);
-        List<String> stylesStrings = new ArrayList<String>();
-        for (MovieHasStyle ms : styles) {
-            stylesStrings.add(ms.getMovieStyle().getStyle());
-        }
-
-        LinkedHashMap<String, Object> re = new LinkedHashMap<String, Object>();
-
-        re.put("id", movie.getMovieID());
-        re.put("title", movie.getTitle());
-        re.put("pubdate", movie.getPubdate());
-        re.put("length", movie.getLength());
-        re.put("rating", movie.getRating());
-        re.put("posterSmall", movie.getPosterSmall());
-        re.put("posterLarge", movie.getPosterLarge());
-        re.put("country", movie.getCountry().getName());
-        re.put("movieStatus", movie.getMovieStatus().getStatus());
-        re.put("movieType", movie.getMovieType().getType());
-        re.put("movieStyle", stylesStrings);
-        return re;
+    /**
+     * Return the list of (ID, URI of large poster) tuple.
+     *
+     * @param maxCount Maximum size of the result list
+     */
+    public List<Object[]> getLargePoster(int maxCount) {
+        // TODO
+        ArrayList<Object[]> posters = new ArrayList<Object[]>();
+        posters.add(new Object[]{1, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/1.png"});
+        posters.add(new Object[]{2, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/2.png"});
+        posters.add(new Object[]{3, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/3.png"});
+        return posters;
     }
 }
