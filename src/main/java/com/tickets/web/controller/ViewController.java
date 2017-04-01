@@ -12,26 +12,31 @@ import com.tickets.business.entities.User;
 import com.tickets.business.services.UserService;
 
 /**
- * MVC Controller.
+ * Controller that returns views.
  */
 @Controller
-public class MVCController {
+public class ViewController {
 
-	private static final Logger LOG = LoggerFactory.getLogger("tickets");
+	private static final Logger LOG = LoggerFactory.getLogger(ViewController.class);
 
     @Autowired
     private UserService userService;
     
     
-    public MVCController() {
+    public ViewController() {
         super();
     }
 
-  
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String index() {
-    	LOG.info("GET /");
+        LOG.info("GET /");
         return "index";
+    }
+
+    @RequestMapping(path = "/user", method = RequestMethod.GET)
+    public String user() {
+    	LOG.info("GET /user");
+        return "user";
     }
     
     @RequestMapping(path = "/register", method = RequestMethod.POST)
