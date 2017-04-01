@@ -27,11 +27,16 @@ public class ViewController {
         super();
     }
 
-  
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String index() {
-    	LOG.info("GET /");
+        LOG.info("GET /");
         return "index";
+    }
+
+    @RequestMapping(path = "/user", method = RequestMethod.GET)
+    public String user() {
+    	LOG.info("GET /user");
+        return "user";
     }
     
     @RequestMapping(path = "/register", method = RequestMethod.POST)
