@@ -80,23 +80,21 @@ public class MovieServiceController {
     public RestResponse getPopular(@RequestParam(value="count", defaultValue="3") int count,
                                    HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        // TODO GET /resource/movie/popular?count=XXX
+        if (count < 0) {
+            response.setStatus(404);
+            return new ErrorResponse("Negative poster amount");
+        }
+        List<Object[]> posters = movieService.getLargePoster(count);
         RestResponse res = new RestResponse();
-        res.put("count", count);
-        ArrayList<Object> data = new ArrayList<Object>();
-        LinkedHashMap<String, Object> map1 = new LinkedHashMap<String, Object>();
-        map1.put("id",1);
-        map1.put("posterURL","https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/1.png");
-        data.add(map1);
-        LinkedHashMap<String, Object> map2 = new LinkedHashMap<String, Object>();
-        map2.put("id",2);
-        map2.put("posterURL", "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/2.png");
-        data.add(map2);
-        LinkedHashMap<String, Object> map3 = new LinkedHashMap<String, Object>();
-        map3.put("id",3);
-        map3.put("posterURL", "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/3.png");
-        data.add(map3);
-        res.put("subjects",data);
+        res.put("count", posters.size());
+        List<LinkedHashMap<String, Object>> subjects = new ArrayList<LinkedHashMap<String, Object>>();
+        for (Object[] objArr: posters) {
+            LinkedHashMap<String, Object> poster = new LinkedHashMap<String, Object>();
+            poster.put("id", objArr[0]);
+            poster.put("uri", objArr[1]);
+            subjects.add(poster);
+        }
+        res.put("posters", subjects);
         return res;
     }
 }
