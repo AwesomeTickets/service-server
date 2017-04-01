@@ -11,6 +11,7 @@
     <packaging>war</packaging>
 
     <properties>
+        <server.port>8080</server.port>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <springframework.version>4.3.3.RELEASE</springframework.version>
         <javax-servlet-api.version>3.1.0</javax-servlet-api.version>
@@ -34,7 +35,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>${tomcat7-maven-plugin.version}</version>
                 <configuration>
-                    <port>80</port>
+                    <port>${server.port}</port>
                     <path>/</path>
                 </configuration>
             </plugin>
