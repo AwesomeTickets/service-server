@@ -3,19 +3,22 @@ package com.tickets.business.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 
 @Entity
 @Table(name = "movie")
 public class Movie implements Serializable {
 
-    private Long movieID;
+    private Integer movieID;
 
     private Country country;
 
     private MovieStatus movieStatus;
 
     private MovieType movieType;
+
+    private Set<MovieStyle> movieStyleSet;
 
     private Date pubdate;
 
@@ -32,11 +35,12 @@ public class Movie implements Serializable {
     public Movie() {
     }
 
-    public Movie(Country country, MovieStatus movieStatus, MovieType movieType,
+    public Movie(Country country, MovieStatus movieStatus, MovieType movieType, Set<MovieStyle> movieStyleSet,
                  String title, float rating, int length, String posterSmall, String posterLarge) {
         this.country = country;
         this.movieStatus = movieStatus;
         this.movieType = movieType;
+        this.movieStyleSet = movieStyleSet;
         this.title = title;
         this.rating = rating;
         this.length = length;
@@ -47,11 +51,11 @@ public class Movie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "movieID")
-    public Long getMovieID() {
+    public Integer getMovieID() {
         return movieID;
     }
 
-    public void setMovieID(Long movieID) {
+    public void setMovieID(Integer movieID) {
         this.movieID = movieID;
     }
 
@@ -83,6 +87,18 @@ public class Movie implements Serializable {
 
     public void setMovieType(MovieType movieType) {
         this.movieType = movieType;
+    }
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "movie_has_style",
+            joinColumns = {@JoinColumn(name = "movieID", referencedColumnName = "movieID")},
+            inverseJoinColumns = {@JoinColumn(name = "movieStyleID", referencedColumnName ="movieStyleID")})
+    public Set<MovieStyle> getMovieStyleSet() {
+        return movieStyleSet;
+    }
+
+    public void setMovieStyleSet(Set<MovieStyle> movieStyleSet) {
+        this.movieStyleSet = movieStyleSet;
     }
 
     @Temporal(TemporalType.DATE)
@@ -159,9 +175,11 @@ public class Movie implements Serializable {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Movie [");
         sb.append("movieID=").append(movieID);
-        sb.append(", countryID=").append(country.getCountryID());
-        sb.append(", movieStatusID=").append(movieStatus.getMovieStatusID());
-        sb.append(", movieTypeID=").append(movieType.getMovieTypeID());
+        sb.append(", country=").append(country.getName());
+        sb.append(", movieStatus=").append(movieStatus.getStatus());
+        sb.append(", movieType=").append(movieType.getType());
+        sb.append(", movieStyleSet=").append(movieStyleSet);
+        sb.append(", pubdate=").append(pubdate);
         sb.append(", title=").append(title);
         sb.append(", rating=").append(rating);
         sb.append(", length=").append(length);

@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MovieRepository extends CrudRepository<Movie, Long> {
+public interface MovieRepository extends CrudRepository<Movie, Integer> {
     // TODO MovieRepository
 
     @Query("select m.movieID from Movie m where m.movieStatus = ?1")
-    List<Object> findByStatus(MovieStatus movieStatus);
+    List<Integer> findByStatus(MovieStatus movieStatus);
 }
