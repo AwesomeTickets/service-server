@@ -11,8 +11,8 @@ import java.util.List;
 
 @Repository
 public interface MovieRepository extends CrudRepository<Movie, Integer> {
-    // TODO MovieRepository
 
-    @Query("select m.movieID from Movie m where m.movieStatus = ?1")
-    List<Integer> findByStatus(MovieStatus movieStatus);
+    @Query("select m.movieID from Movie m where m.movieStatus.status = ?1")
+    List<Integer> findByMovieStatus(String status);
+
 }

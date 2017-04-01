@@ -1,16 +1,16 @@
-package com.tickets.web.util;
+package com.tickets.web.controller.response;
 
 /**
- * Error result of RESTFul web service.
+ * Error response of RESTFul API.
  */
-public class ErrorResult extends RestResult {
+public class ErrorResponse extends RestResponse {
     private static final String KEY_MSG = "msg";
 
-    public ErrorResult() {
+    public ErrorResponse() {
         this("");
     }
 
-    public ErrorResult(String msg) {
+    public ErrorResponse(String msg) {
         super();
         setMsg(msg);
     }

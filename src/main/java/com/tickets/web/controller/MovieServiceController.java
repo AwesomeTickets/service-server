@@ -3,8 +3,8 @@ package com.tickets.web.controller;
 import com.tickets.business.entities.Movie;
 import com.tickets.business.entities.MovieStyle;
 import com.tickets.business.services.MovieService;
-import com.tickets.web.util.ErrorResult;
-import com.tickets.web.util.RestResult;
+import com.tickets.web.controller.response.ErrorResponse;
+import com.tickets.web.controller.response.RestResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.List;
 
 
 /**
- * Movie RESTFul web service controller.
+ * RESTFul API of movie resources.
  */
 @RestController
 @RequestMapping("/resource/movie")
@@ -30,62 +30,59 @@ public class MovieServiceController {
     private MovieService movieService;
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public RestResult getMovie(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getMovie(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-
         Movie movie = movieService.getMovie(id);
         if (movie == null) {
             response.setStatus(404);
-            return new ErrorResult("请求资源不存在");
+            return new ErrorResponse("Resource not found");
         }
-
-        List<String> stylesStrings = new ArrayList<String>();
+        List<String> movieStyles = new ArrayList<String>();
         for (MovieStyle ms : movie.getMovieStyleSet()) {
-            stylesStrings.add(ms.getStyle());
+            movieStyles.add(ms.getStyle());
         }
-
-        RestResult re = new RestResult();
-        re.put("id", movie.getMovieID());
-        re.put("title", movie.getTitle());
-        re.put("pubdate", movie.getPubdate());
-        re.put("length", movie.getLength());
-        re.put("rating", movie.getRating());
-        re.put("posterSmall", movie.getPosterSmall());
-        re.put("posterLarge", movie.getPosterLarge());
-        re.put("country", movie.getCountry().getName());
-        re.put("movieStatus", movie.getMovieStatus().getStatus());
-        re.put("movieType", movie.getMovieType().getType());
-        re.put("movieStyle", stylesStrings);
-        return re;
+        RestResponse res = new RestResponse();
+        res.put("id", movie.getMovieID());
+        res.put("title", movie.getTitle());
+        res.put("pubdate", movie.getPubdate());
+        res.put("length", movie.getLength());
+        res.put("rating", movie.getRating());
+        res.put("country", movie.getCountry().getName());
+        res.put("movieStatus", movie.getMovieStatus().getStatus());
+        res.put("movieType", movie.getMovieType().getType());
+        res.put("movieStyle", movieStyles);
+        res.put("posterSmall", movie.getPosterSmall());
+        res.put("posterLarge", movie.getPosterLarge());
+        return res;
     }
 
     @RequestMapping(path = "/on_show", method = RequestMethod.GET)
-    public RestResult getOnShow(HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getOnShow(HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        List<Integer> list = movieService.getMovieByStatus("on");
-        RestResult re = new RestResult();
-        re.put("count", list.size());
-        re.put("movies", list);
-        return re;
+        List<Integer> movieIDs = movieService.getMovieByStatus("on");
+        RestResponse res = new RestResponse();
+        res.put("count", movieIDs.size());
+        res.put("movies", movieIDs);
+        return res;
     }
 
     @RequestMapping(path = "/coming_soon", method = RequestMethod.GET)
-    public RestResult getComingSoon(HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getComingSoon(HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        List<Integer> list = movieService.getMovieByStatus("soon");
-        RestResult re = new RestResult();
-        re.put("count", list.size());
-        re.put("movies", list);
-        return re;
+        List<Integer> movieIDs = movieService.getMovieByStatus("soon");
+        RestResponse res = new RestResponse();
+        res.put("count", movieIDs.size());
+        res.put("movies", movieIDs);
+        return res;
     }
 
     @RequestMapping(path = "/popular", method = RequestMethod.GET)
-    public RestResult getPopular(@RequestParam(value="count", defaultValue="3") int count,
-                                 HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getPopular(@RequestParam(value="count", defaultValue="3") int count,
+                                   HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         // TODO GET /resource/movie/popular?count=XXX
-        RestResult result = new RestResult();
-        result.put("count", count);
+        RestResponse res = new RestResponse();
+        res.put("count", count);
         ArrayList<Object> data = new ArrayList<Object>();
         LinkedHashMap<String, Object> map1 = new LinkedHashMap<String, Object>();
         map1.put("id",1);
@@ -99,7 +96,7 @@ public class MovieServiceController {
         map3.put("id",3);
         map3.put("posterURL", "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/3.png");
         data.add(map3);
-        result.put("subjects",data);
-        return result;
+        res.put("subjects",data);
+        return res;
     }
 }
