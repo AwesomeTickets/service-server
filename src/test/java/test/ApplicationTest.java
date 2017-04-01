@@ -26,13 +26,4 @@ public class ApplicationTest extends BaseTest {
         assertTrue(userService.permitLogin(username, password));
         assertFalse(userService.permitLogin(username, "XXX"));
     }
-<<<<<<< HEAD
-
-
-    @Test
-    public void testMovie() {
-        // TODO testMovie()
-    }
-=======
->>>>>>> upstream/dev
 }
