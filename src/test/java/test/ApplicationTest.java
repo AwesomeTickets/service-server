@@ -30,6 +30,7 @@ public class ApplicationTest extends BaseTest {
         assertFalse(userService.permitLogin(username, "XXX"));
     }
 
+
     @Test
     public void testMovie() {
         // TODO testMovie()
