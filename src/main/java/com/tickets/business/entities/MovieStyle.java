@@ -2,6 +2,7 @@ package com.tickets.business.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 
 @Entity
@@ -11,6 +12,8 @@ public class MovieStyle implements Serializable {
     private Integer movieStyleID;
 
     private String style;
+
+    private Set<Movie> movieSet;
 
     public MovieStyle() {
     }
@@ -37,6 +40,15 @@ public class MovieStyle implements Serializable {
 
     public void setStyle(String style) {
         this.style = style;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "movieStyleSet")
+    public Set<Movie> getMovieSet() {
+        return movieSet;
+    }
+
+    public void setMovieSet(Set<Movie> movieSet) {
+        this.movieSet = movieSet;
     }
 
     @Override
