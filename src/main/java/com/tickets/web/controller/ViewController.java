@@ -12,7 +12,7 @@ import com.tickets.business.entities.User;
 import com.tickets.business.services.UserService;
 
 /**
- * Controller that returns a view.
+ * Controller that returns views.
  */
 @Controller
 public class ViewController {
