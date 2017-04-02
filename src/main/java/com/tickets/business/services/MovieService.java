@@ -43,11 +43,20 @@ public class MovieService {
      * @param maxCount Maximum size of the result list
      */
     public List<Object[]> getLargePoster(int maxCount) {
-        // TODO
         ArrayList<Object[]> posters = new ArrayList<Object[]>();
-        posters.add(new Object[]{1, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/1.png"});
-        posters.add(new Object[]{2, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/2.png"});
-        posters.add(new Object[]{3, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/3.png"});
+        ArrayList<Movie> movies = new ArrayList<Movie>();
+        List<Integer> movieIDs = movieRepo.findByMoviePoster();//Find id of movies which have largePoster
+        int num = movies.size();
+        for(int i = 0;i < num;i ++) //Find movies according to the ids
+        {
+            movies.add(movieRepo.findOne(movieIDs.get(i))); 
+        }
+        int min = (maxCount<num) ? maxCount : num;
+        for(int i = 0; i < min;i ++) //Get id and largePoster
+        {
+            Movie m = movies.get(i);
+            posters.add(new Object[]{m.getMovieID(), m.getPosterLarge()});
+        }
         return posters;
     }
 }
