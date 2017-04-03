@@ -3,6 +3,7 @@ package com.tickets.web.controller;
 import com.tickets.business.entities.Movie;
 import com.tickets.business.entities.MovieStyle;
 import com.tickets.business.services.MovieService;
+import com.tickets.web.controller.response.CollectionResponse;
 import com.tickets.web.controller.response.ErrorResponse;
 import com.tickets.web.controller.response.RestResponse;
 import org.slf4j.Logger;
@@ -60,20 +61,14 @@ public class MovieServiceController {
     public RestResponse getOnShow(HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         List<Integer> movieIDs = movieService.getMovieByStatus("on");
-        RestResponse res = new RestResponse();
-        res.put("count", movieIDs.size());
-        res.put("movies", movieIDs);
-        return res;
+        return new CollectionResponse<Integer>(movieIDs);
     }
 
     @RequestMapping(path = "/coming_soon", method = RequestMethod.GET)
     public RestResponse getComingSoon(HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         List<Integer> movieIDs = movieService.getMovieByStatus("soon");
-        RestResponse res = new RestResponse();
-        res.put("count", movieIDs.size());
-        res.put("movies", movieIDs);
-        return res;
+        return new CollectionResponse<Integer>(movieIDs);
     }
 
     @RequestMapping(path = "/popular", method = RequestMethod.GET)
@@ -85,8 +80,6 @@ public class MovieServiceController {
             return new ErrorResponse("Negative poster amount");
         }
         List<Object[]> posters = movieService.getLargePoster(count);
-        RestResponse res = new RestResponse();
-        res.put("count", posters.size());
         List<LinkedHashMap<String, Object>> subjects = new ArrayList<LinkedHashMap<String, Object>>();
         for (Object[] objArr: posters) {
             LinkedHashMap<String, Object> poster = new LinkedHashMap<String, Object>();
@@ -94,7 +87,6 @@ public class MovieServiceController {
             poster.put("uri", objArr[1]);
             subjects.add(poster);
         }
-        res.put("posters", subjects);
-        return res;
+        return new CollectionResponse<LinkedHashMap<String, Object>>(subjects);
     }
 }
