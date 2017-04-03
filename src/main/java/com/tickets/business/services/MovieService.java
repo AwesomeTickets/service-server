@@ -42,12 +42,14 @@ public class MovieService {
      *
      * @param maxCount Maximum size of the result list
      */
-    public List<Object[]> getLargePoster(int maxCount) {
-        // TODO
+    public List<Object[]> getLargePoster(int maxCount) {      
         ArrayList<Object[]> posters = new ArrayList<Object[]>();
-        posters.add(new Object[]{1, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/1.png"});
-        posters.add(new Object[]{2, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/2.png"});
-        posters.add(new Object[]{3, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/3.png"});
+        List<Object[]> movies = movieRepo.findLargePoster();
+        int num = movies.size();
+        int min = (maxCount < num) ? maxCount : num;
+        for(int i = 0; i < min; ++i) {
+            posters.add(movies.get(i));
+        }
         return posters;
     }
 }
