@@ -44,11 +44,10 @@ public class MovieService {
      */
     public List<Object[]> getLargePoster(int maxCount) {      
         ArrayList<Object[]> posters = new ArrayList<Object[]>();
-        List<Object[]> movies = movieRepo.findByMoviePoster();
+        List<Object[]> movies = movieRepo.findLargePoster();
         int num = movies.size();
-        int min = (maxCount<num) ? maxCount : num;
-        for(int i = 0; i < min;i ++)
-        {
+        int min = (maxCount < num) ? maxCount : num;
+        for(int i = 0; i < min; ++i) {
             posters.add(movies.get(i));
         }
         return posters;
