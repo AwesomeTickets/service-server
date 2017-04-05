@@ -27,17 +27,19 @@ Server of a movie tickets system powered by Spring.
 
 1. Download [Maven](http://maven.apache.org/download.cgi).
 
-2. Build and run on foreground:
+2. Build and run:
 
-    ```sh
-    $ python server.py
-    ```
+    - Foreground
 
-    or on background:
+        ```sh
+        $ python server.py
+        ```
 
-    ```sh
-    $ python deploy.py
-    ```
+    - Background
+
+        ```sh
+        $ python deploy.py
+        ```
 
 3. The application should be available at http://localhost:8080
 
