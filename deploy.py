@@ -5,7 +5,7 @@ import os
 
 cmd = 'mvn clean tomcat7:run-war'
 
-pid = os.popen("ps -ef | grep 'tomcat7:run-war' | grep -v grep "
+pid = os.popen("ps -ef | grep 'Tickets-Server' | grep -v grep "
                "| awk '{ print $2 }'").read()
 
 if len(pid) > 0:
