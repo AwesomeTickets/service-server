@@ -7,13 +7,13 @@ import java.util.Collection;
 /**
  * Collection response of RESTFul API.
  */
-public class CollectionResponse<T> extends RestResponse {
+public class CollectionResponse extends RestResponse {
 
-    public CollectionResponse() {
+    public <T> CollectionResponse() {
         this(new ArrayList<T>());
     }
 
-    public CollectionResponse(Collection<T> data) {
+    public <T> CollectionResponse(Collection<T> data) {
         put("count", data.size());
         put("data", data);
     }
