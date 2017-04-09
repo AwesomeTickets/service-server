@@ -61,14 +61,14 @@ public class MovieServiceController {
     public RestResponse getOnShow(HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         List<Integer> movieIDs = movieService.getMovieByStatus("on");
-        return new CollectionResponse<Integer>(movieIDs);
+        return new CollectionResponse(movieIDs);
     }
 
     @RequestMapping(path = "/coming_soon", method = RequestMethod.GET)
     public RestResponse getComingSoon(HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         List<Integer> movieIDs = movieService.getMovieByStatus("soon");
-        return new CollectionResponse<Integer>(movieIDs);
+        return new CollectionResponse(movieIDs);
     }
 
     @RequestMapping(path = "/popular", method = RequestMethod.GET)
@@ -87,6 +87,6 @@ public class MovieServiceController {
             poster.put("uri", objArr[1]);
             subjects.add(poster);
         }
-        return new CollectionResponse<LinkedHashMap<String, Object>>(subjects);
+        return new CollectionResponse(subjects);
     }
 }
