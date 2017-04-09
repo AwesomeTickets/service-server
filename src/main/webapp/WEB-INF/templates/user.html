@@ -4,18 +4,17 @@
 <head>
     <title th:text="#{title.index}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" type="text/css" media="all" href="/css/index.css" />
 </head>
 
 <body>
 
 	<form action="/register" method="post">
 		<div>
-		  <label for="username">username</label>
+		  <label>username</label>
 		  <input type="text" name="username"/>
 		</div>
 		<div>
-          <label for="password">password</label>
+          <label>password</label>
           <input type="password" name="password"/>
         </div>
 		<div class="submit">
@@ -25,11 +24,11 @@
 
     <form action="/login" method="post">
         <div>
-          <label for="username">username</label>
+          <label>username</label>
           <input type="text" name="username"/>
         </div>
         <div>
-          <label for="password">password</label>
+          <label>password</label>
           <input type="password" name="password"/>
         </div>
         <div class="submit">
