@@ -36,6 +36,7 @@
         <!-- Template cache is true by default. Set to false if you want             -->
         <!-- templates to be automatically updated when modified.                    -->
         <property name="cacheable" value="true" />
+        <property name="characterEncoding" value="utf-8" />
     </bean>
 
     <!-- SpringTemplateEngine automatically applies SpringStandardDialect and      -->
@@ -53,6 +54,7 @@
 
     <bean id="viewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine" />
+        <property name="characterEncoding" value="utf-8" />
     </bean>
 
     <!-- Import the config of jpa and hibernate -->
