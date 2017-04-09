@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.tickets.business.entities.User;
 import com.tickets.business.services.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Controller that returns views.
  */
@@ -28,20 +31,26 @@ public class ViewController {
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public String index() {
-        LOG.info("GET /");
+    public String index(HttpServletRequest request, HttpServletResponse response) {
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
         return "index";
     }
 
+    @RequestMapping(path = "/tickets", method = RequestMethod.GET)
+    public String tickets(HttpServletRequest request, HttpServletResponse response) {
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        return "tickets";
+    }
+
     @RequestMapping(path = "/user", method = RequestMethod.GET)
-    public String user() {
-    	LOG.info("GET /user");
+    public String user(HttpServletRequest request, HttpServletResponse response) {
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
         return "user";
     }
     
     @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public String register(final User user, final Model model) {
-    	LOG.info("POST /register");
+    public String register(final User user, final Model model, HttpServletRequest request, HttpServletResponse response) {
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
     	if (userService.hasUsername(user.getUsername())) {
             model.addAttribute("msg", "Register failed. Username exists.");
     	} else {
@@ -52,8 +61,8 @@ public class ViewController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String login(final User user, final Model model) {
-    	LOG.info("POST /login");
+    public String login(final User user, final Model model, HttpServletRequest request, HttpServletResponse response) {
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
     	if (!userService.hasUsername(user.getUsername())) {
             model.addAttribute("msg", "Login failed. Username doesn't exist.");
     	} else if (userService.permitLogin(user.getUsername(), user.getPassword())) {
