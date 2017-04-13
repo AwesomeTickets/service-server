@@ -1,5 +1,8 @@
 -- Initialize tickets data to MySQL database
 
+-- Drop database
+DROP DATABASE IF EXISTS tickets;
+
 -- Database
 CREATE DATABASE IF NOT EXISTS tickets;
 use tickets;
@@ -69,12 +72,71 @@ CREATE TABLE IF NOT EXISTS movie (
 
 CREATE TABLE IF NOT EXISTS movie_has_style (
 
-    movieID       INT NOT NULL,
-    movieStyleID  INT NOT NULL,
+    movieID      INT NOT NULL,
+    movieStyleID INT NOT NULL,
 
     PRIMARY KEY (movieID, movieStyleID),
-    FOREIGN KEY (movieID)     REFERENCES movie(movieID),
+    FOREIGN KEY (movieID)      REFERENCES movie(movieID),
     FOREIGN KEY (movieStyleID) REFERENCES movie_style(movieStyleID)
+
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
+
+
+CREATE TABLE IF NOT EXISTS cinema (
+
+    cinemaID INT NOT NULL AUTO_INCREMENT,
+    name     VARCHAR(128) NOT NULL UNIQUE,
+    location VARCHAR(256) NOT NULL UNIQUE,
+
+    PRIMARY KEY (cinemaID)
+
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
+
+
+CREATE TABLE IF NOT EXISTS cinema_hall (
+
+    cinemaHallID INT NOT NULL AUTO_INCREMENT,
+    cinemaID     INT NOT NULL,
+    name         VARCHAR(16) NOT NULL,
+    seatLayout   VARCHAR(512) NOT NULL,
+
+    PRIMARY KEY (cinemaHallID),
+    FOREIGN KEY (cinemaID) REFERENCES cinema(cinemaID)
+
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
+
+
+CREATE TABLE IF NOT EXISTS movie_on_show (
+
+    movieOnShowID INT NOT NULL AUTO_INCREMENT,
+    movieID       INT NOT NULL,
+    cinemaHallID  INT NOT NULL,
+    lang          VARCHAR(16) NOT NULL,
+    showDate      DATE NOT NULL,
+    showTime      TIME NOT NULL,
+    price         DECIMAL(5, 2) NOT NULL,
+
+    PRIMARY KEY (movieOnShowID),
+    FOREIGN KEY (movieID)      REFERENCES movie(movieID),
+    FOREIGN KEY (cinemaHallID) REFERENCES cinema_hall(cinemaHallID),
+
+    UNIQUE (movieID, cinemaHallID, showDate, showTime)
+
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
+
+
+CREATE TABLE IF NOT EXISTS seat (
+
+    seatID        INT NOT NULL AUTO_INCREMENT,
+    movieOnShowID INT NOT NULL,
+    row           INT NOT NULL,
+    col           INT NOT NULL,
+    available     BOOLEAN NOT NULL DEFAULT TRUE,
+
+    PRIMARY KEY (seatID),
+    FOREIGN KEY (movieOnShowID) REFERENCES movie_on_show(movieOnShowID),
+
+    UNIQUE (movieOnShowID, row, col)
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
@@ -82,7 +144,7 @@ CREATE TABLE IF NOT EXISTS movie_has_style (
 -- Data
 INSERT INTO country (name)        VALUES ('美国'), ('中国'), ('加拿大');
 INSERT INTO movie_status (status) VALUES ('on'), ('soon');
-INSERT INTO movie_type (type)     VALUES ('2D'), ('3D'), ('3D IMAX');
+INSERT INTO movie_type (type)     VALUES ('2D'), ('3D'), ('IMAX 3D');
 
 INSERT INTO movie_style (style) VALUES
 ('剧情'), ('动作'), ('冒险'),
@@ -131,3 +193,27 @@ INSERT INTO movie_has_style (movieID, movieStyleID) VALUES
 (16, 1),
 (17, 1), (17, 4), (17, 7),
 (18, 1), (18, 12);
+
+INSERT INTO cinema (name, location) VALUES
+("金逸珠江国际影城（大学城店）", "番禺区小谷围街贝岗村中二横路1号高高新天地商业广场B2B001铺"),
+("万达国际影城（番禺店）", "番禺区南村镇汉溪大道东389号番禺万达广场四楼"),
+("UA花城汇影院", "天河区珠江新城花城广场花城汇B1楼1130铺（花城广场入口靠近黄埔大道）"),
+("飞扬影城（天河城店）", "天河区天河路208号天河城广场4楼"),
+("保利国际影城（中环店）", "越秀区建设大马路18号中环广场南楼5层");
+
+INSERT INTO cinema_hall (cinemaID, name, seatLayout) VALUES
+(1, "1号厅", "00111111111100,00111111111100,01111111111110,11111111111111,11111111111111,11111111111111"),
+(1, "2号厅", "00111111111100,00111111111100,01111111111110,11111111111111,11111111111111,11111111111111"),
+(1, "VIP厅", "001111111100,001111111100,011111111110,011111111110"),
+(2, "1号厅", "1111111111111111,1111111111111111,1111111111111111,1111111111111111,1111111111111111,1111111111111111,1111111111111111"),
+(2, "2号厅", "1111111111111111,1111111111111111,1111111111111111,1111111111111111,1111111111111111,1111111111111111,1111111111111111"),
+(2, "VIP厅", "111111,111111,111111,111111,111111,111111"),
+(3, "1号厅", "000111111000,000111111000,001111111100,001111111100,011111111110,011111111110,111111111111,111111111111"),
+(3, "2号厅", "000111111000,000111111000,001111111100,001111111100,011111111110,011111111110,111111111111,111111111111"),
+(3, "VIP厅", "1111,1111,1111,1111,1111,1111"),
+(4, "1号厅", "00011111111000,00111111111100,01111111111110,11111111111111"),
+(4, "2号厅", "00011111111000,00111111111100,11111111111111,11111111111111"),
+(4, "VIP厅", "011110,011110,011110,111111,111111,111111"),
+(5, "1号厅", "011110,011110,011110,111111,111111,111111,111111,111111,111111"),
+(5, "2号厅", "011110,011110,011110,011110,011110,011110,011110,111111,111111"),
+(5, "VIP厅", "011110,011110,011110,111111,111111,111111");
