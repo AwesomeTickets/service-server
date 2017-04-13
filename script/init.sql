@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS movie_has_style (
 CREATE TABLE IF NOT EXISTS cinema (
 
     cinemaID INT NOT NULL AUTO_INCREMENT,
-    name     VARCHAR(128) NOT NULL UNIQUE,
-    location VARCHAR(256) NOT NULL UNIQUE,
+    name     VARCHAR(30) NOT NULL UNIQUE,
+    location VARCHAR(50) NOT NULL UNIQUE,
 
     PRIMARY KEY (cinemaID)
 
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS cinema_hall (
     cinemaHallID INT NOT NULL AUTO_INCREMENT,
     cinemaID     INT NOT NULL,
     name         VARCHAR(16) NOT NULL,
-    seatLayout   VARCHAR(512) NOT NULL,
+    seatLayout   VARCHAR(256) NOT NULL,
 
     PRIMARY KEY (cinemaHallID),
     FOREIGN KEY (cinemaID) REFERENCES cinema(cinemaID)

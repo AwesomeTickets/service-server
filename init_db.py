@@ -36,10 +36,10 @@ try:
         movies = []
         for entry in cursor.fetchall():
             entry = list(entry)
-            if (entry[1] != "中国"):
-                entry[1] = "英语"
+            if (entry[1] != u"中国"):
+                entry[1] = u"英语"
             else:
-                entry[1] = "国语"
+                entry[1] = u"国语"
             movies.append(entry)
         # print("movies:", movies)
 
@@ -52,12 +52,12 @@ try:
             cinema_hall_ids.append(entry[0])
         # print("cinema_hall_ids:", cinema_hall_ids)
 
-        candidate_movies = movies.copy()
+        candidate_movies = []
         for cinema_hall_id in cinema_hall_ids:
             for date in show_date:
                 for time in show_time:
                     if (len(candidate_movies) == 0):
-                        candidate_movies = movies.copy()
+                        candidate_movies = list(movies)
                     pos = random.randrange(len(candidate_movies))
                     movie = candidate_movies.pop(pos)
                     price = prices[random.randrange(len(prices))]
