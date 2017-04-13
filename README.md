@@ -20,7 +20,8 @@ Server of a movie tickets system powered by Spring.
 3. Initialize database:
 
     ```sh
-    $ python initDB.py
+    $ pip3 install PyMySQL
+    $ python3 init_db.py
     ```
 
 ### Server
@@ -32,13 +33,13 @@ Server of a movie tickets system powered by Spring.
     - Foreground
 
         ```sh
-        $ python server.py
+        $ python3 server.py
         ```
 
     - Background
 
         ```sh
-        $ python deploy.py
+        $ python3 deploy.py
         ```
 
 3. The application should be available at http://localhost:8080
