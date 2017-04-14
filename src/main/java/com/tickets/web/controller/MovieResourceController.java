@@ -23,9 +23,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/resource/movie")
-public class MovieServiceController {
+public class MovieResourceController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MovieServiceController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MovieResourceController.class);
 
     @Autowired
     private MovieService movieService;
