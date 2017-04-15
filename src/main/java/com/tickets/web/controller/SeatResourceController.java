@@ -29,16 +29,10 @@ public class SeatResourceController {
 
     private static final Logger LOG = LoggerFactory.getLogger(SeatResourceController.class);
 
-    // TODO API
-    /*
-    GET /resource/seat/unavailable
-    {
-    "count": 3,
-    "data": [[4, 1], [4, 2], [4, 3]]
-}
-    */
     @RequestMapping(path = "/unavailable", method = RequestMethod.GET)
     public RestResponse getSeat(HttpServletRequest request, HttpServletResponse response) {
+        // TODO 获取 GET 参数
+        // TODO 使用 CollectionResponse 返回
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse res = new RestResponse();
 	

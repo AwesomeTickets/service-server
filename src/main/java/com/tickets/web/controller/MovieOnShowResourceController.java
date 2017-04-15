@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+
 /**
  * RESTFul API of on-show movie resources.
  */
@@ -27,8 +29,9 @@ public class MovieOnShowResourceController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowResourceController.class);
 
-    @RequestMapping(path = "", method = RequestMethod.GET)
+    @RequestMapping(path = "/", method = RequestMethod.GET)
     public RestResponse getMovieOnShow(HttpServletRequest request, HttpServletResponse response) {
+        // TODO 获取 GET 参数
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse res = new RestResponse();
         res.put("movieOnShowID", 222);
@@ -40,7 +43,6 @@ public class MovieOnShowResourceController {
         res.put("price", 35.0);
         return res;
     }
-
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public RestResponse getMovieOnShowWithId(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) {
@@ -58,9 +60,11 @@ public class MovieOnShowResourceController {
 
     @RequestMapping(path = "/recent", method = RequestMethod.GET)
     public RestResponse getRecentMovie(HttpServletRequest request, HttpServletResponse response) {
+        // TODO 获取 GET 参数
+        // TODO 使用 CollectionResponse 返回
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse res = new RestResponse();
-	
+
 		List<LinkedHashMap<String, Object>> subjects = new ArrayList<LinkedHashMap<String, Object>>();
         LinkedHashMap<String, Object> movie1 = new LinkedHashMap<String, Object>();
         List<Integer> list1 = new ArrayList<Integer>();
@@ -88,6 +92,8 @@ public class MovieOnShowResourceController {
 
     @RequestMapping(path = "/day", method = RequestMethod.GET)
     public RestResponse getMovieDay(HttpServletRequest request, HttpServletResponse response) {
+        // TODO 获取 GET 参数
+        // TODO 使用 CollectionResponse 返回
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse res = new RestResponse();
 	
@@ -102,8 +108,9 @@ public class MovieOnShowResourceController {
         return res;
     }
 
-    @RequestMapping(path = "/brief", method = RequestMethod.GET)
+    @RequestMapping(path = "/day/brief", method = RequestMethod.GET)
     public RestResponse getMovieBrief(HttpServletRequest request, HttpServletResponse response) {
+        // TODO 获取 GET 参数
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse res = new RestResponse();
 	
