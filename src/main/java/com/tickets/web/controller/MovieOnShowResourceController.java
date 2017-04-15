@@ -30,8 +30,14 @@ public class MovieOnShowResourceController {
     private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowResourceController.class);
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public RestResponse getMovieOnShow(HttpServletRequest request, HttpServletResponse response) {
-        // TODO 获取 GET 参数
+    public RestResponse getMovieOnShow(@RequestParam(value="movieID",defaultValue="1") int movieID,@RequestParam(value="cinemaHallID",defaultValue="333") int cinemaHallID,
+        @RequestParam(value="showDate",defaultValue="2017-04-04") String showDate,
+        @RequestParam(value="showTime",defaultValue="12:35:00") String showTime,
+        HttpServletRequest request, HttpServletResponse response) {
+        // TODO 获取 GET 参数 
+        // DONE
+        LOG.info("movieID "+movieID+" cinemaHallID "+cinemaHallID+" showDate "+showDate+" showTime "+showTime);
+
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse res = new RestResponse();
         res.put("movieOnShowID", 222);
@@ -59,9 +65,13 @@ public class MovieOnShowResourceController {
     }
 
     @RequestMapping(path = "/recent", method = RequestMethod.GET)
-    public RestResponse getRecentMovie(HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getRecentMovie(@RequestParam(value="movieID",defaultValue="1") int movieID, HttpServletRequest request, HttpServletResponse response) {
         // TODO 获取 GET 参数
         // TODO 使用 CollectionResponse 返回
+        // DONE
+
+        LOG.info("movieID "+movieID);
+
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse res = new RestResponse();
 
@@ -84,16 +94,18 @@ public class MovieOnShowResourceController {
         movie2.put("cinemaID", list2);
         subjects.add(movie2);
 
-        res.put("count", 2);
-        res.put("data", subjects);
-
-        return res;
+        return new CollectionResponse(subjects);
     }
 
     @RequestMapping(path = "/day", method = RequestMethod.GET)
-    public RestResponse getMovieDay(HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getMovieDay(@RequestParam(value="date",defaultValue="2017-04-05") String date, 
+        @RequestParam(value="cinemaID",defaultValue="1") int cinemaID,
+        @RequestParam(value="movieID",defaultValue="1") int movieID,
+        HttpServletRequest request, HttpServletResponse response) {
         // TODO 获取 GET 参数
         // TODO 使用 CollectionResponse 返回
+        // DONE
+        LOG.info("data "+date+" cinemaID "+cinemaID+" movieID "+movieID);
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse res = new RestResponse();
 	
@@ -102,15 +114,17 @@ public class MovieOnShowResourceController {
         list1.add(222);
         list1.add(333);
 
-        res.put("count", 3);
-        res.put("data", list1);
-
-        return res;
+        return new CollectionResponse(list1);
     }
 
     @RequestMapping(path = "/day/brief", method = RequestMethod.GET)
-    public RestResponse getMovieBrief(HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getMovieBrief(@RequestParam(value="date",defaultValue="2017-04-05") String date, 
+        @RequestParam(value="cinemaID",defaultValue="1") int cinemaID,
+        @RequestParam(value="movieID",defaultValue="1") int movieID,
+        HttpServletRequest request, HttpServletResponse response) {
         // TODO 获取 GET 参数
+        // DONE
+        LOG.info("data "+date+" cinemaID "+cinemaID+" movieID "+movieID);
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse res = new RestResponse();
 	
