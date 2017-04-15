@@ -30,9 +30,11 @@ public class SeatResourceController {
     private static final Logger LOG = LoggerFactory.getLogger(SeatResourceController.class);
 
     @RequestMapping(path = "/unavailable", method = RequestMethod.GET)
-    public RestResponse getSeat(HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getSeat(@RequestParam(value="movieOnShowID",defaultValue="1") int movieOnShowID, HttpServletRequest request, HttpServletResponse response) {
         // TODO 获取 GET 参数
         // TODO 使用 CollectionResponse 返回
+        // DONE
+        LOG.info("movieOnShowID "+movieOnShowID);
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse res = new RestResponse();
 	
@@ -50,9 +52,6 @@ public class SeatResourceController {
         list.add(data2);
         list.add(data3);
 
-        res.put("count", 3);
-        res.put("data", list);
-
-        return res;
+        return new CollectionResponse(list);
     }
 }
