@@ -23,6 +23,7 @@
         <spring-data-jpa.version>1.11.1.RELEASE</spring-data-jpa.version>
         <hibernate.version>5.0.11.Final</hibernate.version>
         <hibernate-c3p0.version>5.0.11.Final</hibernate-c3p0.version>
+        <hibernate-validator.version>5.0.1.Final</hibernate-validator.version>
         <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
         <datasource-dbcp.version>7.0.65</datasource-dbcp.version>
         <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
@@ -151,6 +152,11 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
