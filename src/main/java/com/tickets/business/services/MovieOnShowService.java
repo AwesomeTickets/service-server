@@ -11,9 +11,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
-/**
- * Created by CrazeWong on 2017/4/16.
- */
+
 @Service
 public class MovieOnShowService {
     private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowService.class);

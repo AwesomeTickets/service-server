@@ -32,7 +32,7 @@ public class SeatResourceController {
     private static final Logger LOG = LoggerFactory.getLogger(SeatResourceController.class);
 
     @RequestMapping(path = "/unavailable", method = RequestMethod.GET)
-    public CollectionResponse getUnavailable(@RequestParam("movieOnShowID") Integer movieOnShowID,
+    public RestResponse getUnavailable(@RequestParam("movieOnShowID") Integer movieOnShowID,
                                        HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
 
