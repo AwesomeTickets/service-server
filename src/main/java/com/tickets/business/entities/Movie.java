@@ -2,7 +2,7 @@ package com.tickets.business.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Set;
 
 
@@ -101,7 +101,6 @@ public class Movie implements Serializable {
         this.movieStyleSet = movieStyleSet;
     }
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "pubdate", nullable = false, length = 10)
     public Date getPubdate() {
         return pubdate;
