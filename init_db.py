@@ -5,17 +5,18 @@ import pymysql as mdb
 import os
 import random
 
-user = 'root'
-pswd = '123456'
-show_date = ['2017-04-04', '2017-04-05', '2017-04-06']
-show_time = ['10:05:00', '13:20:00', '16:35:00', '19:50:00', '22:05:00']
-prices = [20.0, 22.5, 28, 35, 37, 41.5]
+USER = 'root'
+PSWD = '123456'
+SHOW_DATE = ['2017-04-04', '2017-04-05', '2017-04-06']
+SHOW_TIME = ['10:05:00', '13:20:00', '16:35:00', '19:50:00', '22:05:00']
+TICKET_PRICE = [20.0, 22.5, 28, 35, 37, 41.5]
+RAND_SOLD_SEATS = True
 
-os.system("mysql -u%s -p%s < ./script/init.sql" % (user, pswd))
+os.system("mysql -u%s -p%s < ./script/init.sql" % (USER, PSWD))
 
 conn = mdb.connect(host='localhost',
-                   user=user,
-                   password=pswd,
+                   user=USER,
+                   password=PSWD,
                    db='tickets',
                    charset='utf8')
 
@@ -54,13 +55,13 @@ try:
 
         candidate_movies = []
         for cinema_hall_id in cinema_hall_ids:
-            for date in show_date:
-                for time in show_time:
+            for date in SHOW_DATE:
+                for time in SHOW_TIME:
                     if (len(candidate_movies) == 0):
                         candidate_movies = list(movies)
                     pos = random.randrange(len(candidate_movies))
                     movie = candidate_movies.pop(pos)
-                    price = prices[random.randrange(len(prices))]
+                    price = TICKET_PRICE[random.randrange(len(TICKET_PRICE))]
                     cursor.execute("""
                         INSERT INTO movie_on_show
                         (movieID, cinemaHallID, lang,
@@ -80,13 +81,18 @@ try:
             seat_layout = entry[1]
             seat_rows = seat_layout.split(',')
             for i, row in enumerate(seat_rows):
+                if RAND_SOLD_SEATS:
+                    available = random.randrange(2)
+                else:
+                    available = 1
                 col = 1
                 for char in row:
                     if (char != '0'):
                         cursor.execute("""
-                            INSERT INTO seat(movieOnShowID, row, col) VALUES
-                            (%d, %d, %d)
-                        """ % (movie_on_show_id, i + 1, col))
+                            INSERT INTO seat
+                            (movieOnShowID, row, col, available)
+                            VALUES (%d, %d, %d, %d)
+                        """ % (movie_on_show_id, i + 1, col, available))
                         col += 1
     conn.commit()
     print("Finished.")
