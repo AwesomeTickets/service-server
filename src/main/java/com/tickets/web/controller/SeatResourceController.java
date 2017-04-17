@@ -2,6 +2,7 @@ package com.tickets.web.controller;
 
 import com.tickets.business.entities.Seat;
 import com.tickets.business.services.SeatService;
+import com.tickets.web.controller.response.CollectionResponse;
 import com.tickets.web.controller.response.RestResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +32,10 @@ public class SeatResourceController {
     private static final Logger LOG = LoggerFactory.getLogger(SeatResourceController.class);
 
     @RequestMapping(path = "/unavailable", method = RequestMethod.GET)
-    public RestResponse getUnavailable(@RequestParam("movieOnShowID") Integer movieOnShowID,
+    public CollectionResponse getUnavailable(@RequestParam("movieOnShowID") Integer movieOnShowID,
                                        HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        RestResponse result = new RestResponse();
+
         List<Integer[]> dataList = new LinkedList<Integer[]>();
 
         // TODO Construct seats without only 'row' and 'col' attributes
@@ -45,9 +46,7 @@ public class SeatResourceController {
             dataList.add(new Integer[] {seat.getRow(), seat.getCol()});
         }
 
-        result.put("count", dataList.size());
-        result.put("data", dataList);
-
+        CollectionResponse result = new CollectionResponse(dataList);
         response.setStatus(200);
         return result;
     }

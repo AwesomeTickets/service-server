@@ -29,6 +29,6 @@ public class SeatService {
      * @return list of the Seat entities
      */
     public List<Seat> getUnavailable(Integer movieOnShowID) {
-        return seatRepo.findByMovieOnShowIDAndAvailable(movieOnShowID, false);
+        return seatRepo.findByMovieOnShowIDAndAvailable(movieOnShowID, true);
     }
 }
