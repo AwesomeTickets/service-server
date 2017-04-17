@@ -30,10 +30,11 @@ public class MovieResourceController {
     @Autowired
     private MovieService movieService;
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public RestResponse getMovie(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/{movieID}", method = RequestMethod.GET)
+    public RestResponse getMovie(@PathVariable Integer movieID,
+                                 HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        Movie movie = movieService.getMovie(id);
+        Movie movie = movieService.getMovie(movieID);
         if (movie == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
@@ -43,7 +44,7 @@ public class MovieResourceController {
             movieStyles.add(ms.getStyle());
         }
         RestResponse res = new RestResponse();
-        res.put("id", movie.getMovieID());
+        res.put("movieID", movie.getMovieID());
         res.put("title", movie.getTitle());
         res.put("pubdate", movie.getPubdate());
         res.put("length", movie.getLength());
