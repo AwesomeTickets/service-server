@@ -6,9 +6,7 @@ import java.sql.Time;
 import java.sql.Date;
 import java.util.Set;
 
-/**
- * Created by CrazeWong on 2017/4/16.
- */
+
 @Entity
 @Table(name = "movie_on_show", uniqueConstraints = {
         @UniqueConstraint(columnNames={"movieID", "cinemaHallID", "showDate", "showTime"})})
@@ -70,7 +68,7 @@ public class MovieOnShow {
         this.price = price;
     }
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "movieID")
     public Movie getMovie() {
         return movie;
@@ -80,7 +78,7 @@ public class MovieOnShow {
         this.movie = movie;
     }
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cinemaHallID")
     public CinemaHall getCinemaHall() {
         return cinemaHall;
@@ -90,7 +88,7 @@ public class MovieOnShow {
         this.cinemaHall = cinemaHall;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "movieOnShow")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "movieOnShow")
     public Set<Seat> getSeatSet() {
         return seatSet;
     }

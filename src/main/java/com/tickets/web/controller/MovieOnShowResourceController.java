@@ -44,11 +44,12 @@ public class MovieOnShowResourceController {
     private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowResourceController.class);
 
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public RestResponse getMovieOnShow(@RequestParam("movieID") Integer movieID,
-                                  @RequestParam("cinemaHallID") Integer cinemaHallID,
-                                  @RequestParam("showDate") Date showDate,
-                                  @RequestParam("showTime") Time showTime,
-                                  HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getMovieOnShow(
+        @RequestParam("movieID") Integer movieID,
+        @RequestParam("cinemaHallID") Integer cinemaHallID,
+        @RequestParam("showDate") Date showDate,
+        @RequestParam("showTime") Time showTime,
+        HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieID, cinemaHallID, showDate, showTime);
@@ -71,7 +72,8 @@ public class MovieOnShowResourceController {
     }
 
     @RequestMapping(path = "/{movieOnShowID}", method = RequestMethod.GET)
-    public RestResponse getCinema(@PathVariable Integer movieOnShowID, HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getCinema(@PathVariable Integer movieOnShowID,
+                                  HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieOnShowID);
@@ -94,12 +96,15 @@ public class MovieOnShowResourceController {
     }
 
     @RequestMapping(path = "/recent", method = RequestMethod.GET)
-    public RestResponse getRecent(@RequestParam("movieID") Integer movieID, HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getRecent(@RequestParam("movieID") Integer movieID,
+                                  HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         int range = 3;
         int count = 0;
         RestResponse result = new RestResponse();
         List<RestResponse> dataList = new LinkedList<RestResponse>();
+
+        // TODO Query only one time to get the results
 
         // Date date = Calendar.getInstance().getTime();
         Date date = Date.valueOf("2017-04-04");
@@ -124,12 +129,15 @@ public class MovieOnShowResourceController {
     }
 
     @RequestMapping(path = "/day", method = RequestMethod.GET)
-    public RestResponse getMovieOnShowDay(@RequestParam("movieID") Integer movieID,
-                                       @RequestParam("cinemaID") Integer cinemaID,
-                                       @RequestParam("date") Date date,
-                                       HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getMovieOnShowDay(
+        @RequestParam("movieID") Integer movieID,
+        @RequestParam("cinemaID") Integer cinemaID,
+        @RequestParam("date") Date date,
+        HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
+
+        // TODO Construct MovieOnShow only with 'movieOnShowID' attribute
 
         List<MovieOnShow> showList = movieOnShowService.getShowsADay(movieID, date, cinemaID);
         List<Integer> idsList = new LinkedList<Integer>();
@@ -146,12 +154,17 @@ public class MovieOnShowResourceController {
     }
 
     @RequestMapping(path = "/day/brief", method = RequestMethod.GET)
-    public RestResponse getMovieOnShowDayBrief(@RequestParam("movieID") Integer movieID,
-                                       @RequestParam("cinemaID") Integer cinemaID,
-                                       @RequestParam("date") Date date,
-                                       HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getMovieOnShowDayBrief(
+        @RequestParam("movieID") Integer movieID,
+        @RequestParam("cinemaID") Integer cinemaID,
+        @RequestParam("date") Date date,
+        HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
+
+        // TODO Construct MovieOnShow only with 'movieOnShowID' attribute
+        // TODO Using MIN() of SQL to get the minimum price
+
         List<MovieOnShow> showList = movieOnShowService.getShowsADay(movieID, date, cinemaID);
 
         List<String> timeList = new LinkedList<String>();
@@ -164,7 +177,7 @@ public class MovieOnShowResourceController {
 
         if (timeList.size() == 0) minPrice = 0.00F;
         result.put("minPrice", minPrice);
-        result.put("time", timeList);
+        result.put("showTime", timeList);
 
         response.setStatus(200);
         return result;

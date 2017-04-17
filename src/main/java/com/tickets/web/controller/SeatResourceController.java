@@ -32,7 +32,7 @@ public class SeatResourceController {
 
     @RequestMapping(path = "/unavailable", method = RequestMethod.GET)
     public RestResponse getUnavailable(@RequestParam("movieOnShowID") Integer movieOnShowID,
-                                          HttpServletRequest request, HttpServletResponse response) {
+                                       HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         List<Integer[]> dataList = new LinkedList<Integer[]>();

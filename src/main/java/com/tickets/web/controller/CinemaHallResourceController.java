@@ -2,6 +2,7 @@ package com.tickets.web.controller;
 
 import com.tickets.business.entities.CinemaHall;
 import com.tickets.business.services.CinemaHallService;
+import com.tickets.web.controller.response.ErrorResponse;
 import com.tickets.web.controller.response.RestResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,14 +29,17 @@ public class CinemaHallResourceController {
     private static final Logger LOG = LoggerFactory.getLogger(CinemaHallResourceController.class);
 
     @RequestMapping(path = "/{cinemaHallID}", method = RequestMethod.GET)
-    public RestResponse getCinemaHall(@PathVariable Integer cinemaHallID, HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getCinemaHall(@PathVariable Integer cinemaHallID,
+                                      HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
+
+        // TODO Construct CinemaHall without 'seatLayout' attribute
         CinemaHall cinemaHall = cinemaHallService.getCinemaHall(cinemaHallID);
 
         if (cinemaHall == null) {
             response.setStatus(404);
-            return null;
+            return new ErrorResponse("Resource not found");
         }
 
         result.put("cinemaHallID", cinemaHall.getCinemaHallID());
@@ -47,14 +51,17 @@ public class CinemaHallResourceController {
     }
 
     @RequestMapping(path = "/{cinemaHallID}/seat_layout", method = RequestMethod.GET)
-    public RestResponse getCinemaHallSeatLayout(@PathVariable Integer cinemaHallID, HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getCinemaHallSeatLayout(@PathVariable Integer cinemaHallID,
+                                                HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
+
+        // TODO Construct CinemaHall with only 'cinemaHallID' and 'seatLayout' attributes
         CinemaHall cinemaHall = cinemaHallService.getCinemaHall(cinemaHallID);
 
         if (cinemaHall == null) {
             response.setStatus(404);
-            return null;
+            return new ErrorResponse("Resource not found");
         }
 
         result.put("cinemaHallID", cinemaHall.getCinemaHallID());

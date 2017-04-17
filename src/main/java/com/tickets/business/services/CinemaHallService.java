@@ -7,9 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by CrazeWong on 2017/4/16.
- */
+
 @Service
 public class CinemaHallService {
     private static final Logger LOG = LoggerFactory.getLogger(CinemaHallService.class);
@@ -22,9 +20,7 @@ public class CinemaHallService {
     }
 
     /**
-     * Get the cinemaHall entity whose ID equals to
-     * @param cinemaHallID
-     * @return the cinemaHall entity
+     * Return the cinemaHall entity whose ID equals to @param cinemaHallID.
      */
     public CinemaHall getCinemaHall(Integer cinemaHallID) {
         return cinemaHallRepo.findOne(cinemaHallID);
