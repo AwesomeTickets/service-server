@@ -24,10 +24,10 @@ public class MovieService {
     }
 
     /**
-     * Return the movie entity whose ID equals to @param movieID.
+     * Return the whole movie entity whose ID equals to @param movieID.
      */
-    public Movie getMovie(Integer movieID) {
-        return movieRepo.findOne(movieID);
+    public Movie getMovieWithAllDetails(Integer movieID) {
+        return movieRepo.findOneWithAllDetails(movieID);
     }
 
     /**
