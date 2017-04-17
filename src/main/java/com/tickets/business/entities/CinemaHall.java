@@ -2,17 +2,15 @@ package com.tickets.business.entities;
 
 import javax.persistence.*;
 
-/**
- * Created by CrazeWong on 2017/4/16.
- */
+
 @Entity
 @Table(name = "cinema_hall")
 public class CinemaHall {
 
     private Integer cinemaHallID;
     private String name;
-    private String seatLayout;
     private Cinema cinema;
+    private String seatLayout;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,7 +41,7 @@ public class CinemaHall {
         this.seatLayout = seatLayout;
     }
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cinemaID")
     public Cinema getCinema() {
         return cinema;
