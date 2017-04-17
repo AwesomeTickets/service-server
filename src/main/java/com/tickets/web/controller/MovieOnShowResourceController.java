@@ -16,6 +16,20 @@ import java.sql.Time;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.tickets.web.controller.response.CollectionResponse;
+import com.tickets.web.controller.response.ErrorResponse;
+import com.tickets.web.controller.response.RestResponse;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 
 /**
  * RESTFul API of on-show movie resources.
@@ -29,13 +43,13 @@ public class MovieOnShowResourceController {
 
     private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowResourceController.class);
 
-    // TODO API
     @RequestMapping(path = "", method = RequestMethod.GET)
     public RestResponse getMovieOnShow(@RequestParam("movieID") Integer movieID,
                                   @RequestParam("cinemaHallID") Integer cinemaHallID,
                                   @RequestParam("showDate") Date showDate,
                                   @RequestParam("showTime") Time showTime,
                                   HttpServletRequest request, HttpServletResponse response) {
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieID, cinemaHallID, showDate, showTime);
 
@@ -58,6 +72,7 @@ public class MovieOnShowResourceController {
 
     @RequestMapping(path = "/{movieOnShowID}", method = RequestMethod.GET)
     public RestResponse getCinema(@PathVariable Integer movieOnShowID, HttpServletRequest request, HttpServletResponse response) {
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieOnShowID);
 
@@ -80,7 +95,7 @@ public class MovieOnShowResourceController {
 
     @RequestMapping(path = "/recent", method = RequestMethod.GET)
     public RestResponse getRecent(@RequestParam("movieID") Integer movieID, HttpServletRequest request, HttpServletResponse response) {
-
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
         int range = 3;
         int count = 0;
         RestResponse result = new RestResponse();
@@ -113,6 +128,7 @@ public class MovieOnShowResourceController {
                                        @RequestParam("cinemaID") Integer cinemaID,
                                        @RequestParam("date") Date date,
                                        HttpServletRequest request, HttpServletResponse response) {
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
 
         List<MovieOnShow> showList = movieOnShowService.getShowsADay(movieID, date, cinemaID);
@@ -134,6 +150,7 @@ public class MovieOnShowResourceController {
                                        @RequestParam("cinemaID") Integer cinemaID,
                                        @RequestParam("date") Date date,
                                        HttpServletRequest request, HttpServletResponse response) {
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         List<MovieOnShow> showList = movieOnShowService.getShowsADay(movieID, date, cinemaID);
 
@@ -152,5 +169,4 @@ public class MovieOnShowResourceController {
         response.setStatus(200);
         return result;
     }
-
 }

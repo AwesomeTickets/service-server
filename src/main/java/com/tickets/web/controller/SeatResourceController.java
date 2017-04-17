@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedList;
+
 import java.util.List;
 
 
@@ -29,10 +30,10 @@ public class SeatResourceController {
 
     private static final Logger LOG = LoggerFactory.getLogger(SeatResourceController.class);
 
-    // TODO API
     @RequestMapping(path = "/unavailable", method = RequestMethod.GET)
     public RestResponse getUnavailable(@RequestParam("movieOnShowID") Integer movieOnShowID,
                                           HttpServletRequest request, HttpServletResponse response) {
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         List<Integer[]> dataList = new LinkedList<Integer[]>();
         List<Seat> seats = seatService.getUnavailable(movieOnShowID);

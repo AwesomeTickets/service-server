@@ -29,7 +29,7 @@ public class CinemaHallResourceController {
 
     @RequestMapping(path = "/{cinemaHallID}", method = RequestMethod.GET)
     public RestResponse getCinemaHall(@PathVariable Integer cinemaHallID, HttpServletRequest request, HttpServletResponse response) {
-
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         CinemaHall cinemaHall = cinemaHallService.getCinemaHall(cinemaHallID);
 
@@ -48,7 +48,7 @@ public class CinemaHallResourceController {
 
     @RequestMapping(path = "/{cinemaHallID}/seat_layout", method = RequestMethod.GET)
     public RestResponse getCinemaHallSeatLayout(@PathVariable Integer cinemaHallID, HttpServletRequest request, HttpServletResponse response) {
-
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         CinemaHall cinemaHall = cinemaHallService.getCinemaHall(cinemaHallID);
 

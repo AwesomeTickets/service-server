@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * RESTFul API of cinema resources.
  */
@@ -29,6 +28,7 @@ public class CinemaResourceController {
 
     @RequestMapping(path = "/{cinemaID}", method = RequestMethod.GET)
     public RestResponse getCinema(@PathVariable Integer cinemaID, HttpServletRequest request, HttpServletResponse response) {
+        LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         Cinema cinema = cinemaService.getCinema(cinemaID);
 
