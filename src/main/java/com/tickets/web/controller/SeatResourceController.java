@@ -36,6 +36,9 @@ public class SeatResourceController {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         List<Integer[]> dataList = new LinkedList<Integer[]>();
+
+        // TODO Construct seats without only 'row' and 'col' attributes
+
         List<Seat> seats = seatService.getUnavailable(movieOnShowID);
 
         for (Seat seat : seats) {
