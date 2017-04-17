@@ -1,6 +1,8 @@
 package com.tickets.business.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Set;
@@ -120,6 +122,7 @@ public class Movie implements Serializable {
     }
 
     @Column(name = "rating", columnDefinition="float(2,1) default 0.0")
+    @DecimalMin("0.1")
     public float getRating() {
         return rating;
     }
@@ -129,6 +132,7 @@ public class Movie implements Serializable {
     }
 
     @Column(name = "length")
+    @Min(1)
     public int getLength() {
         return length;
     }
