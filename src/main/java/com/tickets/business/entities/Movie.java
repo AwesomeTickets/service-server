@@ -61,7 +61,7 @@ public class Movie implements Serializable {
         this.movieID = movieID;
     }
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "countryID")
     public Country getCountry() {
         return country;
@@ -71,7 +71,7 @@ public class Movie implements Serializable {
         this.country = country;
     }
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "movieStatusID")
     public MovieStatus getMovieStatus() {
         return movieStatus;
@@ -81,7 +81,7 @@ public class Movie implements Serializable {
         this.movieStatus = movieStatus;
     }
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "movieTypeID")
     public MovieType getMovieType() {
         return movieType;
@@ -91,7 +91,7 @@ public class Movie implements Serializable {
         this.movieType = movieType;
     }
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "movie_has_style",
             joinColumns = {@JoinColumn(name = "movieID", referencedColumnName = "movieID")},
             inverseJoinColumns = {@JoinColumn(name = "movieStyleID", referencedColumnName ="movieStyleID")})
