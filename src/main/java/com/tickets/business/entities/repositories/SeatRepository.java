@@ -6,9 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-/**
- * Created by CrazeWong on 2017/4/16.
- */
+
 public interface SeatRepository extends CrudRepository<Seat, Integer> {
 
     @Query("select s from Seat s where s.movieOnShow.movieOnShowID = ?1 AND s.available = ?2")

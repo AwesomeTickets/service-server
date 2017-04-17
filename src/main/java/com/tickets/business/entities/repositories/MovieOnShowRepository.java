@@ -8,9 +8,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
-/**
- * Created by CrazeWong on 2017/4/16.
- */
+
 public interface MovieOnShowRepository extends CrudRepository<MovieOnShow, Integer> {
 
     @Query("select m from MovieOnShow m where " +
