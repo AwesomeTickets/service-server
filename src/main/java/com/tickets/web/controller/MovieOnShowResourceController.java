@@ -96,12 +96,11 @@ public class MovieOnShowResourceController {
     }
 
     @RequestMapping(path = "/recent", method = RequestMethod.GET)
-    public RestResponse getRecent(@RequestParam("movieID") Integer movieID,
+    public CollectionResponse getRecent(@RequestParam("movieID") Integer movieID,
                                   HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         int range = 3;
-        int count = 0;
-        RestResponse result = new RestResponse();
+
         List<RestResponse> dataList = new LinkedList<RestResponse>();
 
         // TODO Query only one time to get the results
@@ -113,7 +112,6 @@ public class MovieOnShowResourceController {
             if (idList.size() == 0) continue;
 
             RestResponse data = new RestResponse();
-            count++;
             data.put("date", date.toString());
             data.put("cinemaID", idList);
 
@@ -121,21 +119,18 @@ public class MovieOnShowResourceController {
             date = DateUtil.getNextDate(date);
         }
 
-        result.put("count", count);
-        result.put("data", dataList);
-
+        CollectionResponse result = new CollectionResponse(dataList);
         response.setStatus(200);
         return result;
     }
 
     @RequestMapping(path = "/day", method = RequestMethod.GET)
-    public RestResponse getMovieOnShowDay(
+    public CollectionResponse getMovieOnShowDay(
         @RequestParam("movieID") Integer movieID,
         @RequestParam("cinemaID") Integer cinemaID,
         @RequestParam("date") Date date,
         HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        RestResponse result = new RestResponse();
 
         // TODO Construct MovieOnShow only with 'movieOnShowID' attribute
 
@@ -146,10 +141,9 @@ public class MovieOnShowResourceController {
             idsList.add(show.getMovieOnShowID());
         }
 
-        result.put("count", showList.size());
-        result.put("data", idsList);
-
+        CollectionResponse result = new CollectionResponse(idsList);
         response.setStatus(200);
+
         return result;
     }
 
