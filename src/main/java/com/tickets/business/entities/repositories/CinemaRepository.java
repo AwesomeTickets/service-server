@@ -10,7 +10,4 @@ import com.tickets.business.entities.Cinema;
 
 @Repository
 public interface CinemaRepository extends CrudRepository<Cinema, Integer> {
-	
-    //TODO
-    
 }
