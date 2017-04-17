@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by CrazeWong on 2017/4/16.
- */
+
 @Service
 public class SeatService {
     private static final Logger LOG = LoggerFactory.getLogger(SeatService.class);
@@ -29,6 +27,6 @@ public class SeatService {
      * @return list of the Seat entities
      */
     public List<Seat> getUnavailable(Integer movieOnShowID) {
-        return seatRepo.findByMovieOnShowIDAndAvailable(movieOnShowID, true);
+        return seatRepo.findByMovieOnShowIDAndAvailable(movieOnShowID, false);
     }
 }

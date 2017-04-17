@@ -96,12 +96,12 @@ public class MovieOnShowResourceController {
     }
 
     @RequestMapping(path = "/recent", method = RequestMethod.GET)
-    public CollectionResponse getRecent(@RequestParam("movieID") Integer movieID,
+    public RestResponse getRecent(@RequestParam("movieID") Integer movieID,
                                   HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         int range = 3;
 
-        List<RestResponse> dataList = new LinkedList<RestResponse>();
+        List<LinkedHashMap<String, Object>> dataList = new LinkedList<LinkedHashMap<String, Object>>();
 
         // TODO Query only one time to get the results
 
@@ -125,7 +125,7 @@ public class MovieOnShowResourceController {
     }
 
     @RequestMapping(path = "/day", method = RequestMethod.GET)
-    public CollectionResponse getMovieOnShowDay(
+    public RestResponse getMovieOnShowDay(
         @RequestParam("movieID") Integer movieID,
         @RequestParam("cinemaID") Integer cinemaID,
         @RequestParam("date") Date date,
