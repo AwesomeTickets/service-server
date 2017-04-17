@@ -1,9 +1,20 @@
 package com.tickets.web.controller;
 
+import com.tickets.business.entities.MovieOnShow;
+import com.tickets.business.services.MovieOnShowService;
+import com.tickets.web.controller.response.RestResponse;
+import com.tickets.web.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,99 +38,135 @@ import java.util.List;
 @RequestMapping("/resource/movie_on_show")
 public class MovieOnShowResourceController {
 
+    @Autowired
+    private MovieOnShowService movieOnShowService;
+
     private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowResourceController.class);
 
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public RestResponse getMovieOnShow(
-        @RequestParam(value="movieID", defaultValue="1") int movieID,
-        @RequestParam(value="cinemaHallID", defaultValue="333") int cinemaHallID,
-        @RequestParam(value="showDate", defaultValue="2017-04-04") String showDate,
-        @RequestParam(value="showTime", defaultValue="12:35:00") String showTime,
-        HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getMovieOnShow(@RequestParam("movieID") Integer movieID,
+                                  @RequestParam("cinemaHallID") Integer cinemaHallID,
+                                  @RequestParam("showDate") Date showDate,
+                                  @RequestParam("showTime") Time showTime,
+                                  HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        LOG.info("movieID "+movieID+" cinemaHallID "+cinemaHallID+" showDate "+showDate+" showTime "+showTime);
-        RestResponse res = new RestResponse();
-        res.put("movieOnShowID", 222);
-        res.put("movieID", 444);
-        res.put("cinemaHallID", 333);
-        res.put("lang", "国语");
-        res.put("showDate", "2017-04-04");
-        res.put("showTime", "12:35:00");
-        res.put("price", 35.0);
-        return res;
+        RestResponse result = new RestResponse();
+        MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieID, cinemaHallID, showDate, showTime);
+
+        if (movieOnShow == null) {
+            response.setStatus(404);
+            return null;
+        }
+
+        result.put("movieOnShowID", movieOnShow.getMovieOnShowID());
+        result.put("movieID", movieOnShow.getMovie().getMovieID());
+        result.put("cinemaHallID", movieOnShow.getCinemaHall().getCinemaHallID());
+        result.put("lang", movieOnShow.getLang());
+        result.put("showDate", movieOnShow.getShowDate().toString());
+        result.put("showTime", movieOnShow.getShowTime().toString());
+        result.put("price", movieOnShow.getPrice());
+
+        response.setStatus(200);
+        return result;
     }
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public RestResponse getMovieOnShowWithId(@PathVariable Integer id,
-        HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/{movieOnShowID}", method = RequestMethod.GET)
+    public RestResponse getCinema(@PathVariable Integer movieOnShowID, HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        RestResponse res = new RestResponse();
-        res.put("movieOnShowID", 222);
-        res.put("movieID", 444);
-        res.put("cinemaHallID", 333);
-        res.put("lang", "国语");
-        res.put("showDate", "2017-04-04");
-        res.put("showTime", "12:35:00");
-        res.put("price", 35.0);
-        return res;
+        RestResponse result = new RestResponse();
+        MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieOnShowID);
+
+        if (movieOnShow == null) {
+            response.setStatus(404);
+            return null;
+        }
+
+        result.put("movieOnShowID", movieOnShow.getMovieOnShowID());
+        result.put("movieID", movieOnShow.getMovie().getMovieID());
+        result.put("cinemaHallID", movieOnShow.getCinemaHall().getCinemaHallID());
+        result.put("lang", movieOnShow.getLang());
+        result.put("showDate", movieOnShow.getShowDate().toString());
+        result.put("showTime", movieOnShow.getShowTime().toString());
+        result.put("price", movieOnShow.getPrice());
+
+        response.setStatus(200);
+        return result;
     }
 
     @RequestMapping(path = "/recent", method = RequestMethod.GET)
-    public RestResponse getRecentMovie(
-        @RequestParam(value="movieID", defaultValue="1") int movieID,
-        HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getRecent(@RequestParam("movieID") Integer movieID, HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        LOG.info("movieID "+movieID);
-		List<LinkedHashMap<String, Object>> data = new ArrayList<LinkedHashMap<String, Object>>();
-        LinkedHashMap<String, Object> movie1 = new LinkedHashMap<String, Object>();
-        List<Integer> list1 = new ArrayList<Integer>();
-        list1.add(111);
-        list1.add(222);
-        list1.add(333);
-        movie1.put("date", "2017-04-04");
-        movie1.put("cinemaID", list1);
-        data.add(movie1);
-        LinkedHashMap<String, Object> movie2 = new LinkedHashMap<String, Object>();
-        List<Integer> list2 = new ArrayList<Integer>();
-        list2.add(444);
-        list2.add(555);
-        list2.add(666);
-        movie2.put("date", "2017-04-05");
-        movie2.put("cinemaID", list2);
-        data.add(movie2);
-        return new CollectionResponse(data);
+        int range = 3;
+        int count = 0;
+        RestResponse result = new RestResponse();
+        List<RestResponse> dataList = new LinkedList<RestResponse>();
+
+        // Date date = Calendar.getInstance().getTime();
+        Date date = Date.valueOf("2017-04-04");
+        for (int i = 0; i < range; i++) {
+            List<Integer> idList = movieOnShowService.getCinemaIDsShowAtDate(movieID, date);
+            if (idList.size() == 0) continue;
+
+            RestResponse data = new RestResponse();
+            count++;
+            data.put("date", date.toString());
+            data.put("cinemaID", idList);
+
+            dataList.add(data);
+            date = DateUtil.getNextDate(date);
+        }
+
+        result.put("count", count);
+        result.put("data", dataList);
+
+        response.setStatus(200);
+        return result;
     }
 
     @RequestMapping(path = "/day", method = RequestMethod.GET)
-    public RestResponse getMovieDay(
-        @RequestParam(value="date", defaultValue="2017-04-05") String date,
-        @RequestParam(value="cinemaID", defaultValue="1") int cinemaID,
-        @RequestParam(value="movieID", defaultValue="1") int movieID,
-        HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getMovieOnShowDay(@RequestParam("movieID") Integer movieID,
+                                       @RequestParam("cinemaID") Integer cinemaID,
+                                       @RequestParam("date") Date date,
+                                       HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        LOG.info("data "+date+" cinemaID "+cinemaID+" movieID "+movieID);
-        List<Integer> data = new ArrayList<Integer>();
-        data.add(111);
-        data.add(222);
-        data.add(333);
-        return new CollectionResponse(data);
+        RestResponse result = new RestResponse();
+
+        List<MovieOnShow> showList = movieOnShowService.getShowsADay(movieID, date, cinemaID);
+        List<Integer> idsList = new LinkedList<Integer>();
+
+        for (MovieOnShow show : showList) {
+            idsList.add(show.getMovieOnShowID());
+        }
+
+        result.put("count", showList.size());
+        result.put("data", idsList);
+
+        response.setStatus(200);
+        return result;
     }
 
     @RequestMapping(path = "/day/brief", method = RequestMethod.GET)
-    public RestResponse getMovieBrief(
-        @RequestParam(value="date",defaultValue="2017-04-05") String date,
-        @RequestParam(value="cinemaID",defaultValue="1") int cinemaID,
-        @RequestParam(value="movieID",defaultValue="1") int movieID,
-        HttpServletRequest request, HttpServletResponse response) {
+    public RestResponse getMovieOnShowDayBrief(@RequestParam("movieID") Integer movieID,
+                                       @RequestParam("cinemaID") Integer cinemaID,
+                                       @RequestParam("date") Date date,
+                                       HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        LOG.info("data "+date+" cinemaID "+cinemaID+" movieID "+movieID);
-        RestResponse res = new RestResponse();
-        List<String> list1 = new ArrayList<String>();
-        list1.add("14:55:00");
-        list1.add("18:20:00");
-        list1.add("21:25:00");
-        res.put("min_price", 38.0);
-        res.put("time", list1);
-        return res;
+        RestResponse result = new RestResponse();
+        List<MovieOnShow> showList = movieOnShowService.getShowsADay(movieID, date, cinemaID);
+
+        List<String> timeList = new LinkedList<String>();
+        float minPrice = Float.MAX_VALUE;
+
+        for (MovieOnShow show : showList) {
+            if (show.getPrice() < minPrice) minPrice = show.getPrice();
+            timeList.add(show.getShowTime().toString());
+        }
+
+        if (timeList.size() == 0) minPrice = 0.00F;
+        result.put("minPrice", minPrice);
+        result.put("time", timeList);
+
+        response.setStatus(200);
+        return result;
     }
 }
