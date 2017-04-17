@@ -15,6 +15,9 @@ import com.tickets.web.controller.response.RestResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tickets.business.entities.Cinema;
+import com.tickets.business.services.CinemaService;
+
 /**
  * RESTFul API of cinema resources.
  */
@@ -24,13 +27,22 @@ public class CinemaResourceController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CinemaResourceController.class);
 
+    @Autowired
+    private CinemaService cinemaService;
+
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
     public RestResponse getCinema(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
+        Cinema cinema = cinemaService.getCinema(id);
+        if (cinema == null) {
+            response.setStatus(404);
+            return new ErrorResponse("Resource not found");
+        }
         RestResponse res = new RestResponse();
-        res.put("cinemaID", 3);
-        res.put("name", "金逸珠江国际影城（大学城店）");
-        res.put("location", "番禺区大学城XXX铺");
+        res.put("cinemaID", id);
+        res.put("name", cinema.getName());
+        res.put("location", cinema.getLocation());
         return res;
     }
+
 }
