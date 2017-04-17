@@ -55,7 +55,7 @@ public class MovieOnShowResourceController {
 
         if (movieOnShow == null) {
             response.setStatus(404);
-            return null;
+            return new ErrorResponse("Resource not found");
         }
 
         result.put("movieOnShowID", movieOnShow.getMovieOnShowID());
@@ -78,7 +78,7 @@ public class MovieOnShowResourceController {
 
         if (movieOnShow == null) {
             response.setStatus(404);
-            return null;
+            return new ErrorResponse("Resource not found");
         }
 
         result.put("movieOnShowID", movieOnShow.getMovieOnShowID());
