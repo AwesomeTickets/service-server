@@ -9,6 +9,7 @@ import com.tickets.web.controller.response.RestResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,16 +24,18 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/resource/movie")
-public class MovieResourceController {
+public class MovieController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MovieResourceController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MovieController.class);
 
     @Autowired
     private MovieService movieService;
 
-    @RequestMapping(path = "/{movieID}", method = RequestMethod.GET)
-    public RestResponse getMovie(@PathVariable Integer movieID,
-                                 HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/{movieID}",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getMovieDetailsByID(@PathVariable Integer movieID,
+                                            HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         Movie movie = movieService.getMovieWithAllDetails(movieID);
         if (movie == null) {
@@ -58,34 +61,40 @@ public class MovieResourceController {
         return res;
     }
 
-    @RequestMapping(path = "/on_show", method = RequestMethod.GET)
-    public RestResponse getOnShow(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/on_show",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getOnShowMovieIDs(HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         List<Integer> movieIDs = movieService.getMovieByStatus("on");
         return new CollectionResponse(movieIDs);
     }
 
-    @RequestMapping(path = "/coming_soon", method = RequestMethod.GET)
-    public RestResponse getComingSoon(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/coming_soon",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getComingSoonMovieIDs(HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         List<Integer> movieIDs = movieService.getMovieByStatus("soon");
         return new CollectionResponse(movieIDs);
     }
 
-    @RequestMapping(path = "/popular", method = RequestMethod.GET)
-    public RestResponse getPopular(@RequestParam(value="count", defaultValue="3") int count,
-                                   HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/popular",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getPopularMovies(@RequestParam(value="count", defaultValue="3") int count,
+                                         HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         if (count < 0) {
-            response.setStatus(404);
+            response.setStatus(400);
             return new ErrorResponse("Negative poster amount");
         }
         List<Object[]> posters = movieService.getLargePoster(count);
         List<LinkedHashMap<String, Object>> subjects = new ArrayList<LinkedHashMap<String, Object>>();
         for (Object[] objArr: posters) {
             LinkedHashMap<String, Object> poster = new LinkedHashMap<String, Object>();
-            poster.put("id", objArr[0]);
-            poster.put("uri", objArr[1]);
+            poster.put("movieID", objArr[0]);
+            poster.put("posterLarge", objArr[1]);
             subjects.add(poster);
         }
         return new CollectionResponse(subjects);
