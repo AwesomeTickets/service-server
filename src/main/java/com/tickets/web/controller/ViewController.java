@@ -8,11 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.tickets.business.entities.User;
-import com.tickets.business.services.UserService;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * Controller that returns views.
@@ -21,10 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 public class ViewController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ViewController.class);
-
-    @Autowired
-    private UserService userService;
-    
     
     public ViewController() {
         super();
@@ -42,34 +36,4 @@ public class ViewController {
         return "tickets";
     }
 
-    @RequestMapping(path = "/user", method = RequestMethod.GET)
-    public String user(HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
-        return "user";
-    }
-    
-    @RequestMapping(path = "/register", method = RequestMethod.POST)
-    public String register(final User user, final Model model, HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
-    	if (userService.hasUsername(user.getUsername())) {
-            model.addAttribute("msg", "Register failed. Username exists.");
-    	} else {
-            userService.create(user);
-            model.addAttribute("msg", "Register " + user.toString() + " succeed.");
-    	}
-        return "response";
-    }
-
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String login(final User user, final Model model, HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
-    	if (!userService.hasUsername(user.getUsername())) {
-            model.addAttribute("msg", "Login failed. Username doesn't exist.");
-    	} else if (userService.permitLogin(user.getUsername(), user.getPassword())) {
-            model.addAttribute("msg", "Login " + user.toString() + " succeed.");
-    	} else {
-    		model.addAttribute("msg", "Login failed. Incorrect password.");
-    	}
-        return "response";
-    }
 }

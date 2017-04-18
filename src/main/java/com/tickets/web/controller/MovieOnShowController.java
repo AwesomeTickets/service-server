@@ -7,6 +7,7 @@ import com.tickets.web.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,19 +17,10 @@ import java.sql.Time;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.tickets.web.controller.response.CollectionResponse;
 import com.tickets.web.controller.response.ErrorResponse;
-import com.tickets.web.controller.response.RestResponse;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 
 /**
@@ -36,15 +28,17 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/resource/movie_on_show")
-public class MovieOnShowResourceController {
+public class MovieOnShowController {
 
     @Autowired
     private MovieOnShowService movieOnShowService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowResourceController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowController.class);
 
-    @RequestMapping(path = "", method = RequestMethod.GET)
-    public RestResponse getMovieOnShow(
+    @RequestMapping(path = "",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getMovieOnShowByDetails(
         @RequestParam("movieID") Integer movieID,
         @RequestParam("cinemaHallID") Integer cinemaHallID,
         @RequestParam("showDate") Date showDate,
@@ -71,9 +65,11 @@ public class MovieOnShowResourceController {
         return result;
     }
 
-    @RequestMapping(path = "/{movieOnShowID}", method = RequestMethod.GET)
-    public RestResponse getCinema(@PathVariable Integer movieOnShowID,
-                                  HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/{movieOnShowID}",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getMovieOnShowByID(@PathVariable Integer movieOnShowID,
+                                           HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieOnShowID);
@@ -95,9 +91,11 @@ public class MovieOnShowResourceController {
         return result;
     }
 
-    @RequestMapping(path = "/recent", method = RequestMethod.GET)
-    public RestResponse getRecent(@RequestParam("movieID") Integer movieID,
-                                  HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/recent",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getRecentMovieOnShow(@RequestParam("movieID") Integer movieID,
+                                             HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         int range = 3;
 
@@ -124,8 +122,10 @@ public class MovieOnShowResourceController {
         return result;
     }
 
-    @RequestMapping(path = "/day", method = RequestMethod.GET)
-    public RestResponse getMovieOnShowDay(
+    @RequestMapping(path = "/day",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getMovieOnShowByDay(
         @RequestParam("movieID") Integer movieID,
         @RequestParam("cinemaID") Integer cinemaID,
         @RequestParam("date") Date date,
@@ -147,8 +147,10 @@ public class MovieOnShowResourceController {
         return result;
     }
 
-    @RequestMapping(path = "/day/brief", method = RequestMethod.GET)
-    public RestResponse getMovieOnShowDayBrief(
+    @RequestMapping(path = "/day/brief",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getBriefMovieOnShowByDay(
         @RequestParam("movieID") Integer movieID,
         @RequestParam("cinemaID") Integer cinemaID,
         @RequestParam("date") Date date,

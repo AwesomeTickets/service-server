@@ -7,6 +7,7 @@ import com.tickets.web.controller.response.RestResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,16 +25,18 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/resource/seat")
-public class SeatResourceController {
+public class SeatController {
 
     @Autowired
     private SeatService seatService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(SeatResourceController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SeatController.class);
 
-    @RequestMapping(path = "/unavailable", method = RequestMethod.GET)
-    public RestResponse getUnavailable(@RequestParam("movieOnShowID") Integer movieOnShowID,
-                                       HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/unavailable",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getUnavailableSeat(@RequestParam("movieOnShowID") Integer movieOnShowID,
+                                           HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
 
         List<Integer[]> dataList = new LinkedList<Integer[]>();
