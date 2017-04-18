@@ -4,6 +4,7 @@ import com.tickets.business.entities.Seat;
 import com.tickets.business.services.SeatService;
 import com.tickets.web.controller.response.CollectionResponse;
 import com.tickets.web.controller.response.RestResponse;
+import com.tickets.web.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class SeatController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getUnavailableSeat(@RequestParam("movieOnShowID") Integer movieOnShowID,
                                            HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
 
         List<Integer[]> dataList = new LinkedList<Integer[]>();
 
