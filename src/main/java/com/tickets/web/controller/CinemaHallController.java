@@ -7,6 +7,7 @@ import com.tickets.web.controller.response.RestResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,16 +22,18 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/resource/cinema_hall")
-public class CinemaHallResourceController {
+public class CinemaHallController {
 
     @Autowired
     private CinemaHallService cinemaHallService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(CinemaHallResourceController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CinemaHallController.class);
 
-    @RequestMapping(path = "/{cinemaHallID}", method = RequestMethod.GET)
-    public RestResponse getCinemaHall(@PathVariable Integer cinemaHallID,
-                                      HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/{cinemaHallID}",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getCinemaHallWithoutSeatByID(@PathVariable Integer cinemaHallID,
+                                                     HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
 
@@ -50,9 +53,11 @@ public class CinemaHallResourceController {
         return result;
     }
 
-    @RequestMapping(path = "/{cinemaHallID}/seat_layout", method = RequestMethod.GET)
-    public RestResponse getCinemaHallSeatLayout(@PathVariable Integer cinemaHallID,
-                                                HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/{cinemaHallID}/seat_layout",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse getCinemaHallWithSeatByID(@PathVariable Integer cinemaHallID,
+                                                  HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
         RestResponse result = new RestResponse();
 

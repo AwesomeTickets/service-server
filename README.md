@@ -47,7 +47,7 @@ Server of a movie tickets system powered by Spring.
 4. Run unit tests:
 
     ```sh
-    $ mvn test
+    $ mvn clean test
     ```
 
 ## License
