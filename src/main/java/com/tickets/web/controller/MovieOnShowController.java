@@ -4,6 +4,7 @@ import com.tickets.business.entities.MovieOnShow;
 import com.tickets.business.services.MovieOnShowService;
 import com.tickets.web.controller.response.RestResponse;
 import com.tickets.web.util.DateUtil;
+import com.tickets.web.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class MovieOnShowController {
         @RequestParam("showDate") Date showDate,
         @RequestParam("showTime") Time showTime,
         HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieID, cinemaHallID, showDate, showTime);
 
@@ -70,7 +71,7 @@ public class MovieOnShowController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getMovieOnShowByID(@PathVariable Integer movieOnShowID,
                                            HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieOnShowID);
 
@@ -96,7 +97,7 @@ public class MovieOnShowController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getRecentMovieOnShow(@RequestParam("movieID") Integer movieID,
                                              HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         int range = 3;
 
         List<LinkedHashMap<String, Object>> dataList = new LinkedList<LinkedHashMap<String, Object>>();
@@ -130,7 +131,7 @@ public class MovieOnShowController {
         @RequestParam("cinemaID") Integer cinemaID,
         @RequestParam("date") Date date,
         HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
 
         // TODO Construct MovieOnShow only with 'movieOnShowID' attribute
 
@@ -155,10 +156,10 @@ public class MovieOnShowController {
         @RequestParam("cinemaID") Integer cinemaID,
         @RequestParam("date") Date date,
         HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
 
-        // TODO Construct MovieOnShow only with 'movieOnShowID' attribute
+        // TODO Construct MovieOnShow only with 'showTime' attribute
         // TODO Using MIN() of SQL to get the minimum price
 
         List<MovieOnShow> showList = movieOnShowService.getShowsADay(movieID, date, cinemaID);

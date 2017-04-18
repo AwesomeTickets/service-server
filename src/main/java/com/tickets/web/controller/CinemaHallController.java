@@ -4,6 +4,7 @@ import com.tickets.business.entities.CinemaHall;
 import com.tickets.business.services.CinemaHallService;
 import com.tickets.web.controller.response.ErrorResponse;
 import com.tickets.web.controller.response.RestResponse;
+import com.tickets.web.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class CinemaHallController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getCinemaHallWithoutSeatByID(@PathVariable Integer cinemaHallID,
                                                      HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
 
         // TODO Construct CinemaHall without 'seatLayout' attribute
@@ -58,7 +59,7 @@ public class CinemaHallController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getCinemaHallWithSeatByID(@PathVariable Integer cinemaHallID,
                                                   HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
 
         // TODO Construct CinemaHall with only 'cinemaHallID' and 'seatLayout' attributes

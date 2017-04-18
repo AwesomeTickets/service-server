@@ -1,5 +1,6 @@
 package com.tickets.web.controller;
 
+import com.tickets.web.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -36,7 +37,7 @@ public class CinemaController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getCinemaByID(@PathVariable Integer cinemaID,
                                       HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         Cinema cinema = cinemaService.getCinema(cinemaID);
         if (cinema == null) {
             response.setStatus(404);
