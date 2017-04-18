@@ -34,7 +34,7 @@ public class MovieResourceController {
     public RestResponse getMovie(@PathVariable Integer movieID,
                                  HttpServletRequest request, HttpServletResponse response) {
         LOG.info(request.getMethod() + " " + request.getRequestURI());
-        Movie movie = movieService.getMovie(movieID);
+        Movie movie = movieService.getMovieWithAllDetails(movieID);
         if (movie == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
