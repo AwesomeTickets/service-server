@@ -1,5 +1,6 @@
 package com.tickets.web.controller;
 
+import com.tickets.web.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,13 @@ public class ViewController {
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String index(HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         return "index";
     }
 
     @RequestMapping(path = "/tickets", method = RequestMethod.GET)
     public String tickets(HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         return "tickets";
     }
 

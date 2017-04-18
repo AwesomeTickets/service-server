@@ -6,6 +6,7 @@ import com.tickets.business.services.MovieService;
 import com.tickets.web.controller.response.CollectionResponse;
 import com.tickets.web.controller.response.ErrorResponse;
 import com.tickets.web.controller.response.RestResponse;
+import com.tickets.web.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class MovieController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getMovieDetailsByID(@PathVariable Integer movieID,
                                             HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         Movie movie = movieService.getMovieWithAllDetails(movieID);
         if (movie == null) {
             response.setStatus(404);
@@ -65,7 +66,7 @@ public class MovieController {
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getOnShowMovieIDs(HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         List<Integer> movieIDs = movieService.getMovieByStatus("on");
         return new CollectionResponse(movieIDs);
     }
@@ -74,7 +75,7 @@ public class MovieController {
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getComingSoonMovieIDs(HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         List<Integer> movieIDs = movieService.getMovieByStatus("soon");
         return new CollectionResponse(movieIDs);
     }
@@ -84,7 +85,7 @@ public class MovieController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getPopularMovies(@RequestParam(value="count", defaultValue="3") int count,
                                          HttpServletRequest request, HttpServletResponse response) {
-        LOG.info(request.getMethod() + " " + request.getRequestURI());
+        LogUtil.logReq(LOG, request);
         if (count < 0) {
             response.setStatus(400);
             return new ErrorResponse("Negative poster amount");
