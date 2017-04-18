@@ -42,7 +42,7 @@ public class SeatController {
 
         List<Integer[]> dataList = new LinkedList<Integer[]>();
 
-        // TODO Construct seats without only 'row' and 'col' attributes
+        // TODO Construct seats with only 'row' and 'col' attributes
 
         List<Seat> seats = seatService.getUnavailable(movieOnShowID);
 
