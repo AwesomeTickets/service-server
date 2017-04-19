@@ -18,9 +18,14 @@ public interface MovieOnShowRepository extends CrudRepository<MovieOnShow, Integ
             "m.showTime = ?4")
     List<MovieOnShow> findOne(Integer movieID, Integer cinemaHallID, Date showDate, Time showTime);
 
-    @Query("select DISTINCT(m.cinemaHall.cinema.cinemaID) from MovieOnShow m where " +
-            "m.movie.movieID = ?1 AND m.showDate = ?2")
-    List<Integer> findCinemaIDsByMovieAndShowDate(Integer movieID, Date showDate);
+    @Query("select DISTINCT(m.cinemaHall.cinema.cinemaID), m.showDate from MovieOnShow m where " +
+            "m.movie.movieID = ?1 AND m.showDate IN (?2) " +
+            "order by m.showDate asc")
+    List<Object[]> findCinemaIDsByMovieAndShowDate(Integer movieID, List<Date> showDates);
+
+    @Query("select m.movieOnShowID from MovieOnShow m where " +
+            "m.movie.movieID = ?1 AND m.showDate = ?2 AND m.cinemaHall.cinema.cinemaID = ?3")
+    List<Integer> findShowsIDADay(Integer movieID, Date showDate, Integer cinemaID);
 
     @Query("select m from MovieOnShow m where " +
             "m.movie.movieID = ?1 AND m.showDate = ?2 AND m.cinemaHall.cinema.cinemaID = ?3 " +
