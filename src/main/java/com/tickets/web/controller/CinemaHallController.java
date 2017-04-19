@@ -1,6 +1,7 @@
 package com.tickets.web.controller;
 
 import com.tickets.business.entities.CinemaHall;
+import com.tickets.business.entities.Cinema;
 import com.tickets.business.services.CinemaHallService;
 import com.tickets.web.controller.response.ErrorResponse;
 import com.tickets.web.controller.response.RestResponse;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import java.util.List;
 
 /**
  * RESTFul API of cinema hall resources.
@@ -38,20 +39,21 @@ public class CinemaHallController {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
 
-        // TODO Construct CinemaHall without 'seatLayout' attribute
-        CinemaHall cinemaHall = cinemaHallService.getCinemaHall(cinemaHallID);
-
-        if (cinemaHall == null) {
+        // TODO Construct CinemaHall without 'seatLayout' attribute   
+        List<Object[]> list = cinemaHallService.getWithoutSeatLayout(cinemaHallID);
+        
+        if (list == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
-        }
-
-        result.put("cinemaHallID", cinemaHall.getCinemaHallID());
-        result.put("cinemaID", cinemaHall.getCinema().getCinemaID());
-        result.put("name", cinemaHall.getName());
+        }        
+        Object[] obj = list.get(0);
+        result.put("cinemaHallID",obj[0] );
+        result.put("cinemaID", obj[1]);
+        result.put("name", obj[2]);
 
         response.setStatus(200);
         return result;
+        
     }
 
     @RequestMapping(path = "/{cinemaHallID}/seat_layout",
@@ -63,15 +65,15 @@ public class CinemaHallController {
         RestResponse result = new RestResponse();
 
         // TODO Construct CinemaHall with only 'cinemaHallID' and 'seatLayout' attributes
-        CinemaHall cinemaHall = cinemaHallService.getCinemaHall(cinemaHallID);
-
-        if (cinemaHall == null) {
+        List<Object[]> list = cinemaHallService.getWithSeatLayout(cinemaHallID);
+        
+        if (list == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
-        }
-
-        result.put("cinemaHallID", cinemaHall.getCinemaHallID());
-        result.put("seatLayout", cinemaHall.getSeatLayout());
+        }        
+        Object[] obj = list.get(0);
+        result.put("cinemaHallID",obj[0]);
+        result.put("seatLayout", obj[1]);
 
         response.setStatus(200);
         return result;

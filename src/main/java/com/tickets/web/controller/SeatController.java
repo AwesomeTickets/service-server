@@ -36,18 +36,19 @@ public class SeatController {
     @RequestMapping(path = "/unavailable",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    //
     public RestResponse getUnavailableSeat(@RequestParam("movieOnShowID") Integer movieOnShowID,
-                                           HttpServletRequest request, HttpServletResponse response) {
+                                          HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
 
         List<Integer[]> dataList = new LinkedList<Integer[]>();
 
         // TODO Construct seats with only 'row' and 'col' attributes
 
-        List<Seat> seats = seatService.getUnavailable(movieOnShowID);
+        List<Integer[]> seats = seatService.getUnavailable(movieOnShowID);
 
-        for (Seat seat : seats) {
-            dataList.add(new Integer[] {seat.getRow(), seat.getCol()});
+        for (Integer[] seat : seats) {
+            dataList.add(new Integer[] {seat[0], seat[1]});
         }
 
         CollectionResponse result = new CollectionResponse(dataList);
