@@ -90,6 +90,7 @@ public class MovieOnShowController {
                                              HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         int range = 3;
+
         // Date date = Calendar.getInstance().getTime();
         Date date = Date.valueOf("2017-04-04");
         List<Date> dates = new ArrayList<Date>();
@@ -121,6 +122,7 @@ public class MovieOnShowController {
         @RequestParam("date") Date date,
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
+
         List<Integer> idsList = movieOnShowService.getShowsIDADay(movieID, date, cinemaID);
         CollectionResponse result = new CollectionResponse(idsList);
         response.setStatus(200);
