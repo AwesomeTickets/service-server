@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -47,13 +50,34 @@ public class MovieOnShowService {
     }
 
     /**
-     * Get the list of cinemaID for a movie at date
+     * Get the map of cinemaID for a movie at some dates
      * @param movieID, the movie's ID
-     * @param date, the show date
-     * @return list of the cinemas' ID
+     * @param showDates, the show dates
+     * @return map of list of the cinemas' ID, with date keys
      */
-    public List<Integer> getCinemaIDsShowAtDate(Integer movieID, Date date) {
-        return movieOnShowRepo.findCinemaIDsByMovieAndShowDate(movieID, date);
+    public Map<Date, List<Integer>> getCinemaIDsShowAtDates(Integer movieID, List<Date> showDates) {
+        Map<Date, List<Integer>> dataMap = new LinkedHashMap<Date, List<Integer>>();
+        for (int i = 0; i < showDates.size(); i++) {
+            dataMap.put(showDates.get(i), new ArrayList<Integer>());
+        }
+
+        List<Object[]> results = movieOnShowRepo.findCinemaIDsByMovieAndShowDate(movieID, showDates);
+        for (int i = 0; i < results.size(); i++) {
+            dataMap.get((Date) results.get(i)[1]).add((Integer) results.get(i)[0]);
+        }
+
+        return dataMap;
+    }
+
+    /**
+     * Get the list of movieOnShow id for a movie at date in the cinema
+     * @param movieID, the movie's ID
+     * @param showDate, the show date
+     * @param cinemaID, the show cinema's ID
+     * @return list of the movieOnShowIDs
+     */
+    public List<Integer> getShowsIDADay(Integer movieID, Date showDate, Integer cinemaID) {
+        return movieOnShowRepo.findShowsIDADay(movieID, showDate, cinemaID);
     }
 
     /**
