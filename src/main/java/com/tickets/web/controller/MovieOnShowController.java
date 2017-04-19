@@ -15,13 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import com.tickets.web.controller.response.CollectionResponse;
 import com.tickets.web.controller.response.ErrorResponse;
-
-import java.util.LinkedHashMap;
 
 
 /**
@@ -100,22 +97,27 @@ public class MovieOnShowController {
         LogUtil.logReq(LOG, request);
         int range = 3;
 
-        List<LinkedHashMap<String, Object>> dataList = new LinkedList<LinkedHashMap<String, Object>>();
-
         // TODO Query only one time to get the results
 
         // Date date = Calendar.getInstance().getTime();
         Date date = Date.valueOf("2017-04-04");
+        List<Date> dates = new ArrayList<Date>();
+
         for (int i = 0; i < range; i++) {
-            List<Integer> idList = movieOnShowService.getCinemaIDsShowAtDate(movieID, date);
-            if (idList.size() == 0) continue;
-
-            RestResponse data = new RestResponse();
-            data.put("date", date.toString());
-            data.put("cinemaID", idList);
-
-            dataList.add(data);
+            dates.add(date);
             date = DateUtil.getNextDate(date);
+        }
+
+        Map<Date, List<Integer>> resultMap = movieOnShowService.getCinemaIDsShowAtDates(movieID, dates);
+        List<RestResponse> dataList = new LinkedList<RestResponse>();
+        for (int i = 0; i < dates.size(); i++) {
+            if (resultMap.get(dates.get(i)).size() != 0) {
+                RestResponse data = new RestResponse();
+                data.put("date", dates.get(i).toString());
+                data.put("cinemaID", resultMap.get(dates.get(i)));
+                dataList.add(data);
+            }
+
         }
 
         CollectionResponse result = new CollectionResponse(dataList);
@@ -134,14 +136,7 @@ public class MovieOnShowController {
         LogUtil.logReq(LOG, request);
 
         // TODO Construct MovieOnShow only with 'movieOnShowID' attribute
-
-        List<MovieOnShow> showList = movieOnShowService.getShowsADay(movieID, date, cinemaID);
-        List<Integer> idsList = new LinkedList<Integer>();
-
-        for (MovieOnShow show : showList) {
-            idsList.add(show.getMovieOnShowID());
-        }
-
+        List<Integer> idsList = movieOnShowService.getShowsIDADay(movieID, date, cinemaID);
         CollectionResponse result = new CollectionResponse(idsList);
         response.setStatus(200);
 
