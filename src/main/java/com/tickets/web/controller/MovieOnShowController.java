@@ -97,8 +97,6 @@ public class MovieOnShowController {
         LogUtil.logReq(LOG, request);
         int range = 3;
 
-        // TODO Query only one time to get the results
-
         // Date date = Calendar.getInstance().getTime();
         Date date = Date.valueOf("2017-04-04");
         List<Date> dates = new ArrayList<Date>();
@@ -135,7 +133,6 @@ public class MovieOnShowController {
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
 
-        // TODO Construct MovieOnShow only with 'movieOnShowID' attribute
         List<Integer> idsList = movieOnShowService.getShowsIDADay(movieID, date, cinemaID);
         CollectionResponse result = new CollectionResponse(idsList);
         response.setStatus(200);
