@@ -45,12 +45,10 @@ public class MovieOnShowController {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieID, cinemaHallID, showDate, showTime);
-
         if (movieOnShow == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-
         result.put("movieOnShowID", movieOnShow.getMovieOnShowID());
         result.put("movieID", movieOnShow.getMovie().getMovieID());
         result.put("cinemaHallID", movieOnShow.getCinemaHall().getCinemaHallID());
@@ -58,7 +56,6 @@ public class MovieOnShowController {
         result.put("showDate", movieOnShow.getShowDate().toString());
         result.put("showTime", movieOnShow.getShowTime().toString());
         result.put("price", movieOnShow.getPrice());
-
         response.setStatus(200);
         return result;
     }
@@ -71,12 +68,10 @@ public class MovieOnShowController {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieOnShowID);
-
         if (movieOnShow == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-
         result.put("movieOnShowID", movieOnShow.getMovieOnShowID());
         result.put("movieID", movieOnShow.getMovie().getMovieID());
         result.put("cinemaHallID", movieOnShow.getCinemaHall().getCinemaHallID());
@@ -84,7 +79,6 @@ public class MovieOnShowController {
         result.put("showDate", movieOnShow.getShowDate().toString());
         result.put("showTime", movieOnShow.getShowTime().toString());
         result.put("price", movieOnShow.getPrice());
-
         response.setStatus(200);
         return result;
     }
@@ -100,14 +94,12 @@ public class MovieOnShowController {
         // Date date = Calendar.getInstance().getTime();
         Date date = Date.valueOf("2017-04-04");
         List<Date> dates = new ArrayList<Date>();
-
         for (int i = 0; i < range; i++) {
             dates.add(date);
             date = DateUtil.getNextDate(date);
         }
-
         Map<Date, List<Integer>> resultMap = movieOnShowService.getCinemaIDsShowAtDates(movieID, dates);
-        List<RestResponse> dataList = new LinkedList<RestResponse>();
+        List<LinkedHashMap<String, Object>> dataList = new LinkedList<LinkedHashMap<String, Object>>();
         for (int i = 0; i < dates.size(); i++) {
             if (resultMap.get(dates.get(i)).size() != 0) {
                 RestResponse data = new RestResponse();
@@ -115,9 +107,7 @@ public class MovieOnShowController {
                 data.put("cinemaID", resultMap.get(dates.get(i)));
                 dataList.add(data);
             }
-
         }
-
         CollectionResponse result = new CollectionResponse(dataList);
         response.setStatus(200);
         return result;
@@ -136,7 +126,6 @@ public class MovieOnShowController {
         List<Integer> idsList = movieOnShowService.getShowsIDADay(movieID, date, cinemaID);
         CollectionResponse result = new CollectionResponse(idsList);
         response.setStatus(200);
-
         return result;
     }
 
