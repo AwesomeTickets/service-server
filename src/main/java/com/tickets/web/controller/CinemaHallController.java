@@ -37,19 +37,14 @@ public class CinemaHallController {
                                                      HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
-
-        // TODO Construct CinemaHall without 'seatLayout' attribute
         CinemaHall cinemaHall = cinemaHallService.getWithoutSeatLayout(cinemaHallID);
-
         if (cinemaHall == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-
         result.put("cinemaHallID", cinemaHall.getCinemaHallID());
         result.put("cinemaID", cinemaHall.getCinema().getCinemaID());
         result.put("name", cinemaHall.getName());
-
         response.setStatus(200);
         return result;
     }
@@ -61,18 +56,13 @@ public class CinemaHallController {
                                                   HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
-
-        // TODO Construct CinemaHall with only 'cinemaHallID' and 'seatLayout' attributes
         CinemaHall cinemaHall = cinemaHallService.getWithSeatLayout(cinemaHallID);
-
         if (cinemaHall == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-
         result.put("cinemaHallID", cinemaHall.getCinemaHallID());
         result.put("seatLayout", cinemaHall.getSeatLayout());
-
         response.setStatus(200);
         return result;
     }

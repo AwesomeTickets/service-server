@@ -89,8 +89,7 @@ public class MovieOnShowController {
     public RestResponse getRecentMovieOnShow(@RequestParam("movieID") Integer movieID,
                                              HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-        int range = 3;
-
+        final int range = 3;
         // Date date = Calendar.getInstance().getTime();
         Date date = Date.valueOf("2017-04-04");
         List<Date> dates = new ArrayList<Date>();
@@ -98,7 +97,7 @@ public class MovieOnShowController {
             dates.add(date);
             date = DateUtil.getNextDate(date);
         }
-        Map<Date, List<Integer>> resultMap = movieOnShowService.getCinemaIDsShowAtDates(movieID, dates);
+        Map<Date, List<Integer>> resultMap = movieOnShowService.getCinemaByDates(movieID, dates);
         List<LinkedHashMap<String, Object>> dataList = new LinkedList<LinkedHashMap<String, Object>>();
         for (int i = 0; i < dates.size(); i++) {
             if (resultMap.get(dates.get(i)).size() != 0) {
@@ -122,8 +121,7 @@ public class MovieOnShowController {
         @RequestParam("date") Date date,
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-
-        List<Integer> idsList = movieOnShowService.getShowsIDADay(movieID, date, cinemaID);
+        List<Integer> idsList = movieOnShowService.getMovieOnShowByDate(movieID, date, cinemaID);
         CollectionResponse result = new CollectionResponse(idsList);
         response.setStatus(200);
         return result;
@@ -143,7 +141,7 @@ public class MovieOnShowController {
         // TODO Construct MovieOnShow only with 'showTime' attribute
         // TODO Using MIN() of SQL to get the minimum price
 
-        List<MovieOnShow> showList = movieOnShowService.getShowsADay(movieID, date, cinemaID);
+        List<MovieOnShow> showList = movieOnShowService.getBriefMovieOnShowByDate(movieID, date, cinemaID);
 
         List<String> timeList = new LinkedList<String>();
         float minPrice = Float.MAX_VALUE;

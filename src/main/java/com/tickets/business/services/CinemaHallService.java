@@ -21,14 +21,12 @@ public class CinemaHallService {
     }
 
     /**
-     * Return the cinemaHall entity whose ID equals to @param cinemaHallID.
+     * Find the CinemaHall with a given ID and
+     * project without 'seatLayout' attribute.
+     *
+     * @param cinemaHallID The id of the CinemaHall
      */
-    public CinemaHall getCinemaHall(Integer cinemaHallID) {
-        return cinemaHallRepo.findOne(cinemaHallID);
-    }
-
-    public CinemaHall getWithoutSeatLayout(Integer cinemaHallID)
-    {
+    public CinemaHall getWithoutSeatLayout(Integer cinemaHallID) {
         List<Object[]> list = cinemaHallRepo.findWithoutSeatLayout(cinemaHallID);
 
         Object[] o = list.get(0);
@@ -46,8 +44,13 @@ public class CinemaHallService {
         return cinemaHall;
     }
 
-    public CinemaHall getWithSeatLayout(Integer cinemaHallID)
-    {
+    /**
+     * Find the CinemaHall with a given ID and
+     * project with only 'seatLayout' attribute.
+     *
+     * @param cinemaHallID The id of the CinemaHall
+     */
+    public CinemaHall getWithSeatLayout(Integer cinemaHallID) {
         
         List<Object[]> list = cinemaHallRepo.findWithSeatLayout(cinemaHallID);
 
