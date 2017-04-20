@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.LinkedList;
 
 @Service
 public class SeatService {
@@ -27,6 +27,16 @@ public class SeatService {
      * @return list of the Seat entities
      */
     public List<Seat> getUnavailable(Integer movieOnShowID) {
-        return seatRepo.findByMovieOnShowIDAndAvailable(movieOnShowID, false);
+        List<Seat> seatList = new LinkedList<Seat>();
+        List<Object[]> seats =  seatRepo.findByMovieOnShowIDAndAvailable(movieOnShowID, false);
+        for (Object[] seat : seats) {
+            Integer row = (Integer)seat[0];
+            Integer col = (Integer)seat[1];
+            Seat s = new Seat();
+            s.setRow(row);
+            s.setCol(col);
+            seatList.add(s);
+        }
+        return seatList;
     }
 }

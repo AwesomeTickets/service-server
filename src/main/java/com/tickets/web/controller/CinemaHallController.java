@@ -39,7 +39,7 @@ public class CinemaHallController {
         RestResponse result = new RestResponse();
 
         // TODO Construct CinemaHall without 'seatLayout' attribute
-        CinemaHall cinemaHall = cinemaHallService.getCinemaHall(cinemaHallID);
+        CinemaHall cinemaHall = cinemaHallService.getWithoutSeatLayout(cinemaHallID);
 
         if (cinemaHall == null) {
             response.setStatus(404);
@@ -63,7 +63,7 @@ public class CinemaHallController {
         RestResponse result = new RestResponse();
 
         // TODO Construct CinemaHall with only 'cinemaHallID' and 'seatLayout' attributes
-        CinemaHall cinemaHall = cinemaHallService.getCinemaHall(cinemaHallID);
+        CinemaHall cinemaHall = cinemaHallService.getWithSeatLayout(cinemaHallID);
 
         if (cinemaHall == null) {
             response.setStatus(404);
