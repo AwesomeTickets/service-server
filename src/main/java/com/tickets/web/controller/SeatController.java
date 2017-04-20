@@ -39,17 +39,11 @@ public class SeatController {
     public RestResponse getUnavailableSeat(@RequestParam("movieOnShowID") Integer movieOnShowID,
                                            HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-
         List<Integer[]> dataList = new LinkedList<Integer[]>();
-
-        // TODO Construct seats with only 'row' and 'col' attributes
-
         List<Seat> seats = seatService.getUnavailable(movieOnShowID);
-
         for (Seat seat : seats) {
             dataList.add(new Integer[] {seat.getRow(), seat.getCol()});
         }
-
         CollectionResponse result = new CollectionResponse(dataList);
         response.setStatus(200);
         return result;

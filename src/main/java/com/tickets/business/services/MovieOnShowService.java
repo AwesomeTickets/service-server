@@ -28,6 +28,7 @@ public class MovieOnShowService {
 
     /**
      * Get the movieOnShow entity whose movieID, cinemaHallID, showDate, showTime equals to
+     *
      * @param movieID, the show movie's ID
      * @param cinemaHallID, the show cinemaHall's ID
      * @param showDate, the show date
@@ -41,9 +42,7 @@ public class MovieOnShowService {
     }
 
     /**
-     * Get the movieOnShow entity whose ID equals to
-     * @param movieOnShowID
-     * @return the movieOnShow entity
+     * Get the movieOnShow entity by id.
      */
     public MovieOnShow getMovieOnShow(Integer movieOnShowID) {
         return movieOnShowRepo.findOne(movieOnShowID);
@@ -51,21 +50,20 @@ public class MovieOnShowService {
 
     /**
      * Get the map of cinemaID for a movie at some dates
+     *
      * @param movieID, the movie's ID
      * @param showDates, the show dates
      * @return map of list of the cinemas' ID, with date keys
      */
-    public Map<Date, List<Integer>> getCinemaIDsShowAtDates(Integer movieID, List<Date> showDates) {
+    public Map<Date, List<Integer>> getCinemaByDates(Integer movieID, List<Date> showDates) {
         Map<Date, List<Integer>> dataMap = new LinkedHashMap<Date, List<Integer>>();
         for (int i = 0; i < showDates.size(); i++) {
             dataMap.put(showDates.get(i), new ArrayList<Integer>());
         }
-
-        List<Object[]> results = movieOnShowRepo.findCinemaIDsByMovieAndShowDate(movieID, showDates);
+        List<Object[]> results = movieOnShowRepo.findCinemaByDate(movieID, showDates);
         for (int i = 0; i < results.size(); i++) {
             dataMap.get((Date) results.get(i)[1]).add((Integer) results.get(i)[0]);
         }
-
         return dataMap;
     }
 
@@ -76,8 +74,8 @@ public class MovieOnShowService {
      * @param cinemaID, the show cinema's ID
      * @return list of the movieOnShowIDs
      */
-    public List<Integer> getShowsIDADay(Integer movieID, Date showDate, Integer cinemaID) {
-        return movieOnShowRepo.findShowsIDADay(movieID, showDate, cinemaID);
+    public List<Integer> getMovieOnShowByDate(Integer movieID, Date showDate, Integer cinemaID) {
+        return movieOnShowRepo.findByDate(movieID, showDate, cinemaID);
     }
 
     /**
@@ -87,7 +85,7 @@ public class MovieOnShowService {
      * @param cinemaID, the show cinema's ID
      * @return list of the movieOnShow entities
      */
-    public List<MovieOnShow> getShowsADay(Integer movieID, Date showDate, Integer cinemaID) {
-        return movieOnShowRepo.findShowsADay(movieID, showDate, cinemaID);
+    public List<MovieOnShow> getBriefMovieOnShowByDate(Integer movieID, Date showDate, Integer cinemaID) {
+        return movieOnShowRepo.findBriefByDate(movieID, showDate, cinemaID);
     }
 }
