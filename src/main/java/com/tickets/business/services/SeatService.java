@@ -22,9 +22,10 @@ public class SeatService {
     }
 
     /**
-     * Get the list of Seat those are unavailable
-     * @param movieOnShowID, the movieOnShow's ID
-     * @return list of the Seat entities
+     * Return the unavailable seats
+     * (only row and col attribute are available).
+     *
+     * @param movieOnShowID The movieOnShow's ID
      */
     public List<Seat> getUnavailable(Integer movieOnShowID) {
         List<Seat> seatList = new LinkedList<Seat>();
