@@ -76,20 +76,22 @@ public class MovieOnShowService {
     }
 
     /**
-     * Get the list of movieOnShow's price and showTime for a movie at date in the cinema
+     * Get the  movieOnShow's price and showTime for a movie at date in the cinema
      * @param movieID, the movie's ID
      * @param showDate, the show date
      * @param cinemaID, the show cinema's ID
-     * @return list of a map for movieOnShows' price and showTime
+     * @return object[0], the min price in a day
+     *         object[1], the showTime list
      */
-    public List<Map<String, Object>> getBriefMovieOnShowByDate(Integer movieID, Date showDate, Integer cinemaID) {
+    public Object[] getBriefMovieOnShowByDate(Integer movieID, Date showDate, Integer cinemaID) {
         List<Object[]> objsList = movieOnShowRepo.findBriefByDate(movieID, showDate, cinemaID);
-        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        Object[] result = new Object[2];
+
+        result[0] = Float.MAX_VALUE;
+        result[1] = new ArrayList<String>();
         for (Object[] objs: objsList) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("price", objs[0]);
-            map.put("showTime", objs[1]);
-            result.add(map);
+            if ((Float)objs[0] < (Float)result[0]) result[0] = objs[0];
+            ((ArrayList<String>)result[1]).add(objs[1].toString());
         }
         return result;
     }
