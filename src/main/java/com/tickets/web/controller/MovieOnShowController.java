@@ -137,18 +137,12 @@ public class MovieOnShowController {
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
-
-        // TODO Construct MovieOnShow only with 'showTime' and 'price' attribute
-
         Object[] objs = movieOnShowService.getBriefMovieOnShowByDate(movieID, date, cinemaID);
-
         List<String> timeList = (List<String>)objs[1];
         Float minPrice = (Float)objs[0];
-
         if (timeList.size() == 0) minPrice = 0.00F;
         result.put("minPrice", minPrice);
         result.put("showTime", timeList);
-
         response.setStatus(200);
         return result;
     }

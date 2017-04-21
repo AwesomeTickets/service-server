@@ -86,7 +86,6 @@ public class MovieOnShowService {
     public Object[] getBriefMovieOnShowByDate(Integer movieID, Date showDate, Integer cinemaID) {
         List<Object[]> objsList = movieOnShowRepo.findBriefByDate(movieID, showDate, cinemaID);
         Object[] result = new Object[2];
-
         result[0] = Float.MAX_VALUE;
         result[1] = new ArrayList<String>();
         for (Object[] objs: objsList) {
