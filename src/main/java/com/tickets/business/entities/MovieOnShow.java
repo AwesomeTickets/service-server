@@ -15,7 +15,7 @@ public class MovieOnShow {
     private String lang;
     private Date showDate;
     private Time showTime;
-    private float price;
+    private Float price;
     private Movie movie;
     private CinemaHall cinemaHall;
     private Set<Seat> seatSet;
@@ -60,11 +60,11 @@ public class MovieOnShow {
 
     @Column(name = "price", columnDefinition="decimal(5,2)")
     @DecimalMin("0.01")
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

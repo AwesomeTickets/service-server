@@ -140,15 +140,10 @@ public class MovieOnShowController {
 
         // TODO Construct MovieOnShow only with 'showTime' and 'price' attribute
 
-        List<MovieOnShow> showList = movieOnShowService.getBriefMovieOnShowByDate(movieID, date, cinemaID);
+        Object[] objs = movieOnShowService.getBriefMovieOnShowByDate(movieID, date, cinemaID);
 
-        List<String> timeList = new LinkedList<String>();
-        float minPrice = Float.MAX_VALUE;
-
-        for (MovieOnShow show : showList) {
-            if (show.getPrice() < minPrice) minPrice = show.getPrice();
-            timeList.add(show.getShowTime().toString());
-        }
+        List<String> timeList = (List<String>)objs[1];
+        Float minPrice = (Float)objs[0];
 
         if (timeList.size() == 0) minPrice = 0.00F;
         result.put("minPrice", minPrice);
