@@ -5,6 +5,7 @@ import pymysql as mdb
 import os
 import random
 
+DB_NAME = 'awesome_tickets'
 USER = 'root'
 PSWD = '123456'
 SHOW_DATE = ['2017-04-04', '2017-04-05', '2017-04-06']
@@ -17,7 +18,7 @@ os.system("mysql -u%s -p%s < ./script/init.sql" % (USER, PSWD))
 conn = mdb.connect(host='localhost',
                    user=USER,
                    password=PSWD,
-                   db='tickets',
+                   db=DB_NAME,
                    charset='utf8')
 
 try:
