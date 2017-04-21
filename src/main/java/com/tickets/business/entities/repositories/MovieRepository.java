@@ -18,4 +18,11 @@ public interface MovieRepository extends CrudRepository<Movie, Integer> {
     @Query("select m.movieID, m.posterLarge from Movie m where m.posterLarge is not null AND m.posterLarge !=''")
     List<Object[]> findLargePoster();
 
+    @Query("from Movie m " +
+            "left outer join fetch m.country " +
+            "left outer join fetch m.movieStatus " +
+            "left outer join fetch m.movieType " +
+            "left outer join fetch m.movieStyleSet " +
+            "where m.movieID = ?1")
+    Movie findOneWithAllDetails(Integer movieID);
 }

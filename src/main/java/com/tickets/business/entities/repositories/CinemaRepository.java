@@ -5,12 +5,9 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.tickets.business.entities.User;
+import com.tickets.business.entities.Cinema;
 
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Long> {
-	
-    List<User> findByUsername(String username);
-    
+public interface CinemaRepository extends CrudRepository<Cinema, Integer> {
 }
