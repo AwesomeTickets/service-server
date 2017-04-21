@@ -9,10 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Service
@@ -79,13 +76,21 @@ public class MovieOnShowService {
     }
 
     /**
-     * Get the list of movieOnShow entity for a movie at date in the cinema
+     * Get the list of movieOnShow's price and showTime for a movie at date in the cinema
      * @param movieID, the movie's ID
      * @param showDate, the show date
      * @param cinemaID, the show cinema's ID
-     * @return list of the movieOnShow entities
+     * @return list of a map for movieOnShows' price and showTime
      */
-    public List<MovieOnShow> getBriefMovieOnShowByDate(Integer movieID, Date showDate, Integer cinemaID) {
-        return movieOnShowRepo.findBriefByDate(movieID, showDate, cinemaID);
+    public List<Map<String, Object>> getBriefMovieOnShowByDate(Integer movieID, Date showDate, Integer cinemaID) {
+        List<Object[]> objsList = movieOnShowRepo.findBriefByDate(movieID, showDate, cinemaID);
+        List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+        for (Object[] objs: objsList) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("price", objs[0]);
+            map.put("showTime", objs[1]);
+            result.add(map);
+        }
+        return result;
     }
 }
