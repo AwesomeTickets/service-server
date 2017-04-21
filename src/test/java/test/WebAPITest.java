@@ -150,13 +150,13 @@ public class WebAPITest extends BaseTest {
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
             .andExpect(jsonPath("$.count").isNumber())
             .andExpect(jsonPath("$.data").isArray())
-            .andExpect(jsonPath("$.data[0].date").isString())
+            .andExpect(jsonPath("$.data[0].showDate").isString())
             .andExpect(jsonPath("$.data[0].cinemaID").isArray());
     }
 
     @Test
     public void testGetMovieOnShowByDay() throws Exception {
-        mockMvc.perform(get("/resource/movie_on_show/day?date=2017-04-04&cinemaID=1&&movieID=1"))
+        mockMvc.perform(get("/resource/movie_on_show/day?showDate=2017-04-04&cinemaID=1&&movieID=1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
@@ -166,7 +166,7 @@ public class WebAPITest extends BaseTest {
 
     @Test
     public void testGetBriefMovieOnShowByDay() throws Exception {
-        mockMvc.perform(get("/resource/movie_on_show/day/brief?date=2017-04-04&cinemaID=1&&movieID=1"))
+        mockMvc.perform(get("/resource/movie_on_show/day/brief?showDate=2017-04-04&cinemaID=1&&movieID=1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
