@@ -1,11 +1,9 @@
--- Initialize tickets data to MySQL database
-
--- Drop database
-DROP DATABASE IF EXISTS tickets;
+-- Initialize simulated data to MySQL database
 
 -- Database
-CREATE DATABASE IF NOT EXISTS tickets;
-use tickets;
+DROP DATABASE IF EXISTS awesome_tickets;
+CREATE DATABASE IF NOT EXISTS awesome_tickets;
+use awesome_tickets;
 
 
 -- Tables
