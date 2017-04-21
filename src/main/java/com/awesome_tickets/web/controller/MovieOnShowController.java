@@ -102,7 +102,7 @@ public class MovieOnShowController {
         for (int i = 0; i < dates.size(); i++) {
             if (resultMap.get(dates.get(i)).size() != 0) {
                 RestResponse data = new RestResponse();
-                data.put("date", dates.get(i).toString());
+                data.put("showDate", dates.get(i).toString());
                 data.put("cinemaID", resultMap.get(dates.get(i)));
                 dataList.add(data);
             }
@@ -118,10 +118,10 @@ public class MovieOnShowController {
     public RestResponse getMovieOnShowByDay(
         @RequestParam("movieID") Integer movieID,
         @RequestParam("cinemaID") Integer cinemaID,
-        @RequestParam("date") Date date,
+        @RequestParam("showDate") Date showDate,
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-        List<Integer> idsList = movieOnShowService.getMovieOnShowByDate(movieID, date, cinemaID);
+        List<Integer> idsList = movieOnShowService.getMovieOnShowByDate(movieID, showDate, cinemaID);
         CollectionResponse result = new CollectionResponse(idsList);
         response.setStatus(200);
         return result;
@@ -133,11 +133,11 @@ public class MovieOnShowController {
     public RestResponse getBriefMovieOnShowByDay(
         @RequestParam("movieID") Integer movieID,
         @RequestParam("cinemaID") Integer cinemaID,
-        @RequestParam("date") Date date,
+        @RequestParam("showDate") Date showDate,
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
-        Object[] objs = movieOnShowService.getBriefMovieOnShowByDate(movieID, date, cinemaID);
+        Object[] objs = movieOnShowService.getBriefMovieOnShowByDate(movieID, showDate, cinemaID);
         List<String> timeList = (List<String>)objs[1];
         Float minPrice = (Float)objs[0];
         if (timeList.size() == 0) minPrice = 0.00F;
