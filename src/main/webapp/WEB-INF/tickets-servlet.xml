@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="com.tickets"/>
+    <context:component-scan base-package="com.awesome_tickets"/>
 
     <mvc:annotation-driven/>
     <mvc:resources mapping="/fonts/**" location="/fonts/" />
@@ -54,7 +54,7 @@
         <property name="characterEncoding" value="utf-8" />
     </bean>
 
-    <bean id="exceptionResolver" class="com.tickets.web.ExceptionHandler"/>
+    <bean id="exceptionResolver" class="com.awesome_tickets.web.ExceptionHandler"/>
 
     <!-- Import the config of jpa and hibernate -->
     <import resource="business-config.xml"/>
