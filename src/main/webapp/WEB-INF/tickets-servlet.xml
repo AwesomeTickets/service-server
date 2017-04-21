@@ -11,10 +11,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <mvc:annotation-driven/>
-
     <context:component-scan base-package="com.tickets"/>
 
+    <mvc:annotation-driven/>
     <mvc:resources mapping="/fonts/**" location="/fonts/" />
     <mvc:resources mapping="/layouts/**" location="/layouts/" />
     <mvc:resources mapping="/scripts/**" location="/scripts/" />
@@ -27,8 +26,7 @@
 
     <!-- SpringResourceTemplateResolver automatically integrates with Spring's own -->
     <!-- resource resolution infrastructure, which is highly recommended.          -->
-    <bean id="templateResolver"
-          class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+    <bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
         <property name="prefix" value="/WEB-INF/templates/" />
         <property name="suffix" value=".html" />
         <!-- HTML is the default value, added here for the sake of clarity.          -->
@@ -41,8 +39,7 @@
 
     <!-- SpringTemplateEngine automatically applies SpringStandardDialect and      -->
     <!-- enables Spring's own MessageSource message resolution mechanisms.         -->
-    <bean id="templateEngine"
-          class="org.thymeleaf.spring4.SpringTemplateEngine">
+    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver" />
         <!-- Enabling the SpringEL compiler with Spring 4.2.4 or newer can speed up  -->
         <!-- execution in most scenarios, but might be incompatible with specific    -->
@@ -56,6 +53,8 @@
         <property name="templateEngine" ref="templateEngine" />
         <property name="characterEncoding" value="utf-8" />
     </bean>
+
+    <bean id="exceptionResolver" class="com.tickets.web.ExceptionHandler"/>
 
     <!-- Import the config of jpa and hibernate -->
     <import resource="business-config.xml"/>

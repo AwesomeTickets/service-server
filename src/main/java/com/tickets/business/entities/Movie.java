@@ -1,8 +1,10 @@
 package com.tickets.business.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Set;
 
 
@@ -59,7 +61,7 @@ public class Movie implements Serializable {
         this.movieID = movieID;
     }
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "countryID")
     public Country getCountry() {
         return country;
@@ -69,7 +71,7 @@ public class Movie implements Serializable {
         this.country = country;
     }
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "movieStatusID")
     public MovieStatus getMovieStatus() {
         return movieStatus;
@@ -79,7 +81,7 @@ public class Movie implements Serializable {
         this.movieStatus = movieStatus;
     }
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "movieTypeID")
     public MovieType getMovieType() {
         return movieType;
@@ -89,7 +91,7 @@ public class Movie implements Serializable {
         this.movieType = movieType;
     }
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "movie_has_style",
             joinColumns = {@JoinColumn(name = "movieID", referencedColumnName = "movieID")},
             inverseJoinColumns = {@JoinColumn(name = "movieStyleID", referencedColumnName ="movieStyleID")})
@@ -101,7 +103,6 @@ public class Movie implements Serializable {
         this.movieStyleSet = movieStyleSet;
     }
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "pubdate", nullable = false, length = 10)
     public Date getPubdate() {
         return pubdate;
@@ -121,6 +122,7 @@ public class Movie implements Serializable {
     }
 
     @Column(name = "rating", columnDefinition="float(2,1) default 0.0")
+    @DecimalMin("0.1")
     public float getRating() {
         return rating;
     }
@@ -130,6 +132,7 @@ public class Movie implements Serializable {
     }
 
     @Column(name = "length")
+    @Min(1)
     public int getLength() {
         return length;
     }

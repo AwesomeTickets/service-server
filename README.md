@@ -10,14 +10,14 @@ Server of a movie tickets system powered by Spring.
 
 1. Download [MySQL](https://dev.mysql.com/downloads/mysql/).
 
-2. User settings:
+2. Create user:
 
     ```
     username: root
     password: 123456
     ```
 
-3. Initialize database:
+3. Initialize data:
 
     ```sh
     $ pip3 install PyMySQL
@@ -30,13 +30,13 @@ Server of a movie tickets system powered by Spring.
 
 2. Build and run:
 
-    - Foreground
+    - foreground
 
         ```sh
         $ python3 server.py
         ```
 
-    - Background
+    - background
 
         ```sh
         $ python3 deploy.py
@@ -47,7 +47,7 @@ Server of a movie tickets system powered by Spring.
 4. Run unit tests:
 
     ```sh
-    $ mvn test
+    $ mvn clean test
     ```
 
 ## License
