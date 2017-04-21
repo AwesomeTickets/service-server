@@ -26,8 +26,8 @@ public interface MovieOnShowRepository extends CrudRepository<MovieOnShow, Integ
             "m.movie.movieID = ?1 AND m.showDate = ?2 AND m.cinemaHall.cinema.cinemaID = ?3")
     List<Integer> findByDate(Integer movieID, Date showDate, Integer cinemaID);
 
-    @Query("select m from MovieOnShow m where " +
+    @Query("select m.price, m.showTime from MovieOnShow m where " +
             "m.movie.movieID = ?1 AND m.showDate = ?2 AND m.cinemaHall.cinema.cinemaID = ?3 " +
             "order by m.showTime asc")
-    List<MovieOnShow> findBriefByDate(Integer movieID, Date showDate, Integer cinemaID);
+    List<Object[]> findBriefByDate(Integer movieID, Date showDate, Integer cinemaID);
 }
