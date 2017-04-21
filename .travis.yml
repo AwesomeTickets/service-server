@@ -24,4 +24,4 @@ before_script:
   - python init_db.py
 
 script:
-  - mvn test
+  - mvn clean test

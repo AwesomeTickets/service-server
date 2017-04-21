@@ -69,6 +69,8 @@ CREATE TABLE IF NOT EXISTS movie (
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
+CREATE INDEX idx_posterLarge USING BTREE on movie(posterLarge);
+
 
 CREATE TABLE IF NOT EXISTS movie_has_style (
 
@@ -139,6 +141,8 @@ CREATE TABLE IF NOT EXISTS seat (
     UNIQUE (movieOnShowID, row, col)
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
+
+CREATE INDEX idx_id_available USING BTREE on seat(movieOnShowID, available);
 
 
 -- Data
