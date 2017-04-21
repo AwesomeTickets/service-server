@@ -138,8 +138,7 @@ public class MovieOnShowController {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
 
-        // TODO Construct MovieOnShow only with 'showTime' attribute
-        // TODO Using MIN() of SQL to get the minimum price
+        // TODO Construct MovieOnShow only with 'showTime' and 'price' attribute
 
         List<MovieOnShow> showList = movieOnShowService.getBriefMovieOnShowByDate(movieID, date, cinemaID);
 

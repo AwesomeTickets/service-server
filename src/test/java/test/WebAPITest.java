@@ -10,6 +10,7 @@ import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import test.BaseTest;
@@ -129,7 +130,7 @@ public class WebAPITest extends BaseTest {
      */
     @Test
     public void testGetMovieOnShowByDetails() throws Exception {
-        // Not implemented
+        mockMvc.perform(get("/resource/movie_on_show?movieID=1&cinemaHallID=1&showDate=2017-04-04&showTime=13:20:00"));
     }
 
     @Test
