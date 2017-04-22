@@ -61,9 +61,9 @@ CREATE TABLE IF NOT EXISTS movie (
     posterLarge   VARCHAR(128),
 
     PRIMARY KEY (movieID),
-    FOREIGN KEY (countryID)     REFERENCES country(countryID)          ON DELETE RESTRICT ON UPDATE RESTRICT,
-    FOREIGN KEY (movieStatusID) REFERENCES movie_status(movieStatusID) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    FOREIGN KEY (movieTypeID)   REFERENCES movie_type(movieTypeID)     ON DELETE RESTRICT ON UPDATE RESTRICT
+    FOREIGN KEY (countryID)     REFERENCES country(countryID)          ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (movieStatusID) REFERENCES movie_status(movieStatusID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (movieTypeID)   REFERENCES movie_type(movieTypeID)     ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
@@ -76,8 +76,8 @@ CREATE TABLE IF NOT EXISTS movie_has_style (
     movieStyleID INT NOT NULL,
 
     PRIMARY KEY (movieID, movieStyleID),
-    FOREIGN KEY (movieID)      REFERENCES movie(movieID)            ON DELETE RESTRICT ON UPDATE RESTRICT,
-    FOREIGN KEY (movieStyleID) REFERENCES movie_style(movieStyleID) ON DELETE RESTRICT ON UPDATE RESTRICT
+    FOREIGN KEY (movieID)      REFERENCES movie(movieID)            ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (movieStyleID) REFERENCES movie_style(movieStyleID) ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS cinema_hall (
     seatLayout   VARCHAR(256) NOT NULL,
 
     PRIMARY KEY (cinemaHallID),
-    FOREIGN KEY (cinemaID) REFERENCES cinema(cinemaID) ON DELETE RESTRICT ON UPDATE RESTRICT
+    FOREIGN KEY (cinemaID) REFERENCES cinema(cinemaID) ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
@@ -117,8 +117,8 @@ CREATE TABLE IF NOT EXISTS movie_on_show (
     price         DECIMAL(5, 2) NOT NULL,
 
     PRIMARY KEY (movieOnShowID),
-    FOREIGN KEY (movieID)      REFERENCES movie(movieID)            ON DELETE RESTRICT ON UPDATE RESTRICT,
-    FOREIGN KEY (cinemaHallID) REFERENCES cinema_hall(cinemaHallID) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY (movieID)      REFERENCES movie(movieID)            ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (cinemaHallID) REFERENCES cinema_hall(cinemaHallID) ON DELETE CASCADE ON UPDATE CASCADE,
 
     UNIQUE (movieID ASC, showDate ASC, cinemaHallID ASC, showTime ASC)
 
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS seat (
     available     BOOLEAN NOT NULL DEFAULT TRUE,
 
     PRIMARY KEY (seatID),
-    FOREIGN KEY (movieOnShowID) REFERENCES movie_on_show(movieOnShowID) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY (movieOnShowID) REFERENCES movie_on_show(movieOnShowID) ON DELETE CASCADE ON UPDATE CASCADE,
 
     UNIQUE (movieOnShowID ASC, row ASC, col ASC)
 
