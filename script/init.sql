@@ -1,11 +1,9 @@
--- Initialize tickets data to MySQL database
-
--- Drop database
-DROP DATABASE IF EXISTS tickets;
+-- Initialize simulated data to MySQL database
 
 -- Database
-CREATE DATABASE IF NOT EXISTS tickets;
-use tickets;
+DROP DATABASE IF EXISTS awesome_tickets;
+CREATE DATABASE IF NOT EXISTS awesome_tickets;
+use awesome_tickets;
 
 
 -- Tables
@@ -63,13 +61,13 @@ CREATE TABLE IF NOT EXISTS movie (
     posterLarge   VARCHAR(128),
 
     PRIMARY KEY (movieID),
-    FOREIGN KEY (countryID)     REFERENCES country(countryID),
-    FOREIGN KEY (movieStatusID) REFERENCES movie_status(movieStatusID),
-    FOREIGN KEY (movieTypeID)   REFERENCES movie_type(movieTypeID)
+    FOREIGN KEY (countryID)     REFERENCES country(countryID)          ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY (movieStatusID) REFERENCES movie_status(movieStatusID) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY (movieTypeID)   REFERENCES movie_type(movieTypeID)     ON DELETE RESTRICT ON UPDATE RESTRICT
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
-CREATE INDEX idx_posterLarge USING BTREE on movie(posterLarge);
+CREATE INDEX idx_posterLarge USING BTREE on movie(posterLarge DESC);
 
 
 CREATE TABLE IF NOT EXISTS movie_has_style (
@@ -78,8 +76,8 @@ CREATE TABLE IF NOT EXISTS movie_has_style (
     movieStyleID INT NOT NULL,
 
     PRIMARY KEY (movieID, movieStyleID),
-    FOREIGN KEY (movieID)      REFERENCES movie(movieID),
-    FOREIGN KEY (movieStyleID) REFERENCES movie_style(movieStyleID)
+    FOREIGN KEY (movieID)      REFERENCES movie(movieID)            ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY (movieStyleID) REFERENCES movie_style(movieStyleID) ON DELETE RESTRICT ON UPDATE RESTRICT
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
@@ -103,7 +101,7 @@ CREATE TABLE IF NOT EXISTS cinema_hall (
     seatLayout   VARCHAR(256) NOT NULL,
 
     PRIMARY KEY (cinemaHallID),
-    FOREIGN KEY (cinemaID) REFERENCES cinema(cinemaID)
+    FOREIGN KEY (cinemaID) REFERENCES cinema(cinemaID) ON DELETE RESTRICT ON UPDATE RESTRICT
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
@@ -119,10 +117,10 @@ CREATE TABLE IF NOT EXISTS movie_on_show (
     price         DECIMAL(5, 2) NOT NULL,
 
     PRIMARY KEY (movieOnShowID),
-    FOREIGN KEY (movieID)      REFERENCES movie(movieID),
-    FOREIGN KEY (cinemaHallID) REFERENCES cinema_hall(cinemaHallID),
+    FOREIGN KEY (movieID)      REFERENCES movie(movieID)            ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY (cinemaHallID) REFERENCES cinema_hall(cinemaHallID) ON DELETE RESTRICT ON UPDATE RESTRICT,
 
-    UNIQUE (movieID, cinemaHallID, showDate, showTime)
+    UNIQUE (movieID ASC, showDate ASC, cinemaHallID ASC, showTime ASC)
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
@@ -136,13 +134,13 @@ CREATE TABLE IF NOT EXISTS seat (
     available     BOOLEAN NOT NULL DEFAULT TRUE,
 
     PRIMARY KEY (seatID),
-    FOREIGN KEY (movieOnShowID) REFERENCES movie_on_show(movieOnShowID),
+    FOREIGN KEY (movieOnShowID) REFERENCES movie_on_show(movieOnShowID) ON DELETE RESTRICT ON UPDATE RESTRICT,
 
-    UNIQUE (movieOnShowID, row, col)
+    UNIQUE (movieOnShowID ASC, row ASC, col ASC)
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
-CREATE INDEX idx_id_available USING BTREE on seat(movieOnShowID, available);
+CREATE INDEX idx_id_available USING BTREE on seat(movieOnShowID ASC, available ASC);
 
 
 -- Data
