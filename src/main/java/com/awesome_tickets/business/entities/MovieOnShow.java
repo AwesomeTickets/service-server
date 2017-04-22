@@ -8,8 +8,7 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "movie_on_show", uniqueConstraints = {
-        @UniqueConstraint(columnNames={"movieID", "cinemaHallID", "showDate", "showTime"})})
+@Table(name = "movie_on_show")
 public class MovieOnShow {
     private Integer movieOnShowID;
     private String lang;
