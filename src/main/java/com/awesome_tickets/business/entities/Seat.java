@@ -3,12 +3,9 @@ package com.awesome_tickets.business.entities;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 
-/**
- * Created by CrazeWong on 2017/4/16.
- */
+
 @Entity
-@Table(name = "seat", uniqueConstraints = {
-        @UniqueConstraint(columnNames={"movieOnShowID", "row", "col"})})
+@Table(name = "seat")
 public class Seat {
     private Integer seatID;
     private Integer row;
