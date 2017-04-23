@@ -1,5 +1,8 @@
 package com.awesome_tickets.business.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 
@@ -43,6 +46,7 @@ public class CinemaHall {
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cinemaID")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Cinema getCinema() {
         return cinema;
     }

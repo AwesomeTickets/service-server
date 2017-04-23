@@ -1,6 +1,11 @@
 package com.awesome_tickets.business.entities;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
@@ -63,6 +68,7 @@ public class Movie implements Serializable {
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "countryID")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Country getCountry() {
         return country;
     }
@@ -73,6 +79,7 @@ public class Movie implements Serializable {
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "movieStatusID")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public MovieStatus getMovieStatus() {
         return movieStatus;
     }
@@ -83,6 +90,7 @@ public class Movie implements Serializable {
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "movieTypeID")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public MovieType getMovieType() {
         return movieType;
     }
