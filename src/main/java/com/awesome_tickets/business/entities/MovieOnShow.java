@@ -1,5 +1,8 @@
 package com.awesome_tickets.business.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import java.sql.Time;
@@ -69,6 +72,7 @@ public class MovieOnShow {
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "movieID")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Movie getMovie() {
         return movie;
     }
@@ -79,6 +83,7 @@ public class MovieOnShow {
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "cinemaHallID")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public CinemaHall getCinemaHall() {
         return cinemaHall;
     }
