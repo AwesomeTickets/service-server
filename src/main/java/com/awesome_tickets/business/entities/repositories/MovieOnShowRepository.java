@@ -3,12 +3,13 @@ package com.awesome_tickets.business.entities.repositories;
 import com.awesome_tickets.business.entities.MovieOnShow;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
-
+@Repository
 public interface MovieOnShowRepository extends CrudRepository<MovieOnShow, Integer> {
 
     @Query("select m from MovieOnShow m where " +
