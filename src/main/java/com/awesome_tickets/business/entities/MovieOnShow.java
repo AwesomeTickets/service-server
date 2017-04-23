@@ -93,6 +93,7 @@ public class MovieOnShow {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "movieOnShow")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Set<Seat> getSeatSet() {
         return seatSet;
     }
