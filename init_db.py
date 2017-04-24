@@ -82,12 +82,12 @@ try:
             seat_layout = entry[1]
             seat_rows = seat_layout.split(',')
             for i, row in enumerate(seat_rows):
-                if RAND_SOLD_SEATS:
-                    available = random.randrange(2)
-                else:
-                    available = 1
                 col = 1
                 for char in row:
+                    if RAND_SOLD_SEATS:
+                        available = random.randrange(5)
+                    else:
+                        available = 1
                     if (char != '0'):
                         cursor.execute("""
                             INSERT INTO seat
