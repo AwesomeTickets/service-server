@@ -35,7 +35,7 @@ public class CinemaHall {
         this.name = name;
     }
 
-    @Column(name = "seatLayout", nullable = false, length=256)
+    @Column(name = "seatLayout", nullable = false, length=400)
     public String getSeatLayout() {
         return seatLayout;
     }

@@ -91,7 +91,7 @@ public class MovieOnShowController {
         LogUtil.logReq(LOG, request);
         final int range = 3;
         // Date date = Calendar.getInstance().getTime();
-        Date date = Date.valueOf("2017-04-04");
+        Date date = Date.valueOf("2017-05-01");
         List<Date> dates = new ArrayList<Date>();
         for (int i = 0; i < range; i++) {
             dates.add(date);
