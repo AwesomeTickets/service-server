@@ -6,7 +6,7 @@ import com.awesome_tickets.business.services.MovieService;
 import com.awesome_tickets.web.controller.response.CollectionResponse;
 import com.awesome_tickets.web.controller.response.ErrorResponse;
 import com.awesome_tickets.web.controller.response.RestResponse;
-import com.awesome_tickets.web.util.LogUtil;
+import com.awesome_tickets.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

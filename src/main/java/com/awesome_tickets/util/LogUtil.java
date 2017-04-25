@@ -1,4 +1,4 @@
-package com.awesome_tickets.web.util;
+package com.awesome_tickets.util;
 
 import org.slf4j.Logger;
 
