@@ -1,4 +1,4 @@
-package com.awesome_tickets.web.util;
+package com.awesome_tickets.util;
 
 import java.sql.Date;
 import java.util.Calendar;
