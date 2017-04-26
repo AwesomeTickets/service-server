@@ -28,10 +28,14 @@ import com.awesome_tickets.web.controller.response.ErrorResponse;
 @RequestMapping("/resource/movie-on-show")
 public class MovieOnShowController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowController.class);
+
     @Autowired
     private MovieOnShowService movieOnShowService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowController.class);
+    public MovieOnShowController() {
+        super();
+    }
 
     @RequestMapping(path = "",
                     method = RequestMethod.GET,
@@ -49,9 +53,9 @@ public class MovieOnShowController {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-        result.put("movieOnShowId", movieOnShow.getMovieOnShowID());
-        result.put("movieId", movieOnShow.getMovie().getMovieID());
-        result.put("cinemaHallId", movieOnShow.getCinemaHall().getCinemaHallID());
+        result.put("movieOnShowId", movieOnShow.getMovieOnShowId());
+        result.put("movieId", movieOnShow.getMovie().getMovieId());
+        result.put("cinemaHallId", movieOnShow.getCinemaHall().getCinemaHallId());
         result.put("lang", movieOnShow.getLang());
         result.put("showDate", movieOnShow.getShowDate().toString());
         result.put("showTime", movieOnShow.getShowTime().toString());
@@ -72,9 +76,9 @@ public class MovieOnShowController {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-        result.put("movieOnShowId", movieOnShow.getMovieOnShowID());
-        result.put("movieId", movieOnShow.getMovie().getMovieID());
-        result.put("cinemaHallId", movieOnShow.getCinemaHall().getCinemaHallID());
+        result.put("movieOnShowId", movieOnShow.getMovieOnShowId());
+        result.put("movieId", movieOnShow.getMovie().getMovieId());
+        result.put("cinemaHallId", movieOnShow.getCinemaHall().getCinemaHallId());
         result.put("lang", movieOnShow.getLang());
         result.put("showDate", movieOnShow.getShowDate().toString());
         result.put("showTime", movieOnShow.getShowTime().toString());

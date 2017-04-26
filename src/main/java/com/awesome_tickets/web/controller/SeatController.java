@@ -29,10 +29,14 @@ import java.util.List;
 @RequestMapping("/resource/seat")
 public class SeatController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SeatController.class);
+
     @Autowired
     private SeatService seatService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(SeatController.class);
+    public SeatController() {
+        super();
+    }
 
     @RequestMapping(path = "/unavailable",
                     method = RequestMethod.GET,

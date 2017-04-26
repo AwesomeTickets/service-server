@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface MovieRepository extends CrudRepository<Movie, Integer> {
 
-    @Query("select m.movieID from Movie m where m.movieStatus.status = ?1")
+    @Query("select m.movieId from Movie m where m.movieStatus.status = ?1")
     List<Integer> findByMovieStatus(String status);
 
-    @Query("select m.movieID, m.posterLarge from Movie m where m.posterLarge is not null AND m.posterLarge !=''")
+    @Query("select m.movieId, m.posterLarge from Movie m where m.posterLarge is not null AND m.posterLarge !=''")
     List<Object[]> findLargePoster();
 
     @Query("from Movie m " +
@@ -22,6 +22,6 @@ public interface MovieRepository extends CrudRepository<Movie, Integer> {
             "left outer join fetch m.movieStatus " +
             "left outer join fetch m.movieType " +
             "left outer join fetch m.movieStyleSet " +
-            "where m.movieID = ?1")
-    Movie findOneWithAllDetails(Integer movieID);
+            "where m.movieId = ?1")
+    Movie findOneWithAllDetails(Integer movieId);
 }

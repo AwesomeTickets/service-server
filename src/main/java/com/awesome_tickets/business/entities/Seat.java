@@ -5,26 +5,32 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 
 
 @Entity
 @Table(name = "seat")
-public class Seat {
-    private Integer seatID;
+public class Seat implements Serializable {
+
+    private Integer seatId;
     private Integer row;
     private Integer col;
     private Boolean available;
     private MovieOnShow movieOnShow;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "seatID")
-    public Integer getSeatID() {
-        return seatID;
+    public Seat() {
+        super();
     }
 
-    public void setSeatID(Integer seatID) {
-        this.seatID = seatID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "seat_id")
+    public Integer getSeatId() {
+        return seatId;
+    }
+
+    public void setSeatId(Integer seatId) {
+        this.seatId = seatId;
     }
 
     @Column(name = "row", nullable = false)
@@ -57,7 +63,7 @@ public class Seat {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "movieOnShowID")
+    @JoinColumn(name = "movie_on_show_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     public MovieOnShow getMovieOnShow() {
         return movieOnShow;
@@ -65,40 +71,5 @@ public class Seat {
 
     public void setMovieOnShow(MovieOnShow movieOnShow) {
         this.movieOnShow = movieOnShow;
-    }
-
-    public Seat() {
-    }
-
-    public Seat(Integer row, Integer col, Boolean available) {
-        this.row = row;
-        this.col = col;
-        this.available = available;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Seat)) return false;
-
-        Seat seat = (Seat) o;
-
-        return getSeatID().equals(seat.getSeatID());
-    }
-
-    @Override
-    public int hashCode() {
-        return getSeatID().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Seat [");
-        sb.append("seatID=").append(seatID);
-        sb.append(", row=").append(row);
-        sb.append(", col=").append(col);
-        sb.append(", available=").append(available);
-        sb.append(']');
-        return sb.toString();
     }
 }
