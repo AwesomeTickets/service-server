@@ -32,19 +32,19 @@ public class CinemaController {
     @Autowired
     private CinemaService cinemaService;
 
-    @RequestMapping(path = "/{cinemaID}",
+    @RequestMapping(path = "/{cinemaId}",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse getCinemaByID(@PathVariable Integer cinemaID,
+    public RestResponse getCinemaByID(@PathVariable Integer cinemaId,
                                       HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-        Cinema cinema = cinemaService.getCinema(cinemaID);
+        Cinema cinema = cinemaService.getCinema(cinemaId);
         if (cinema == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
         RestResponse res = new RestResponse();
-        res.put("cinemaID", cinemaID);
+        res.put("cinemaId", cinemaId);
         res.put("name", cinema.getName());
         res.put("location", cinema.getLocation());
         return res;
