@@ -9,31 +9,26 @@ import java.util.Set;
 @Table(name = "movie_style")
 public class MovieStyle implements Serializable {
 
-    private Integer movieStyleID;
-
+    private Integer movieStyleId;
     private String style;
-
     private Set<Movie> movieSet;
 
     public MovieStyle() {
-    }
-
-    public MovieStyle(String style) {
-        this.style = style;
+        super();
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "movieStyleID")
-    public Integer getMovieStyleID() {
-        return movieStyleID;
+    @Column(name = "movie_style_id")
+    public Integer getMovieStyleId() {
+        return movieStyleId;
     }
 
-    public void setMovieStyleID(Integer movieStyleID) {
-        this.movieStyleID = movieStyleID;
+    public void setMovieStyleId(Integer movieStyleId) {
+        this.movieStyleId = movieStyleId;
     }
 
-    @Column(name = "style", nullable = false, unique = true, length=16)
+    @Column(name = "style", nullable = false, unique = true, length=2)
     public String getStyle() {
         return style;
     }
@@ -49,29 +44,5 @@ public class MovieStyle implements Serializable {
 
     public void setMovieSet(Set<Movie> movieSet) {
         this.movieSet = movieSet;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MovieStyle)) return false;
-
-        MovieStyle that = (MovieStyle) o;
-
-        return getMovieStyleID().equals(that.getMovieStyleID());
-    }
-
-    @Override
-    public int hashCode() {
-        return getMovieStyleID().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("MovieStyleRepository [");
-        sb.append("movieStyleID=").append(movieStyleID);
-        sb.append(", style=").append(style);
-        sb.append(']');
-        return sb.toString();
     }
 }

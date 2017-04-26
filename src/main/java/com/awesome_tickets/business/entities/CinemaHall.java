@@ -4,29 +4,34 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Entity
 @Table(name = "cinema_hall")
-public class CinemaHall {
+public class CinemaHall implements Serializable {
 
-    private Integer cinemaHallID;
+    private Integer cinemaHallId;
     private String name;
     private Cinema cinema;
     private String seatLayout;
 
+    public CinemaHall() {
+        super();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "cinemaHallID")
-    public Integer getCinemaHallID() {
-        return cinemaHallID;
+    @Column(name = "cinema_hall_id")
+    public Integer getCinemaHallId() {
+        return cinemaHallId;
     }
 
-    public void setCinemaHallID(Integer cinemaHallID) {
-        this.cinemaHallID = cinemaHallID;
+    public void setCinemaHallId(Integer cinemaHallId) {
+        this.cinemaHallId = cinemaHallId;
     }
 
-    @Column(name = "name", nullable = false, length=16)
+    @Column(name = "name", nullable = false, length=10)
     public String getName() {
         return name;
     }
@@ -35,7 +40,7 @@ public class CinemaHall {
         this.name = name;
     }
 
-    @Column(name = "seatLayout", nullable = false, length=400)
+    @Column(name = "seat_layout", nullable = false, length=400)
     public String getSeatLayout() {
         return seatLayout;
     }
@@ -45,7 +50,7 @@ public class CinemaHall {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "cinemaID")
+    @JoinColumn(name = "cinema_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     public Cinema getCinema() {
         return cinema;
@@ -53,38 +58,5 @@ public class CinemaHall {
 
     public void setCinema(Cinema cinema) {
         this.cinema = cinema;
-    }
-
-    public CinemaHall() {
-    }
-
-    public CinemaHall(String name, String seatLayout) {
-        this.name = name;
-        this.seatLayout = seatLayout;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CinemaHall)) return false;
-
-        CinemaHall that = (CinemaHall) o;
-
-        return getCinemaHallID().equals(that.getCinemaHallID());
-    }
-
-    @Override
-    public int hashCode() {
-        return getCinemaHallID().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("CinemaHall [");
-        sb.append("cinemaHallID=").append(cinemaHallID);
-        sb.append(", name=").append(name);
-        sb.append(", seatLayout=").append(seatLayout);
-        sb.append(']');
-        return sb.toString();
     }
 }

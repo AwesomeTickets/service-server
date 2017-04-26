@@ -12,7 +12,6 @@ import java.util.LinkedList;
 
 @Service
 public class SeatService {
-    private static final Logger LOG = LoggerFactory.getLogger(SeatService.class);
 
     @Autowired
     private SeatRepository seatRepo;
@@ -25,11 +24,11 @@ public class SeatService {
      * Return the unavailable seats
      * (only row and col attribute are available).
      *
-     * @param movieOnShowID The movieOnShow's ID
+     * @param movieOnShowId The movieOnShow's ID
      */
-    public List<Seat> getUnavailable(Integer movieOnShowID) {
+    public List<Seat> getUnavailable(Integer movieOnShowId) {
         List<Seat> seatList = new LinkedList<Seat>();
-        List<Object[]> seats =  seatRepo.findByMovieOnShowIDAndAvailable(movieOnShowID, false);
+        List<Object[]> seats =  seatRepo.findByMovieOnShowIDAndAvailable(movieOnShowId, false);
         for (Object[] seat : seats) {
             Integer row = (Integer)seat[0];
             Integer col = (Integer)seat[1];

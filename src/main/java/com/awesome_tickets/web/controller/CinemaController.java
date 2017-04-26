@@ -32,6 +32,10 @@ public class CinemaController {
     @Autowired
     private CinemaService cinemaService;
 
+    public CinemaController() {
+        super();
+    }
+
     @RequestMapping(path = "/{cinemaId}",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

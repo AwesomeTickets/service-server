@@ -10,10 +10,10 @@ import java.util.List;
 @Repository
 public interface CinemaHallRepository extends CrudRepository<CinemaHall, Integer> {
 
-	@Query("select c.cinemaHallID, c.cinema.cinemaID, c.name from CinemaHall c where c.cinemaHallID = ?1")
-    List<Object[]> findWithoutSeatLayout(Integer cinemaHallID);
+	@Query("select c.cinemaHallId, c.cinema.cinemaId, c.name from CinemaHall c where c.cinemaHallId = ?1")
+    List<Object[]> findWithoutSeatLayout(Integer cinemaHallId);
 
-    @Query("select c.cinemaHallID, c.seatLayout from CinemaHall c where c.cinemaHallID = ?1")
-    List<Object[]> findWithSeatLayout(Integer cinemaHallID);
+    @Query("select c.cinemaHallId, c.seatLayout from CinemaHall c where c.cinemaHallId = ?1")
+    List<Object[]> findWithSeatLayout(Integer cinemaHallId);
 
 }

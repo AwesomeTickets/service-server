@@ -12,16 +12,14 @@ public class CinemaService {
     @Autowired
     private CinemaRepository cinemaRepo;
 
-
     public CinemaService() {
         super();
     }
 
     /**
-     * Return the cinema entity whose ID equals to @param cinemaID.
+     * Return the cinema entity whose ID equals to @param cinemaId.
      */
-    public Cinema getCinema(Integer cinemaID) {
-        return cinemaRepo.findOne(cinemaID);
+    public Cinema getCinema(Integer cinemaId) {
+        return cinemaRepo.findOne(cinemaId);
     }
-
 }

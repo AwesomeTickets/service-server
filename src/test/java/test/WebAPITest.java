@@ -40,7 +40,7 @@ public class WebAPITest extends BaseTest {
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(11)))
             .andExpect(jsonPath("$.movieId").value(1))
             .andExpect(jsonPath("$.title").isString())
-            .andExpect(jsonPath("$.pubdate").isString())
+            .andExpect(jsonPath("$.pubDate").isString())
             .andExpect(jsonPath("$.length").isNumber())
             .andExpect(jsonPath("$.rating").isNumber())
             .andExpect(jsonPath("$.country").isString())

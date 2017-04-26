@@ -25,10 +25,14 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/resource/cinema-hall")
 public class CinemaHallController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(CinemaHallController.class);
+
     @Autowired
     private CinemaHallService cinemaHallService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(CinemaHallController.class);
+    public CinemaHallController() {
+        super();
+    }
 
     @RequestMapping(path = "/{cinemaHallId}",
                     method = RequestMethod.GET,
@@ -42,8 +46,8 @@ public class CinemaHallController {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-        result.put("cinemaHallId", cinemaHall.getCinemaHallID());
-        result.put("cinemaId", cinemaHall.getCinema().getCinemaID());
+        result.put("cinemaHallId", cinemaHall.getCinemaHallId());
+        result.put("cinemaId", cinemaHall.getCinema().getCinemaId());
         result.put("name", cinemaHall.getName());
         response.setStatus(200);
         return result;
@@ -61,7 +65,7 @@ public class CinemaHallController {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-        result.put("cinemaHallId", cinemaHall.getCinemaHallID());
+        result.put("cinemaHallId", cinemaHall.getCinemaHallId());
         result.put("seatLayout", cinemaHall.getSeatLayout());
         response.setStatus(200);
         return result;

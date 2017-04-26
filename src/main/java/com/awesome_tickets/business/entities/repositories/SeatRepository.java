@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface SeatRepository extends CrudRepository<Seat, Integer> {
 
-    @Query("select s.row, s.col from Seat s where s.movieOnShow.movieOnShowID = ?1 AND s.available = ?2")
-    List<Object[]> findByMovieOnShowIDAndAvailable(Integer movieOnShowID, Boolean available);
+    @Query("select s.row, s.col from Seat s where s.movieOnShow.movieOnShowId = ?1 AND s.available = ?2")
+    List<Object[]> findByMovieOnShowIDAndAvailable(Integer movieOnShowId, Boolean available);
 
 }
