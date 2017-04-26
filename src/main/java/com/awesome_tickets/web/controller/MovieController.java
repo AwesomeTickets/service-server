@@ -32,13 +32,13 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @RequestMapping(path = "/{movieID}",
+    @RequestMapping(path = "/{movieId}",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse getMovieDetailsByID(@PathVariable Integer movieID,
+    public RestResponse getMovieDetailsByID(@PathVariable Integer movieId,
                                             HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-        Movie movie = movieService.getMovieWithAllDetails(movieID);
+        Movie movie = movieService.getMovieWithAllDetails(movieId);
         if (movie == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
@@ -48,7 +48,7 @@ public class MovieController {
             movieStyles.add(ms.getStyle());
         }
         RestResponse res = new RestResponse();
-        res.put("movieID", movie.getMovieID());
+        res.put("movieId", movie.getMovieID());
         res.put("title", movie.getTitle());
         res.put("pubdate", movie.getPubdate());
         res.put("length", movie.getLength());
@@ -62,7 +62,7 @@ public class MovieController {
         return res;
     }
 
-    @RequestMapping(path = "/on_show",
+    @RequestMapping(path = "/on",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getOnShowMovieIDs(HttpServletRequest request, HttpServletResponse response) {
@@ -71,7 +71,7 @@ public class MovieController {
         return new CollectionResponse(movieIDs);
     }
 
-    @RequestMapping(path = "/coming_soon",
+    @RequestMapping(path = "/soon",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getComingSoonMovieIDs(HttpServletRequest request, HttpServletResponse response) {
@@ -94,7 +94,7 @@ public class MovieController {
         List<LinkedHashMap<String, Object>> subjects = new ArrayList<LinkedHashMap<String, Object>>();
         for (Object[] objArr: posters) {
             LinkedHashMap<String, Object> poster = new LinkedHashMap<String, Object>();
-            poster.put("movieID", objArr[0]);
+            poster.put("movieId", objArr[0]);
             poster.put("posterLarge", objArr[1]);
             subjects.add(poster);
         }
