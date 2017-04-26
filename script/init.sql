@@ -1,146 +1,142 @@
--- Initialize simulated data to MySQL database
-
--- Database
 DROP DATABASE IF EXISTS awesome_tickets;
 CREATE DATABASE IF NOT EXISTS awesome_tickets;
 use awesome_tickets;
 
 
--- Tables
 CREATE TABLE IF NOT EXISTS country (
 
-    countryID INT         NOT NULL AUTO_INCREMENT,
-    name      VARCHAR(32) NOT NULL UNIQUE,
+    country_id INT        NOT NULL AUTO_INCREMENT,
+    name       VARCHAR(6) NOT NULL UNIQUE,
 
-    PRIMARY KEY (countryID)
+    PRIMARY KEY (country_id)
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
 
 CREATE TABLE IF NOT EXISTS movie_status (
 
-    movieStatusID INT         NOT NULL AUTO_INCREMENT,
-    status        VARCHAR(16) NOT NULL UNIQUE,
+    movie_status_id INT        NOT NULL AUTO_INCREMENT,
+    status          VARCHAR(4) NOT NULL UNIQUE,
 
-    PRIMARY KEY (movieStatusID)
+    PRIMARY KEY (movie_status_id)
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
 
 CREATE TABLE IF NOT EXISTS movie_style (
 
-    movieStyleID INT         NOT NULL AUTO_INCREMENT,
-    style        VARCHAR(16) NOT NULL UNIQUE,
+    movie_style_id INT        NOT NULL AUTO_INCREMENT,
+    style          VARCHAR(2) NOT NULL UNIQUE,
 
-    PRIMARY KEY (movieStyleID)
+    PRIMARY KEY (movie_style_id)
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
 
 CREATE TABLE IF NOT EXISTS movie_type (
 
-    movieTypeID INT        NOT NULL AUTO_INCREMENT,
-    type        VARCHAR(8) NOT NULL UNIQUE,
+    movie_type_id INT        NOT NULL AUTO_INCREMENT,
+    type          VARCHAR(8) NOT NULL UNIQUE,
 
-    PRIMARY KEY (movieTypeID)
+    PRIMARY KEY (movie_type_id)  
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
 
 CREATE TABLE IF NOT EXISTS movie (
 
-    movieID       INT NOT NULL AUTO_INCREMENT,
-    countryID     INT NOT NULL,
-    movieStatusID INT NOT NULL,
-    movieTypeID   INT NOT NULL,
-    pubdate       DATE NOT NULL,
-    title         VARCHAR(64) NOT NULL,
-    rating        FLOAT(2,1) NOT NULL DEFAULT 0.0,
-    length        INT NOT NULL,
-    posterSmall   VARCHAR(128),
-    posterLarge   VARCHAR(128),
+    movie_id        INT NOT NULL AUTO_INCREMENT,
+    country_id      INT NOT NULL,
+    movie_status_id INT NOT NULL,
+    movie_type_id   INT NOT NULL,
+    pub_date        DATE NOT NULL,
+    title           VARCHAR(10) NOT NULL,
+    rating          FLOAT(2,1) NOT NULL DEFAULT 0.0,
+    length          INT NOT NULL,
+    poster_small    VARCHAR(128),
+    poster_large    VARCHAR(128),
 
-    PRIMARY KEY (movieID),
-    FOREIGN KEY (countryID)     REFERENCES country(countryID)          ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (movieStatusID) REFERENCES movie_status(movieStatusID) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (movieTypeID)   REFERENCES movie_type(movieTypeID)     ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY (movie_id),
+    FOREIGN KEY (country_id)      REFERENCES country(country_id)           ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (movie_status_id) REFERENCES movie_status(movie_status_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (movie_type_id)   REFERENCES movie_type(movie_type_id)     ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
-CREATE INDEX idx_posterLarge USING BTREE on movie(posterLarge DESC);
+CREATE INDEX idx_poster_large USING BTREE on movie(poster_large DESC);
 
 
 CREATE TABLE IF NOT EXISTS movie_has_style (
 
-    movieID      INT NOT NULL,
-    movieStyleID INT NOT NULL,
+    movie_id      INT NOT NULL,
+    movie_style_id INT NOT NULL,
 
-    PRIMARY KEY (movieID, movieStyleID),
-    FOREIGN KEY (movieID)      REFERENCES movie(movieID)            ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (movieStyleID) REFERENCES movie_style(movieStyleID) ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY (movie_id, movie_style_id),
+    FOREIGN KEY (movie_id)       REFERENCES movie(movie_id)             ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (movie_style_id) REFERENCES movie_style(movie_style_id) ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
 
 CREATE TABLE IF NOT EXISTS cinema (
 
-    cinemaID INT NOT NULL AUTO_INCREMENT,
-    name     VARCHAR(30) NOT NULL UNIQUE,
-    location VARCHAR(50) NOT NULL UNIQUE,
+    cinema_id INT NOT NULL AUTO_INCREMENT,
+    name      VARCHAR(30) NOT NULL UNIQUE,
+    location  VARCHAR(50) NOT NULL UNIQUE,
 
-    PRIMARY KEY (cinemaID)
+    PRIMARY KEY (cinema_id)
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
 
 CREATE TABLE IF NOT EXISTS cinema_hall (
 
-    cinemaHallID INT NOT NULL AUTO_INCREMENT,
-    cinemaID     INT NOT NULL,
-    name         VARCHAR(16) NOT NULL,
-    seatLayout   VARCHAR(400) NOT NULL,
+    cinema_hall_id INT NOT NULL AUTO_INCREMENT,
+    cinema_id      INT NOT NULL,
+    name           VARCHAR(10) NOT NULL,
+    seat_layout    VARCHAR(400) NOT NULL,
 
-    PRIMARY KEY (cinemaHallID),
-    FOREIGN KEY (cinemaID) REFERENCES cinema(cinemaID) ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY (cinema_hall_id),
+    FOREIGN KEY (cinema_id) REFERENCES cinema(cinema_id) ON DELETE CASCADE ON UPDATE CASCADE
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
 
 CREATE TABLE IF NOT EXISTS movie_on_show (
 
-    movieOnShowID INT NOT NULL AUTO_INCREMENT,
-    movieID       INT NOT NULL,
-    cinemaHallID  INT NOT NULL,
-    lang          VARCHAR(16) NOT NULL,
-    showDate      DATE NOT NULL,
-    showTime      TIME NOT NULL,
-    price         DECIMAL(5, 2) NOT NULL,
+    movie_on_show_id INT NOT NULL AUTO_INCREMENT,
+    movie_id         INT NOT NULL,
+    cinema_hall_id   INT NOT NULL,
+    show_date        DATE NOT NULL,
+    show_time        TIME NOT NULL,
+    lang             VARCHAR(2) NOT NULL,
+    price            DECIMAL(5, 2) NOT NULL,
 
-    PRIMARY KEY (movieOnShowID),
-    FOREIGN KEY (movieID)      REFERENCES movie(movieID)            ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (cinemaHallID) REFERENCES cinema_hall(cinemaHallID) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (movie_on_show_id),
+    FOREIGN KEY (movie_id)       REFERENCES movie(movie_id)             ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (cinema_hall_id) REFERENCES cinema_hall(cinema_hall_id) ON DELETE CASCADE ON UPDATE CASCADE,
 
-    UNIQUE (movieID ASC, showDate ASC, cinemaHallID ASC, showTime ASC)
+    UNIQUE (movie_id ASC, show_date ASC, cinema_hall_id ASC, show_time ASC)
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
 
 CREATE TABLE IF NOT EXISTS seat (
 
-    seatID        INT NOT NULL AUTO_INCREMENT,
-    movieOnShowID INT NOT NULL,
-    row           INT NOT NULL,
-    col           INT NOT NULL,
-    available     BOOLEAN NOT NULL DEFAULT TRUE,
+    seat_id          INT NOT NULL AUTO_INCREMENT,
+    movie_on_show_id INT NOT NULL,
+    row              INT NOT NULL,
+    col              INT NOT NULL,
+    available        BOOLEAN NOT NULL DEFAULT TRUE,
 
-    PRIMARY KEY (seatID),
-    FOREIGN KEY (movieOnShowID) REFERENCES movie_on_show(movieOnShowID) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (seat_id),
+    FOREIGN KEY (movie_on_show_id) REFERENCES movie_on_show(movie_on_show_id) ON DELETE CASCADE ON UPDATE CASCADE,
 
-    UNIQUE (movieOnShowID ASC, row ASC, col ASC)
+    UNIQUE (movie_on_show_id ASC, row ASC, col ASC)
 
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
-CREATE INDEX idx_id_available USING BTREE on seat(movieOnShowID ASC, available ASC);
+CREATE INDEX idx_id_available USING BTREE on seat(movie_on_show_id ASC, available ASC);
 
 
 -- Data
@@ -156,7 +152,7 @@ INSERT INTO movie_style (style) VALUES
 ('动画'), ('音乐'), ('运动');
 
 INSERT INTO movie
-(countryID, movieStatusID, movieTypeID, pubdate, title, rating, length, posterSmall, posterLarge) VALUES
+(country_id, movie_status_id, movie_type_id, pub_date, title, rating, length, poster_small, poster_large) VALUES
 (1, 1, 2, '2017-03-17', "美女与野兽", 8.2, 130, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/small/1.jpg", "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/1.png"),
 (1, 2, 3, '2017-04-14', "速度与激情8", DEFAULT, 136, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/small/2.jpg", "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/2.png"),
 (1, 2, 3, '2017-04-07', "攻壳机动队", DEFAULT, 107, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/small/3.jpg", "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/large/3.png"),
@@ -176,7 +172,7 @@ INSERT INTO movie
 (2, 2, 1, '2017-03-31', "嫌疑人x的献身", DEFAULT, 112, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/small/17.jpg", ""),
 (2, 2, 1, '2017-04-01', "有完没完", DEFAULT, 99, "https://raw.githubusercontent.com/AwesomeTickets/Dashboard/master/img/poster/small/18.jpg", "");
 
-INSERT INTO movie_has_style (movieID, movieStyleID) VALUES
+INSERT INTO movie_has_style (movie_id, movie_style_id) VALUES
 (1, 4), (1, 5), (1, 6),
 (2, 2), (2, 9), (2, 11),
 (3, 2), (3, 9), (3, 10),
@@ -203,7 +199,7 @@ INSERT INTO cinema (name, location) VALUES
 ("飞扬影城（天河城店）", "天河区天河路208号天河城广场4楼"),
 ("保利国际影城（中环店）", "越秀区建设大马路18号中环广场南楼5层");
 
-INSERT INTO cinema_hall (cinemaID, name, seatLayout) VALUES
+INSERT INTO cinema_hall (cinema_id, name, seat_layout) VALUES
 (1, "1号厅（大）", "00111111111111111111110000,00111111111111111111110000,00111111111111111111000000,00111111111111111111000000,00111111111111111111000000,00111111111111111111000000,00111111111111111111000000,00111111111111111111000000,00111111111111111111000000,00111111111111111111000111,00111111111111111111000111,00111111111111111111000111,11111111111111111111111111"),
 (1, "2号厅", "00001111111111111100,00001111111111111100,00001111111111111100,00001111111111111100,00001111111111111100,11001111111111111111,11001111111111111111,11111111111111111111"),
 (1, "VIP厅", "000111111000,000111111000,000111111000,000111111000,000111111000,111111111011,111111111011,111111111111"),
