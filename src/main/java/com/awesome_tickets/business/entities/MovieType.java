@@ -8,26 +8,22 @@ import java.io.Serializable;
 @Table(name = "movie_type")
 public class MovieType implements Serializable {
 
-    private Integer movieTypeID;
-
+    private Integer movieTypeId;
     private String type;
 
     public MovieType() {
-    }
-
-    public MovieType(String type) {
-        this.type = type;
+        super();
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "movieTypeID")
-    public Integer getMovieTypeID() {
-        return movieTypeID;
+    @Column(name = "movie_type_id")
+    public Integer getMovieTypeId() {
+        return movieTypeId;
     }
 
-    public void setMovieTypeID(Integer movieTypeID) {
-        this.movieTypeID = movieTypeID;
+    public void setMovieTypeId(Integer movieTypeId) {
+        this.movieTypeId = movieTypeId;
     }
 
     @Column(name = "type", nullable = false, unique = true, length=8)
@@ -37,29 +33,5 @@ public class MovieType implements Serializable {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MovieType)) return false;
-
-        MovieType movieType = (MovieType) o;
-
-        return getMovieTypeID().equals(movieType.getMovieTypeID());
-    }
-
-    @Override
-    public int hashCode() {
-        return getMovieTypeID().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("MovieType [");
-        sb.append("movieTypeID=").append(movieTypeID);
-        sb.append(", type=").append(type);
-        sb.append(']');
-        return sb.toString();
     }
 }

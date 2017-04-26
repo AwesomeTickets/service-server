@@ -32,6 +32,10 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
+    public MovieController() {
+        super();
+    }
+
     @RequestMapping(path = "/{movieId}",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -48,9 +52,9 @@ public class MovieController {
             movieStyles.add(ms.getStyle());
         }
         RestResponse res = new RestResponse();
-        res.put("movieId", movie.getMovieID());
+        res.put("movieId", movie.getMovieId());
         res.put("title", movie.getTitle());
-        res.put("pubdate", movie.getPubdate());
+        res.put("pubDate", movie.getPubDate());
         res.put("length", movie.getLength());
         res.put("rating", movie.getRating());
         res.put("country", movie.getCountry().getName());
