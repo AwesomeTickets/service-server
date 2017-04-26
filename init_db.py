@@ -33,7 +33,7 @@ if __name__ == '__main__':
         print("Adding movies on show...")
         with conn.cursor() as cursor:
             cursor.execute("""
-                SELECT movieID, name
+                SELECT movie_id, name
                 FROM (movie NATURAL JOIN movie_status) NATURAL JOIN country
                 WHERE status='on'
             """)
@@ -48,7 +48,7 @@ if __name__ == '__main__':
             print("movies:", movies)
 
             cursor.execute("""
-                SELECT cinemaHallID
+                SELECT cinema_hall_id
                 FROM cinema_hall
             """)
             cinema_hall_ids = []
@@ -68,8 +68,8 @@ if __name__ == '__main__':
                             len(TICKET_PRICE))]
                         cursor.execute("""
                             INSERT INTO movie_on_show
-                            (movieID, cinemaHallID, lang,
-                             showDate, showTime, price)
+                            (movie_id, cinema_hall_id, lang,
+                             show_date, show_time, price)
                             VALUES (%d, %d, '%s', '%s', '%s', %f)
                         """ % (movie[0], cinema_hall_id, movie[1],
                                date, time, price))
@@ -77,7 +77,7 @@ if __name__ == '__main__':
         print("Adding seats...")
         with conn.cursor() as cursor:
             cursor.execute("""
-                SELECT movieOnShowID, seatLayout
+                SELECT movie_on_show_id, seat_layout
                 FROM movie_on_show NATURAL JOIN cinema_hall
             """)
             for entry in cursor.fetchall():
@@ -94,7 +94,7 @@ if __name__ == '__main__':
                         if (char != '0'):
                             cursor.execute("""
                                 INSERT INTO seat
-                                (movieOnShowID, row, col, available)
+                                (movie_on_show_id, row, col, available)
                                 VALUES (%d, %d, %d, %d)
                             """ % (movie_on_show_id, i + 1, col, available))
                             col += 1
