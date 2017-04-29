@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class ViewController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ViewController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ViewController.class);
     
     public ViewController() {
         super();
