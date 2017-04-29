@@ -121,9 +121,34 @@ CREATE TABLE IF NOT EXISTS movie_on_show (
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
 
 
+CREATE TABLE IF NOT EXISTS user (
+
+    user_id         INT NOT NULL AUTO_INCREMENT,
+    phone_num       CHAR(11) NOT NULL UNIQUE,
+    remain_purchase INT NOT NULL DEFAULT 4,
+
+    PRIMARY KEY (user_id)
+
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8;
+
+
+CREATE TABLE IF NOT EXISTS ticket (
+
+    ticket_id INT NOT NULL AUTO_INCREMENT,
+    user_id   INT NOT NULL,
+    valid     BOOLEAN DEFAULT TRUE,
+    digest    CHAR(32) DEFAULT NULL,
+
+    PRIMARY KEY (ticket_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 124578;
+
+
 CREATE TABLE IF NOT EXISTS seat (
 
     seat_id          INT NOT NULL AUTO_INCREMENT,
+    ticket_id        INT DEFAULT NULL,
     movie_on_show_id INT NOT NULL,
     row              INT NOT NULL,
     col              INT NOT NULL,
@@ -131,6 +156,7 @@ CREATE TABLE IF NOT EXISTS seat (
 
     PRIMARY KEY (seat_id),
     FOREIGN KEY (movie_on_show_id) REFERENCES movie_on_show(movie_on_show_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (ticket_id)        REFERENCES ticket(ticket_id) ON DELETE SET NULL ON UPDATE CASCADE,
 
     UNIQUE (movie_on_show_id ASC, row ASC, col ASC)
 
