@@ -4,6 +4,7 @@
 import pymysql as mdb
 import os
 import random
+import hashlib
 
 if __name__ == '__main__':
 
@@ -14,6 +15,7 @@ if __name__ == '__main__':
     SHOW_TIME = ['10:05:00', '13:20:00', '16:35:00', '19:50:00', '22:05:00']
     TICKET_PRICE = [20.0, 22.5, 28, 35, 37, 41.5]
     RAND_SOLD_SEATS = True
+    TEST_PHONE = '18812345678'
 
     os.system("mysql -u%s -p%s < ./script/init.sql" % (USER, PSWD))
 
@@ -24,14 +26,15 @@ if __name__ == '__main__':
                        charset='utf8')
 
     try:
-        # Print database infos
         with conn.cursor() as cursor:
+
+            # Print database info
             cursor.execute("SELECT VERSION()")
             data = cursor.fetchone()
-            print("Database version: %s" % data)
-        print("Initializing...")
-        print("Adding movies on show...")
-        with conn.cursor() as cursor:
+            print("MySQL version: %s" % data)
+
+            # Find available movies
+            print("Finding available movies...")
             cursor.execute("""
                 SELECT movie_id, name
                 FROM (movie NATURAL JOIN movie_status) NATURAL JOIN country
@@ -47,6 +50,8 @@ if __name__ == '__main__':
                 movies.append(entry)
             print("movies:", movies)
 
+            # Find available cinema halls
+            print("Finding available cinema halls...")
             cursor.execute("""
                 SELECT cinema_hall_id
                 FROM cinema_hall
@@ -56,6 +61,8 @@ if __name__ == '__main__':
                 cinema_hall_ids.append(entry[0])
             print("cinema_hall_ids:", cinema_hall_ids)
 
+            # Add on show movies
+            print("Adding on show movies...")
             candidate_movies = []
             for cinema_hall_id in cinema_hall_ids:
                 for date in SHOW_DATE:
@@ -73,9 +80,9 @@ if __name__ == '__main__':
                             VALUES (%d, %d, '%s', '%s', '%s', %f)
                         """ % (movie[0], cinema_hall_id, movie[1],
                                date, time, price))
-        conn.commit()
-        print("Adding seats...")
-        with conn.cursor() as cursor:
+
+            # Add seats
+            print("Adding seats...")
             cursor.execute("""
                 SELECT movie_on_show_id, seat_layout
                 FROM movie_on_show NATURAL JOIN cinema_hall
@@ -98,7 +105,30 @@ if __name__ == '__main__':
                                 VALUES (%d, %d, %d, %d)
                             """ % (movie_on_show_id, i + 1, col, available))
                             col += 1
+
+            # Add test user
+            print("Adding test user...")
+            cursor.execute("""
+                INSERT INTO user (phone_num) VALUES (%s)
+            """ % TEST_PHONE)
+
+            # Add test ticket
+            print("Adding test ticket...")
+            cursor.execute("INSERT INTO ticket (user_id) VALUES (1)")
+            cursor.execute("SELECT LAST_INSERT_ID()")
+            ticket_id = cursor.fetchall()[0][0]
+            digest = hashlib.md5(str(ticket_id).encode("utf-8")).hexdigest()
+            cursor.execute("""
+                UPDATE ticket SET digest='%s' WHERE ticket_id=%d
+            """ % (digest, ticket_id))
+
+            # Bind ticket to seats
+            print("Binding ticket to seats...")
+            cursor.execute("""
+                UPDATE seat SET ticket_id=%d WHERE seat_id in (1, 2, 3)
+            """ % ticket_id)
+
         conn.commit()
-        print("Finished.")
+        print("Done.")
     finally:
         conn.close()
