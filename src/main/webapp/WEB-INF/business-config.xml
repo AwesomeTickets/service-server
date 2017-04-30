@@ -14,12 +14,12 @@
         http://www.springframework.org/schema/data/jpa
         http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <context:component-scan base-package="com.awesome_tickets"/>
+    <context:component-scan base-package="com.awesometickets"/>
 
     <mvc:annotation-driven/>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="packagesToScan" value="com.awesome_tickets.business.entities" />
+        <property name="packagesToScan" value="com.awesometickets.business.entities" />
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
         </property>
@@ -28,7 +28,7 @@
                 <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.use_sql_comments">true</prop>
-                <prop key="hibernate.dialect">com.awesome_tickets.config.MySQL5Dialect</prop>
+                <prop key="hibernate.dialect">com.awesometickets.config.MySQL5Dialect</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
                 <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/awesome_tickets?createDatabaseIfNotExist=true&amp;useSSL=false</prop>
@@ -51,7 +51,7 @@
           class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor">
     </bean>
 
-    <jpa:repositories base-package="com.awesome_tickets.business.entities" transaction-manager-ref="transactionManager"
+    <jpa:repositories base-package="com.awesometickets.business.entities" transaction-manager-ref="transactionManager"
                       entity-manager-factory-ref="entityManagerFactory"/>
 
 </beans>
