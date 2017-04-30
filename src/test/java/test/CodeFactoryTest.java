@@ -1,6 +1,6 @@
 package test;
 
-import com.awesome_tickets.util.CodeFactory;
+import com.awesometickets.util.CodeFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
