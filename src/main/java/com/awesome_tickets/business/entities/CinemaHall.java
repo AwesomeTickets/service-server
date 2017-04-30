@@ -8,11 +8,11 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "cinema_hall")
+@Table(name = "CinemaHall")
 public class CinemaHall implements Serializable {
 
     private Integer cinemaHallId;
-    private String name;
+    private String hallName;
     private Cinema cinema;
     private String seatLayout;
 
@@ -31,13 +31,13 @@ public class CinemaHall implements Serializable {
         this.cinemaHallId = cinemaHallId;
     }
 
-    @Column(name = "name", nullable = false, length=10)
-    public String getName() {
-        return name;
+    @Column(name = "hall_name", nullable = false, length=10)
+    public String getHallName() {
+        return hallName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setHallName(String hallName) {
+        this.hallName = hallName;
     }
 
     @Column(name = "seat_layout", nullable = false, length=400)

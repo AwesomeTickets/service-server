@@ -49,7 +49,7 @@ public class MovieController {
         }
         List<String> movieStyles = new ArrayList<String>();
         for (MovieStyle ms : movie.getMovieStyleSet()) {
-            movieStyles.add(ms.getStyle());
+            movieStyles.add(ms.getStyleName());
         }
         RestResponse res = new RestResponse();
         res.put("movieId", movie.getMovieId());
@@ -57,9 +57,9 @@ public class MovieController {
         res.put("pubDate", movie.getPubDate());
         res.put("length", movie.getLength());
         res.put("rating", movie.getRating());
-        res.put("country", movie.getCountry().getName());
-        res.put("movieStatus", movie.getMovieStatus().getStatus());
-        res.put("movieType", movie.getMovieType().getType());
+        res.put("country", movie.getCountry().getCountryName());
+        res.put("movieStatus", movie.getMovieStatus().getStatusName());
+        res.put("movieType", movie.getMovieType().getTypeName());
         res.put("movieStyle", movieStyles);
         res.put("posterSmall", movie.getPosterSmall());
         res.put("posterLarge", movie.getPosterLarge());

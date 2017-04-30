@@ -5,11 +5,11 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "movie_status")
+@Table(name = "MovieStatus")
 public class MovieStatus implements Serializable {
 
     private Integer movieStatusId;
-    private String status;
+    private String statusName;
 
     public MovieStatus() {
         super();
@@ -26,12 +26,12 @@ public class MovieStatus implements Serializable {
         this.movieStatusId = movieStatusId;
     }
 
-    @Column(name = "status", nullable = false, unique = true, length=4)
-    public String getStatus() {
-        return status;
+    @Column(name = "status_name", nullable = false, length=4)
+    public String getStatusName() {
+        return statusName;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 }

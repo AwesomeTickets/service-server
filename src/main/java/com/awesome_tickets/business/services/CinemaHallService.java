@@ -3,8 +3,6 @@ package com.awesome_tickets.business.services;
 import com.awesome_tickets.business.entities.CinemaHall;
 import com.awesome_tickets.business.entities.Cinema;
 import com.awesome_tickets.business.entities.repositories.CinemaHallRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -35,7 +33,7 @@ public class CinemaHallService {
         CinemaHall cinemaHall = new CinemaHall();
         cinemaHall.setCinemaHallId(cinemaHallId);
         cinemaHall.setCinema(cinema);
-        cinemaHall.setName(name);
+        cinemaHall.setHallName(name);
         return cinemaHall;
     }
 

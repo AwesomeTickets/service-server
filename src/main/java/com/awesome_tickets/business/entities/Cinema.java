@@ -4,12 +4,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "cinema")
+@Table(name = "Cinema")
 public class Cinema implements Serializable {
 
 	private Integer cinemaId;
-	private String name;
-	private String location;
+	private String cinemaName;
+	private String cinemaAddr;
 
     public Cinema() {
         super();
@@ -26,21 +26,21 @@ public class Cinema implements Serializable {
         this.cinemaId = cinemaId;
     }
 
-    @Column(name = "name", nullable = false, unique = true, length=30)
-    public String getName() {
-        return name;
+    @Column(name = "cinema_name", nullable = false, length=30)
+    public String getCinemaName() {
+        return cinemaName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCinemaName(String cinemaName) {
+        this.cinemaName = cinemaName;
     }
 
-    @Column(name = "location", nullable = false, unique = true, length=50)
-    public String getLocation() {
-        return location;
+    @Column(name = "cinema_addr", nullable = false, length=50)
+    public String getCinemaAddr() {
+        return cinemaAddr;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCinemaAddr(String cinemaAddr) {
+        this.cinemaAddr = cinemaAddr;
     }
 }
