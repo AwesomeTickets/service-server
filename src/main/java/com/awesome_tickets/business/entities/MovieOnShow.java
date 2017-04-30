@@ -1,16 +1,21 @@
 package com.awesome_tickets.business.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
+import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Date;
 import java.util.Set;
 
 
 @Entity
-@Table(name = "movie_on_show")
-public class MovieOnShow {
-    private Integer movieOnShowID;
+@Table(name = "MovieOnShow")
+public class MovieOnShow implements Serializable {
+
+    private Integer movieOnShowId;
     private String lang;
     private Date showDate;
     private Time showTime;
@@ -19,18 +24,22 @@ public class MovieOnShow {
     private CinemaHall cinemaHall;
     private Set<Seat> seatSet;
 
+    public MovieOnShow() {
+        super();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "movieOnShowID")
-    public Integer getMovieOnShowID() {
-        return movieOnShowID;
+    @Column(name = "movie_on_show_id")
+    public Integer getMovieOnShowId() {
+        return movieOnShowId;
     }
 
-    public void setMovieOnShowID(Integer movieOnShowID) {
-        this.movieOnShowID = movieOnShowID;
+    public void setMovieOnShowId(Integer movieOnShowId) {
+        this.movieOnShowId = movieOnShowId;
     }
 
-    @Column(name = "lang", nullable = false, length=16)
+    @Column(name = "lang", nullable = false, length=2)
     public String getLang() {
         return lang;
     }
@@ -39,7 +48,7 @@ public class MovieOnShow {
         this.lang = lang;
     }
 
-    @Column(name = "showDate", nullable = false)
+    @Column(name = "show_date", nullable = false)
     public Date getShowDate() {
         return showDate;
     }
@@ -48,7 +57,7 @@ public class MovieOnShow {
         this.showDate = showDate;
     }
 
-    @Column(name = "showTime", nullable = false)
+    @Column(name = "show_time", nullable = false)
     public Time getShowTime() {
         return showTime;
     }
@@ -68,7 +77,8 @@ public class MovieOnShow {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "movieID")
+    @JoinColumn(name = "movie_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Movie getMovie() {
         return movie;
     }
@@ -78,7 +88,8 @@ public class MovieOnShow {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "cinemaHallID")
+    @JoinColumn(name = "cinema_hall_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public CinemaHall getCinemaHall() {
         return cinemaHall;
     }
@@ -88,6 +99,7 @@ public class MovieOnShow {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "movieOnShow")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Set<Seat> getSeatSet() {
         return seatSet;
     }
@@ -95,6 +107,4 @@ public class MovieOnShow {
     public void setSeatSet(Set<Seat> seatSet) {
         this.seatSet = seatSet;
     }
-
-
 }

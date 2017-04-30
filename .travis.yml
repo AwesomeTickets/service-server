@@ -17,11 +17,14 @@ branches:
     - /^(dev)|(dev_.*)$/
 
 before_install:
+  - git clone https://github.com/AwesomeTickets/Database
   - pip install PyMySQL --user
 
 before_script:
   - mysqladmin -u root password "123456"
+  - cd Database
   - python init_db.py
+  - cd ..
 
 script:
   - mvn clean test

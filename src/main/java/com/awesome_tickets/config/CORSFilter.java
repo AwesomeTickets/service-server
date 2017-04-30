@@ -1,4 +1,4 @@
-package com.awesome_tickets.web;
+package com.awesome_tickets.config;
 
 import java.io.IOException;
 

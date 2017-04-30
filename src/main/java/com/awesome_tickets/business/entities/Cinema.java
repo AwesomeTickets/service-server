@@ -4,70 +4,43 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "cinema")
+@Table(name = "Cinema")
 public class Cinema implements Serializable {
 
-	private Integer cinemaID;
-
-	private String name;
-
-	private String location;
+	private Integer cinemaId;
+	private String cinemaName;
+	private String cinemaAddr;
 
     public Cinema() {
-    }
-
-    public Cinema(String name, String location) {
-        this.name = name;
-        this.location = location;
+        super();
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "cinemaID")
-    public Integer getCinemaID() {
-        return cinemaID;
+    @Column(name = "cinema_id")
+    public Integer getCinemaId() {
+        return cinemaId;
     }
 
-    public void setCinemaID(Integer cinemaID) {
-        this.cinemaID = cinemaID;
+    public void setCinemaId(Integer cinemaId) {
+        this.cinemaId = cinemaId;
     }
 
-    @Column(name = "name", nullable = false, unique = true, length=30)
-    public String getName() {
-        return name;
+    @Column(name = "cinema_name", nullable = false, length=30)
+    public String getCinemaName() {
+        return cinemaName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCinemaName(String cinemaName) {
+        this.cinemaName = cinemaName;
     }
 
-    @Column(name = "location", nullable = false, unique = true, length=50)
-    public String getLocation() {
-        return location;
+    @Column(name = "cinema_addr", nullable = false, length=50)
+    public String getCinemaAddr() {
+        return cinemaAddr;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setCinemaAddr(String cinemaAddr) {
+        this.cinemaAddr = cinemaAddr;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Cinema)) return false;
-
-        Cinema cinema = (Cinema) o;
-
-        return getCinemaID().equals(cinema.getCinemaID())&&getLocation().equals(cinema.getLocation());
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Cinema [");
-        sb.append("id=").append(cinemaID);
-        sb.append(", name=").append(name);
-        sb.append(", location=").append(location);
-        sb.append(']');
-        return sb.toString();
-    }
-
 }

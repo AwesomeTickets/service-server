@@ -3,8 +3,8 @@ package com.awesome_tickets.web.controller;
 import com.awesome_tickets.business.entities.MovieOnShow;
 import com.awesome_tickets.business.services.MovieOnShowService;
 import com.awesome_tickets.web.controller.response.RestResponse;
-import com.awesome_tickets.web.util.DateUtil;
-import com.awesome_tickets.web.util.LogUtil;
+import com.awesome_tickets.util.DateUtil;
+import com.awesome_tickets.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,33 +25,37 @@ import com.awesome_tickets.web.controller.response.ErrorResponse;
  * RESTFul API of on-show movie resources.
  */
 @RestController
-@RequestMapping("/resource/movie_on_show")
+@RequestMapping("/resource/movie-on-show")
 public class MovieOnShowController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowController.class);
 
     @Autowired
     private MovieOnShowService movieOnShowService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowController.class);
+    public MovieOnShowController() {
+        super();
+    }
 
     @RequestMapping(path = "",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getMovieOnShowByDetails(
-        @RequestParam("movieID") Integer movieID,
-        @RequestParam("cinemaHallID") Integer cinemaHallID,
+        @RequestParam("movieId") Integer movieId,
+        @RequestParam("cinemaHallId") Integer cinemaHallId,
         @RequestParam("showDate") Date showDate,
         @RequestParam("showTime") Time showTime,
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
-        MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieID, cinemaHallID, showDate, showTime);
+        MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieId, cinemaHallId, showDate, showTime);
         if (movieOnShow == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-        result.put("movieOnShowID", movieOnShow.getMovieOnShowID());
-        result.put("movieID", movieOnShow.getMovie().getMovieID());
-        result.put("cinemaHallID", movieOnShow.getCinemaHall().getCinemaHallID());
+        result.put("movieOnShowId", movieOnShow.getMovieOnShowId());
+        result.put("movieId", movieOnShow.getMovie().getMovieId());
+        result.put("cinemaHallId", movieOnShow.getCinemaHall().getCinemaHallId());
         result.put("lang", movieOnShow.getLang());
         result.put("showDate", movieOnShow.getShowDate().toString());
         result.put("showTime", movieOnShow.getShowTime().toString());
@@ -60,21 +64,21 @@ public class MovieOnShowController {
         return result;
     }
 
-    @RequestMapping(path = "/{movieOnShowID}",
+    @RequestMapping(path = "/{movieOnShowId}",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse getMovieOnShowByID(@PathVariable Integer movieOnShowID,
+    public RestResponse getMovieOnShowByID(@PathVariable Integer movieOnShowId,
                                            HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
-        MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieOnShowID);
+        MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieOnShowId);
         if (movieOnShow == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-        result.put("movieOnShowID", movieOnShow.getMovieOnShowID());
-        result.put("movieID", movieOnShow.getMovie().getMovieID());
-        result.put("cinemaHallID", movieOnShow.getCinemaHall().getCinemaHallID());
+        result.put("movieOnShowId", movieOnShow.getMovieOnShowId());
+        result.put("movieId", movieOnShow.getMovie().getMovieId());
+        result.put("cinemaHallId", movieOnShow.getCinemaHall().getCinemaHallId());
         result.put("lang", movieOnShow.getLang());
         result.put("showDate", movieOnShow.getShowDate().toString());
         result.put("showTime", movieOnShow.getShowTime().toString());
@@ -86,24 +90,24 @@ public class MovieOnShowController {
     @RequestMapping(path = "/recent",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse getRecentMovieOnShow(@RequestParam("movieID") Integer movieID,
+    public RestResponse getRecentMovieOnShow(@RequestParam("movieId") Integer movieId,
                                              HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         final int range = 3;
         // Date date = Calendar.getInstance().getTime();
-        Date date = Date.valueOf("2017-04-04");
+        Date date = Date.valueOf("2017-05-01");
         List<Date> dates = new ArrayList<Date>();
         for (int i = 0; i < range; i++) {
             dates.add(date);
             date = DateUtil.getNextDate(date);
         }
-        Map<Date, List<Integer>> resultMap = movieOnShowService.getCinemaByDates(movieID, dates);
+        Map<Date, List<Integer>> resultMap = movieOnShowService.getCinemaByDates(movieId, dates);
         List<LinkedHashMap<String, Object>> dataList = new LinkedList<LinkedHashMap<String, Object>>();
         for (int i = 0; i < dates.size(); i++) {
             if (resultMap.get(dates.get(i)).size() != 0) {
                 RestResponse data = new RestResponse();
                 data.put("showDate", dates.get(i).toString());
-                data.put("cinemaID", resultMap.get(dates.get(i)));
+                data.put("cinemaId", resultMap.get(dates.get(i)));
                 dataList.add(data);
             }
         }
@@ -116,12 +120,12 @@ public class MovieOnShowController {
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getMovieOnShowByDay(
-        @RequestParam("movieID") Integer movieID,
-        @RequestParam("cinemaID") Integer cinemaID,
+        @RequestParam("movieId") Integer movieId,
+        @RequestParam("cinemaId") Integer cinemaId,
         @RequestParam("showDate") Date showDate,
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-        List<Integer> idsList = movieOnShowService.getMovieOnShowByDate(movieID, showDate, cinemaID);
+        List<Integer> idsList = movieOnShowService.getMovieOnShowByDate(movieId, showDate, cinemaId);
         CollectionResponse result = new CollectionResponse(idsList);
         response.setStatus(200);
         return result;
@@ -131,13 +135,13 @@ public class MovieOnShowController {
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getBriefMovieOnShowByDay(
-        @RequestParam("movieID") Integer movieID,
-        @RequestParam("cinemaID") Integer cinemaID,
+        @RequestParam("movieId") Integer movieId,
+        @RequestParam("cinemaId") Integer cinemaId,
         @RequestParam("showDate") Date showDate,
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
-        Object[] objs = movieOnShowService.getBriefMovieOnShowByDate(movieID, showDate, cinemaID);
+        Object[] objs = movieOnShowService.getBriefMovieOnShowByDate(movieId, showDate, cinemaId);
         List<String> timeList = (List<String>)objs[1];
         Float minPrice = (Float)objs[0];
         if (timeList.size() == 0) minPrice = 0.00F;
