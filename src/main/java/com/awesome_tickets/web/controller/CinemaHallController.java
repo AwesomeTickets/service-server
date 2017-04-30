@@ -4,7 +4,7 @@ import com.awesome_tickets.business.entities.CinemaHall;
 import com.awesome_tickets.business.services.CinemaHallService;
 import com.awesome_tickets.web.controller.response.ErrorResponse;
 import com.awesome_tickets.web.controller.response.RestResponse;
-import com.awesome_tickets.web.util.LogUtil;
+import com.awesome_tickets.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,46 +22,50 @@ import javax.servlet.http.HttpServletResponse;
  * RESTFul API of cinema hall resources.
  */
 @RestController
-@RequestMapping("/resource/cinema_hall")
+@RequestMapping("/resource/cinema-hall")
 public class CinemaHallController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CinemaHallController.class);
 
     @Autowired
     private CinemaHallService cinemaHallService;
 
-    private static final Logger LOG = LoggerFactory.getLogger(CinemaHallController.class);
+    public CinemaHallController() {
+        super();
+    }
 
-    @RequestMapping(path = "/{cinemaHallID}",
+    @RequestMapping(path = "/{cinemaHallId}",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse getCinemaHallWithoutSeatByID(@PathVariable Integer cinemaHallID,
+    public RestResponse getCinemaHallWithoutSeatByID(@PathVariable Integer cinemaHallId,
                                                      HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
-        CinemaHall cinemaHall = cinemaHallService.getWithoutSeatLayout(cinemaHallID);
+        CinemaHall cinemaHall = cinemaHallService.getWithoutSeatLayout(cinemaHallId);
         if (cinemaHall == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-        result.put("cinemaHallID", cinemaHall.getCinemaHallID());
-        result.put("cinemaID", cinemaHall.getCinema().getCinemaID());
-        result.put("name", cinemaHall.getName());
+        result.put("cinemaHallId", cinemaHall.getCinemaHallId());
+        result.put("cinemaId", cinemaHall.getCinema().getCinemaId());
+        result.put("hallName", cinemaHall.getHallName());
         response.setStatus(200);
         return result;
     }
 
-    @RequestMapping(path = "/{cinemaHallID}/seat_layout",
+    @RequestMapping(path = "/{cinemaHallId}/seat-layout",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse getCinemaHallWithSeatByID(@PathVariable Integer cinemaHallID,
+    public RestResponse getCinemaHallWithSeatByID(@PathVariable Integer cinemaHallId,
                                                   HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         RestResponse result = new RestResponse();
-        CinemaHall cinemaHall = cinemaHallService.getWithSeatLayout(cinemaHallID);
+        CinemaHall cinemaHall = cinemaHallService.getWithSeatLayout(cinemaHallId);
         if (cinemaHall == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
-        result.put("cinemaHallID", cinemaHall.getCinemaHallID());
+        result.put("cinemaHallId", cinemaHall.getCinemaHallId());
         result.put("seatLayout", cinemaHall.getSeatLayout());
         response.setStatus(200);
         return result;

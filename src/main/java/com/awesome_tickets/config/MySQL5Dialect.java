@@ -1,4 +1,4 @@
-package com.awesome_tickets.business;
+package com.awesome_tickets.config;
 
 import org.hibernate.dialect.MySQL5InnoDBDialect;
 

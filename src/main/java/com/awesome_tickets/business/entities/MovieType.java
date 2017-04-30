@@ -5,61 +5,33 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "movie_type")
+@Table(name = "MovieType")
 public class MovieType implements Serializable {
 
-    private Integer movieTypeID;
-
-    private String type;
+    private Integer movieTypeId;
+    private String typeName;
 
     public MovieType() {
-    }
-
-    public MovieType(String type) {
-        this.type = type;
+        super();
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "movieTypeID")
-    public Integer getMovieTypeID() {
-        return movieTypeID;
+    @Column(name = "movie_type_id")
+    public Integer getMovieTypeId() {
+        return movieTypeId;
     }
 
-    public void setMovieTypeID(Integer movieTypeID) {
-        this.movieTypeID = movieTypeID;
+    public void setMovieTypeId(Integer movieTypeId) {
+        this.movieTypeId = movieTypeId;
     }
 
-    @Column(name = "type", nullable = false, unique = true, length=8)
-    public String getType() {
-        return type;
+    @Column(name = "type_name", nullable = false, unique = true)
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MovieType)) return false;
-
-        MovieType movieType = (MovieType) o;
-
-        return getMovieTypeID().equals(movieType.getMovieTypeID());
-    }
-
-    @Override
-    public int hashCode() {
-        return getMovieTypeID().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("MovieType [");
-        sb.append("movieTypeID=").append(movieTypeID);
-        sb.append(", type=").append(type);
-        sb.append(']');
-        return sb.toString();
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 }

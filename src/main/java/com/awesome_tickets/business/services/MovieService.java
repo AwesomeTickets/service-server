@@ -13,21 +13,18 @@ import java.util.*;
 @Service
 public class MovieService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MovieService.class);
-
     @Autowired
     private MovieRepository movieRepo;
-
 
     public MovieService() {
         super();
     }
 
     /**
-     * Return the whole movie entity whose ID equals to @param movieID.
+     * Return the whole movie entity whose ID equals to @param movieId.
      */
-    public Movie getMovieWithAllDetails(Integer movieID) {
-        return movieRepo.findOneWithAllDetails(movieID);
+    public Movie getMovieWithAllDetails(Integer movieId) {
+        return movieRepo.findOneWithAllDetails(movieId);
     }
 
     /**

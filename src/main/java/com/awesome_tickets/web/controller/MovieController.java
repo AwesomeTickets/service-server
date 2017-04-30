@@ -6,7 +6,7 @@ import com.awesome_tickets.business.services.MovieService;
 import com.awesome_tickets.web.controller.response.CollectionResponse;
 import com.awesome_tickets.web.controller.response.ErrorResponse;
 import com.awesome_tickets.web.controller.response.RestResponse;
-import com.awesome_tickets.web.util.LogUtil;
+import com.awesome_tickets.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,37 +32,41 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @RequestMapping(path = "/{movieID}",
+    public MovieController() {
+        super();
+    }
+
+    @RequestMapping(path = "/{movieId}",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse getMovieDetailsByID(@PathVariable Integer movieID,
+    public RestResponse getMovieDetailsByID(@PathVariable Integer movieId,
                                             HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-        Movie movie = movieService.getMovieWithAllDetails(movieID);
+        Movie movie = movieService.getMovieWithAllDetails(movieId);
         if (movie == null) {
             response.setStatus(404);
             return new ErrorResponse("Resource not found");
         }
         List<String> movieStyles = new ArrayList<String>();
         for (MovieStyle ms : movie.getMovieStyleSet()) {
-            movieStyles.add(ms.getStyle());
+            movieStyles.add(ms.getStyleName());
         }
         RestResponse res = new RestResponse();
-        res.put("movieID", movie.getMovieID());
+        res.put("movieId", movie.getMovieId());
         res.put("title", movie.getTitle());
-        res.put("pubdate", movie.getPubdate());
+        res.put("pubDate", movie.getPubDate());
         res.put("length", movie.getLength());
         res.put("rating", movie.getRating());
-        res.put("country", movie.getCountry().getName());
-        res.put("movieStatus", movie.getMovieStatus().getStatus());
-        res.put("movieType", movie.getMovieType().getType());
+        res.put("country", movie.getCountry().getCountryName());
+        res.put("movieStatus", movie.getMovieStatus().getStatusName());
+        res.put("movieType", movie.getMovieType().getTypeName());
         res.put("movieStyle", movieStyles);
         res.put("posterSmall", movie.getPosterSmall());
         res.put("posterLarge", movie.getPosterLarge());
         return res;
     }
 
-    @RequestMapping(path = "/on_show",
+    @RequestMapping(path = "/on",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getOnShowMovieIDs(HttpServletRequest request, HttpServletResponse response) {
@@ -71,7 +75,7 @@ public class MovieController {
         return new CollectionResponse(movieIDs);
     }
 
-    @RequestMapping(path = "/coming_soon",
+    @RequestMapping(path = "/soon",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getComingSoonMovieIDs(HttpServletRequest request, HttpServletResponse response) {
@@ -94,7 +98,7 @@ public class MovieController {
         List<LinkedHashMap<String, Object>> subjects = new ArrayList<LinkedHashMap<String, Object>>();
         for (Object[] objArr: posters) {
             LinkedHashMap<String, Object> poster = new LinkedHashMap<String, Object>();
-            poster.put("movieID", objArr[0]);
+            poster.put("movieId", objArr[0]);
             poster.put("posterLarge", objArr[1]);
             subjects.add(poster);
         }
