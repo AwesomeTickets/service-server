@@ -48,7 +48,7 @@ public class CinemaHallController {
         }
         result.put("cinemaHallId", cinemaHall.getCinemaHallId());
         result.put("cinemaId", cinemaHall.getCinema().getCinemaId());
-        result.put("name", cinemaHall.getName());
+        result.put("hallName", cinemaHall.getHallName());
         response.setStatus(200);
         return result;
     }

@@ -93,8 +93,8 @@ public class WebAPITest extends BaseTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(3)))
             .andExpect(jsonPath("$.cinemaId").value(1))
-            .andExpect(jsonPath("$.name").isString())
-            .andExpect(jsonPath("$.location").isString());
+            .andExpect(jsonPath("$.cinemaName").isString())
+            .andExpect(jsonPath("$.cinemaAddr").isString());
     }
 
     /**
@@ -108,7 +108,7 @@ public class WebAPITest extends BaseTest {
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(3)))
             .andExpect(jsonPath("$.cinemaHallId").value(1))
             .andExpect(jsonPath("$.cinemaId").isNumber())
-            .andExpect(jsonPath("$.name").isString());
+            .andExpect(jsonPath("$.hallName").isString());
     }
 
     @Test
