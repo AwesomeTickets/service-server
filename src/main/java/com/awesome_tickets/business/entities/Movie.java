@@ -14,7 +14,7 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "movie")
+@Table(name = "Movie")
 public class Movie implements Serializable {
 
     private Integer movieId;
@@ -78,7 +78,7 @@ public class Movie implements Serializable {
     }
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinTable(name = "movie_has_style",
+    @JoinTable(name = "R_Movie_MovieStyle",
             joinColumns = {@JoinColumn(name = "movie_id", referencedColumnName = "movie_id")},
             inverseJoinColumns = {@JoinColumn(name = "movie_style_id", referencedColumnName ="movie_style_id")})
     public Set<MovieStyle> getMovieStyleSet() {
@@ -107,7 +107,7 @@ public class Movie implements Serializable {
         this.title = title;
     }
 
-    @Column(name = "rating", columnDefinition="float(2,1) default 0.0")
+    @Column(name = "rating", columnDefinition="decimal(2,1) default 0.0")
     @DecimalMin("0.1")
     public float getRating() {
         return rating;

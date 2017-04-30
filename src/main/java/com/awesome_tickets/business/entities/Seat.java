@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "seat")
+@Table(name = "Seat")
 public class Seat implements Serializable {
 
     private Integer seatId;

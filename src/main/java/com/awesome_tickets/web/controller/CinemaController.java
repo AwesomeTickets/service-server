@@ -49,8 +49,8 @@ public class CinemaController {
         }
         RestResponse res = new RestResponse();
         res.put("cinemaId", cinemaId);
-        res.put("name", cinema.getName());
-        res.put("location", cinema.getLocation());
+        res.put("cinemaName", cinema.getCinemaName());
+        res.put("cinemaAddr", cinema.getCinemaAddr());
         return res;
     }
 

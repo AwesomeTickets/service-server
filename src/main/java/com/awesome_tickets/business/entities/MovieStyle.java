@@ -6,11 +6,11 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "movie_style")
+@Table(name = "MovieStyle")
 public class MovieStyle implements Serializable {
 
     private Integer movieStyleId;
-    private String style;
+    private String styleName;
     private Set<Movie> movieSet;
 
     public MovieStyle() {
@@ -28,13 +28,13 @@ public class MovieStyle implements Serializable {
         this.movieStyleId = movieStyleId;
     }
 
-    @Column(name = "style", nullable = false, unique = true, length=2)
-    public String getStyle() {
-        return style;
+    @Column(name = "style_name", nullable = false, length=2)
+    public String getStyleName() {
+        return styleName;
     }
 
-    public void setStyle(String style) {
-        this.style = style;
+    public void setStyleName(String styleName) {
+        this.styleName = styleName;
     }
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "movieStyleSet")

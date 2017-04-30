@@ -12,7 +12,7 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "movie_on_show")
+@Table(name = "MovieOnShow")
 public class MovieOnShow implements Serializable {
 
     private Integer movieOnShowId;

@@ -5,11 +5,11 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "country")
+@Table(name = "Country")
 public class Country implements Serializable {
 
     private Integer countryId;
-    private String name;
+    private String countryName;
 
     public Country() {
         super();
@@ -26,12 +26,12 @@ public class Country implements Serializable {
         this.countryId = countryId;
     }
 
-    @Column(name = "name", nullable = false, unique = true, length=6)
-    public String getName() {
-        return name;
+    @Column(name = "country_name", nullable = false, length=6)
+    public String getCountryName() {
+        return countryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 }
