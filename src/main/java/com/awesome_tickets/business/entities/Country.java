@@ -5,61 +5,33 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "country")
+@Table(name = "Country")
 public class Country implements Serializable {
 
-    private Integer countryID;
-
-    private String name;
+    private Integer countryId;
+    private String countryName;
 
     public Country() {
-    }
-
-    public Country(String name) {
-        this.name = name;
+        super();
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "countryID")
-    public Integer getCountryID() {
-        return countryID;
+    @Column(name = "country_id")
+    public Integer getCountryId() {
+        return countryId;
     }
 
-    public void setCountryID(Integer countryID) {
-        this.countryID = countryID;
+    public void setCountryId(Integer countryId) {
+        this.countryId = countryId;
     }
 
-    @Column(name = "name", nullable = false, unique = true, length=32)
-    public String getName() {
-        return name;
+    @Column(name = "country_name", nullable = false, length=6)
+    public String getCountryName() {
+        return countryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Country)) return false;
-
-        Country country = (Country) o;
-
-        return getCountryID().equals(country.getCountryID());
-    }
-
-    @Override
-    public int hashCode() {
-        return getCountryID().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Country [");
-        sb.append("id=").append(countryID);
-        sb.append(", name=").append(name);
-        sb.append(']');
-        return sb.toString();
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 }

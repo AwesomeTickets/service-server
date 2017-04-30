@@ -1,6 +1,11 @@
 package com.awesome_tickets.business.entities;
 
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
@@ -9,60 +14,39 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "movie")
+@Table(name = "Movie")
 public class Movie implements Serializable {
 
-    private Integer movieID;
-
+    private Integer movieId;
     private Country country;
-
     private MovieStatus movieStatus;
-
     private MovieType movieType;
-
     private Set<MovieStyle> movieStyleSet;
-
-    private Date pubdate;
-
+    private Date pubDate;
     private String title;
-
     private float rating;
-
     private int length;
-
     private String posterSmall;
-
     private String posterLarge;
 
     public Movie() {
-    }
-
-    public Movie(Country country, MovieStatus movieStatus, MovieType movieType, Set<MovieStyle> movieStyleSet,
-                 String title, float rating, int length, String posterSmall, String posterLarge) {
-        this.country = country;
-        this.movieStatus = movieStatus;
-        this.movieType = movieType;
-        this.movieStyleSet = movieStyleSet;
-        this.title = title;
-        this.rating = rating;
-        this.length = length;
-        this.posterSmall = posterSmall;
-        this.posterLarge = posterLarge;
+        super();
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "movieID")
-    public Integer getMovieID() {
-        return movieID;
+    @Column(name = "movie_id")
+    public Integer getMovieId() {
+        return movieId;
     }
 
-    public void setMovieID(Integer movieID) {
-        this.movieID = movieID;
+    public void setMovieId(Integer movieId) {
+        this.movieId = movieId;
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "countryID")
+    @JoinColumn(name = "country_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Country getCountry() {
         return country;
     }
@@ -72,7 +56,8 @@ public class Movie implements Serializable {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "movieStatusID")
+    @JoinColumn(name = "movie_status_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public MovieStatus getMovieStatus() {
         return movieStatus;
     }
@@ -82,7 +67,8 @@ public class Movie implements Serializable {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "movieTypeID")
+    @JoinColumn(name = "movie_type_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public MovieType getMovieType() {
         return movieType;
     }
@@ -92,9 +78,9 @@ public class Movie implements Serializable {
     }
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinTable(name = "movie_has_style",
-            joinColumns = {@JoinColumn(name = "movieID", referencedColumnName = "movieID")},
-            inverseJoinColumns = {@JoinColumn(name = "movieStyleID", referencedColumnName ="movieStyleID")})
+    @JoinTable(name = "R_Movie_MovieStyle",
+            joinColumns = {@JoinColumn(name = "movie_id", referencedColumnName = "movie_id")},
+            inverseJoinColumns = {@JoinColumn(name = "movie_style_id", referencedColumnName ="movie_style_id")})
     public Set<MovieStyle> getMovieStyleSet() {
         return movieStyleSet;
     }
@@ -103,16 +89,16 @@ public class Movie implements Serializable {
         this.movieStyleSet = movieStyleSet;
     }
 
-    @Column(name = "pubdate", nullable = false, length = 10)
-    public Date getPubdate() {
-        return pubdate;
+    @Column(name = "pub_date", nullable = false)
+    public Date getPubDate() {
+        return pubDate;
     }
 
-    public void setPubdate(Date pubdate) {
-        this.pubdate = pubdate;
+    public void setPubDate(Date pubDate) {
+        this.pubDate = pubDate;
     }
 
-    @Column(name = "title", nullable = false, length=64)
+    @Column(name = "title", nullable = false, length=10)
     public String getTitle() {
         return title;
     }
@@ -121,7 +107,7 @@ public class Movie implements Serializable {
         this.title = title;
     }
 
-    @Column(name = "rating", columnDefinition="float(2,1) default 0.0")
+    @Column(name = "rating", columnDefinition="decimal(2,1) default 0.0")
     @DecimalMin("0.1")
     public float getRating() {
         return rating;
@@ -141,7 +127,7 @@ public class Movie implements Serializable {
         this.length = length;
     }
 
-    @Column(name = "posterSmall", length=128)
+    @Column(name = "poster_small", length=128)
     public String getPosterSmall() {
         return posterSmall;
     }
@@ -150,45 +136,12 @@ public class Movie implements Serializable {
         this.posterSmall = posterSmall;
     }
 
-    @Column(name = "posterLarge", length=128)
+    @Column(name = "poster_large", length=128)
     public String getPosterLarge() {
         return posterLarge;
     }
 
     public void setPosterLarge(String posterLarge) {
         this.posterLarge = posterLarge;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Movie)) return false;
-
-        Movie movie = (Movie) o;
-
-        return getMovieID().equals(movie.getMovieID());
-    }
-
-    @Override
-    public int hashCode() {
-        return getMovieID().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Movie [");
-        sb.append("movieID=").append(movieID);
-        sb.append(", country=").append(country.getName());
-        sb.append(", movieStatus=").append(movieStatus.getStatus());
-        sb.append(", movieType=").append(movieType.getType());
-        sb.append(", movieStyleSet=").append(movieStyleSet);
-        sb.append(", pubdate=").append(pubdate);
-        sb.append(", title=").append(title);
-        sb.append(", rating=").append(rating);
-        sb.append(", length=").append(length);
-        sb.append(", posterSmall=").append(posterSmall);
-        sb.append(", posterLarge=").append(posterLarge);
-        sb.append(']');
-        return sb.toString();
     }
 }

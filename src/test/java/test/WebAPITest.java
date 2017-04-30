@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -15,12 +16,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
+@Transactional
 public class WebAPITest extends BaseTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
-
     private MockMvc mockMvc;
+    private String testDate = "2017-05-01";
 
     @Before
     public void setup() {
@@ -36,9 +38,9 @@ public class WebAPITest extends BaseTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(11)))
-            .andExpect(jsonPath("$.movieID").value(1))
+            .andExpect(jsonPath("$.movieId").value(1))
             .andExpect(jsonPath("$.title").isString())
-            .andExpect(jsonPath("$.pubdate").isString())
+            .andExpect(jsonPath("$.pubDate").isString())
             .andExpect(jsonPath("$.length").isNumber())
             .andExpect(jsonPath("$.rating").isNumber())
             .andExpect(jsonPath("$.country").isString())
@@ -51,7 +53,7 @@ public class WebAPITest extends BaseTest {
 
     @Test
     public void testGetOnShowMovieIDs() throws Exception {
-        mockMvc.perform(get("/resource/movie/on_show"))
+        mockMvc.perform(get("/resource/movie/on"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
@@ -61,7 +63,7 @@ public class WebAPITest extends BaseTest {
 
     @Test
     public void testGetComingSoonMovieIDs() throws Exception {
-        mockMvc.perform(get("/resource/movie/coming_soon"))
+        mockMvc.perform(get("/resource/movie/soon"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
@@ -77,7 +79,7 @@ public class WebAPITest extends BaseTest {
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
             .andExpect(jsonPath("$.count").value(1))
             .andExpect(jsonPath("$.data").isArray())
-            .andExpect(jsonPath("$.data[0].movieID").isNumber())
+            .andExpect(jsonPath("$.data[0].movieId").isNumber())
             .andExpect(jsonPath("$.data[0].posterLarge").isString());
     }
 
@@ -90,9 +92,9 @@ public class WebAPITest extends BaseTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(3)))
-            .andExpect(jsonPath("$.cinemaID").value(1))
-            .andExpect(jsonPath("$.name").isString())
-            .andExpect(jsonPath("$.location").isString());
+            .andExpect(jsonPath("$.cinemaId").value(1))
+            .andExpect(jsonPath("$.cinemaName").isString())
+            .andExpect(jsonPath("$.cinemaAddr").isString());
     }
 
     /**
@@ -100,22 +102,22 @@ public class WebAPITest extends BaseTest {
      */
     @Test
     public void testGetCinemaHallWithoutSeatByID() throws Exception {
-        mockMvc.perform(get("/resource/cinema_hall/1"))
+        mockMvc.perform(get("/resource/cinema-hall/1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(3)))
-            .andExpect(jsonPath("$.cinemaHallID").value(1))
-            .andExpect(jsonPath("$.cinemaID").isNumber())
-            .andExpect(jsonPath("$.name").isString());
+            .andExpect(jsonPath("$.cinemaHallId").value(1))
+            .andExpect(jsonPath("$.cinemaId").isNumber())
+            .andExpect(jsonPath("$.hallName").isString());
     }
 
     @Test
     public void testGetCinemaHallWithSeatByID() throws Exception {
-        mockMvc.perform(get("/resource/cinema_hall/1/seat_layout"))
+        mockMvc.perform(get("/resource/cinema-hall/1/seat-layout"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
-            .andExpect(jsonPath("$.cinemaHallID").value(1))
+            .andExpect(jsonPath("$.cinemaHallId").value(1))
             .andExpect(jsonPath("$.seatLayout").isString());
     }
 
@@ -124,18 +126,19 @@ public class WebAPITest extends BaseTest {
      */
     @Test
     public void testGetMovieOnShowByDetails() throws Exception {
-        mockMvc.perform(get("/resource/movie_on_show?movieID=1&cinemaHallID=1&showDate=2017-04-04&showTime=13:20:00"));
+        mockMvc.perform(get("/resource/movie-on-show?movieId=1&cinemaHallId=1&showDate="
+            + testDate + "&showTime=13:20:00"));
     }
 
     @Test
     public void testGetMovieOnShowByID() throws Exception {
-        mockMvc.perform(get("/resource/movie_on_show/1"))
+        mockMvc.perform(get("/resource/movie-on-show/1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(7)))
-            .andExpect(jsonPath("$.movieOnShowID").value(1))
-            .andExpect(jsonPath("$.movieID").isNumber())
-            .andExpect(jsonPath("$.cinemaHallID").isNumber())
+            .andExpect(jsonPath("$.movieOnShowId").value(1))
+            .andExpect(jsonPath("$.movieId").isNumber())
+            .andExpect(jsonPath("$.cinemaHallId").isNumber())
             .andExpect(jsonPath("$.lang").isString())
             .andExpect(jsonPath("$.showDate").isString())
             .andExpect(jsonPath("$.showTime").isString())
@@ -144,19 +147,19 @@ public class WebAPITest extends BaseTest {
 
     @Test
     public void testGetRecentMovieOnShow() throws Exception {
-        mockMvc.perform(get("/resource/movie_on_show/recent?movieID=1"))
+        mockMvc.perform(get("/resource/movie-on-show/recent?movieId=1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
             .andExpect(jsonPath("$.count").isNumber())
             .andExpect(jsonPath("$.data").isArray())
             .andExpect(jsonPath("$.data[0].showDate").isString())
-            .andExpect(jsonPath("$.data[0].cinemaID").isArray());
+            .andExpect(jsonPath("$.data[0].cinemaId").isArray());
     }
 
     @Test
     public void testGetMovieOnShowByDay() throws Exception {
-        mockMvc.perform(get("/resource/movie_on_show/day?showDate=2017-04-04&cinemaID=1&&movieID=1"))
+        mockMvc.perform(get("/resource/movie-on-show/day?showDate=" + testDate + "&cinemaId=1&&movieId=1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
@@ -166,10 +169,11 @@ public class WebAPITest extends BaseTest {
 
     @Test
     public void testGetBriefMovieOnShowByDay() throws Exception {
-        mockMvc.perform(get("/resource/movie_on_show/day/brief?showDate=2017-04-04&cinemaID=1&&movieID=1"))
+        mockMvc.perform(get("/resource/movie-on-show/day/brief?showDate=" + testDate + "&cinemaId=1&&movieId=1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
+            .andExpect(jsonPath("$.minPrice").isNumber())
             .andExpect(jsonPath("$.minPrice").isNumber())
             .andExpect(jsonPath("$.showTime").isArray());
     }
@@ -179,7 +183,7 @@ public class WebAPITest extends BaseTest {
      */
     @Test
     public void testGetUnavailableSeat() throws Exception {
-        mockMvc.perform(get("/resource/seat/unavailable?movieOnShowID=1"))
+        mockMvc.perform(get("/resource/seat/unavailable?movieOnShowId=1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))

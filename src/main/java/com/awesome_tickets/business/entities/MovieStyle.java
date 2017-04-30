@@ -6,40 +6,35 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "movie_style")
+@Table(name = "MovieStyle")
 public class MovieStyle implements Serializable {
 
-    private Integer movieStyleID;
-
-    private String style;
-
+    private Integer movieStyleId;
+    private String styleName;
     private Set<Movie> movieSet;
 
     public MovieStyle() {
-    }
-
-    public MovieStyle(String style) {
-        this.style = style;
+        super();
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "movieStyleID")
-    public Integer getMovieStyleID() {
-        return movieStyleID;
+    @Column(name = "movie_style_id")
+    public Integer getMovieStyleId() {
+        return movieStyleId;
     }
 
-    public void setMovieStyleID(Integer movieStyleID) {
-        this.movieStyleID = movieStyleID;
+    public void setMovieStyleId(Integer movieStyleId) {
+        this.movieStyleId = movieStyleId;
     }
 
-    @Column(name = "style", nullable = false, unique = true, length=16)
-    public String getStyle() {
-        return style;
+    @Column(name = "style_name", nullable = false, length=2)
+    public String getStyleName() {
+        return styleName;
     }
 
-    public void setStyle(String style) {
-        this.style = style;
+    public void setStyleName(String styleName) {
+        this.styleName = styleName;
     }
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "movieStyleSet")
@@ -49,29 +44,5 @@ public class MovieStyle implements Serializable {
 
     public void setMovieSet(Set<Movie> movieSet) {
         this.movieSet = movieSet;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MovieStyle)) return false;
-
-        MovieStyle that = (MovieStyle) o;
-
-        return getMovieStyleID().equals(that.getMovieStyleID());
-    }
-
-    @Override
-    public int hashCode() {
-        return getMovieStyleID().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("MovieStyleRepository [");
-        sb.append("movieStyleID=").append(movieStyleID);
-        sb.append(", style=").append(style);
-        sb.append(']');
-        return sb.toString();
     }
 }
