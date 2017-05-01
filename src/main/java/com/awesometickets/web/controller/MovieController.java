@@ -3,6 +3,7 @@ package com.awesometickets.web.controller;
 import com.awesometickets.business.entities.Movie;
 import com.awesometickets.business.entities.MovieStyle;
 import com.awesometickets.business.services.MovieService;
+import com.awesometickets.web.controller.response.ErrorStatus;
 import com.awesometickets.web.controller.response.CollectionResponse;
 import com.awesometickets.web.controller.response.ErrorResponse;
 import com.awesometickets.web.controller.response.RestResponse;
@@ -44,8 +45,7 @@ public class MovieController {
         LogUtil.logReq(LOG, request);
         Movie movie = movieService.getMovieWithAllDetails(movieId);
         if (movie == null) {
-            response.setStatus(404);
-            return new ErrorResponse("Resource not found");
+            return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
         }
         List<String> movieStyles = new ArrayList<String>();
         for (MovieStyle ms : movie.getMovieStyleSet()) {
@@ -91,8 +91,7 @@ public class MovieController {
                                          HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         if (count < 0) {
-            response.setStatus(400);
-            return new ErrorResponse("Negative poster amount");
+            return new ErrorResponse(response, ErrorStatus.BAD_REQUEST);
         }
         List<Object[]> posters = movieService.getLargePoster(count);
         List<LinkedHashMap<String, Object>> subjects = new ArrayList<LinkedHashMap<String, Object>>();
