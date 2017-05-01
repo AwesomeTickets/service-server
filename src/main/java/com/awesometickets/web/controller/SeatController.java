@@ -48,9 +48,7 @@ public class SeatController {
         for (Seat seat : seats) {
             dataList.add(new Integer[] {seat.getRow(), seat.getCol()});
         }
-        CollectionResponse result = new CollectionResponse(dataList);
-        response.setStatus(200);
-        return result;
+        return new CollectionResponse(dataList);
     }
 
 }

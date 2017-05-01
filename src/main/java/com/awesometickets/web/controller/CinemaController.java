@@ -1,5 +1,6 @@
 package com.awesometickets.web.controller;
 
+import com.awesometickets.web.controller.response.ErrorStatus;
 import com.awesometickets.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +45,7 @@ public class CinemaController {
         LogUtil.logReq(LOG, request);
         Cinema cinema = cinemaService.getCinema(cinemaId);
         if (cinema == null) {
-            response.setStatus(404);
-            return new ErrorResponse("Resource not found");
+            return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
         }
         RestResponse res = new RestResponse();
         res.put("cinemaId", cinemaId);

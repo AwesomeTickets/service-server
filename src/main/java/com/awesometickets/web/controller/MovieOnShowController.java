@@ -2,6 +2,7 @@ package com.awesometickets.web.controller;
 
 import com.awesometickets.business.entities.MovieOnShow;
 import com.awesometickets.business.services.MovieOnShowService;
+import com.awesometickets.web.controller.response.ErrorStatus;
 import com.awesometickets.web.controller.response.RestResponse;
 import com.awesometickets.util.DateUtil;
 import com.awesometickets.util.LogUtil;
@@ -50,8 +51,7 @@ public class MovieOnShowController {
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieId, cinemaHallId, showDate, showTime);
         if (movieOnShow == null) {
-            response.setStatus(404);
-            return new ErrorResponse("Resource not found");
+            return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
         }
         result.put("movieOnShowId", movieOnShow.getMovieOnShowId());
         result.put("movieId", movieOnShow.getMovie().getMovieId());
@@ -60,7 +60,6 @@ public class MovieOnShowController {
         result.put("showDate", movieOnShow.getShowDate().toString());
         result.put("showTime", movieOnShow.getShowTime().toString());
         result.put("price", movieOnShow.getPrice());
-        response.setStatus(200);
         return result;
     }
 
@@ -73,8 +72,7 @@ public class MovieOnShowController {
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieOnShowId);
         if (movieOnShow == null) {
-            response.setStatus(404);
-            return new ErrorResponse("Resource not found");
+            return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
         }
         result.put("movieOnShowId", movieOnShow.getMovieOnShowId());
         result.put("movieId", movieOnShow.getMovie().getMovieId());
@@ -83,7 +81,6 @@ public class MovieOnShowController {
         result.put("showDate", movieOnShow.getShowDate().toString());
         result.put("showTime", movieOnShow.getShowTime().toString());
         result.put("price", movieOnShow.getPrice());
-        response.setStatus(200);
         return result;
     }
 
@@ -111,9 +108,7 @@ public class MovieOnShowController {
                 dataList.add(data);
             }
         }
-        CollectionResponse result = new CollectionResponse(dataList);
-        response.setStatus(200);
-        return result;
+        return new CollectionResponse(dataList);
     }
 
     @RequestMapping(path = "/day",
@@ -126,9 +121,7 @@ public class MovieOnShowController {
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
         List<Integer> idsList = movieOnShowService.getMovieOnShowByDate(movieId, showDate, cinemaId);
-        CollectionResponse result = new CollectionResponse(idsList);
-        response.setStatus(200);
-        return result;
+        return new CollectionResponse(idsList);
     }
 
     @RequestMapping(path = "/day/brief",
@@ -147,7 +140,6 @@ public class MovieOnShowController {
         if (timeList.size() == 0) minPrice = 0.00F;
         result.put("minPrice", minPrice);
         result.put("showTime", timeList);
-        response.setStatus(200);
         return result;
     }
 }
