@@ -2,6 +2,7 @@ package com.awesometickets.web.controller;
 
 import com.awesometickets.business.entities.CinemaHall;
 import com.awesometickets.business.services.CinemaHallService;
+import com.awesometickets.web.controller.response.ErrorStatus;
 import com.awesometickets.web.controller.response.ErrorResponse;
 import com.awesometickets.web.controller.response.RestResponse;
 import com.awesometickets.util.LogUtil;
@@ -43,13 +44,11 @@ public class CinemaHallController {
         RestResponse result = new RestResponse();
         CinemaHall cinemaHall = cinemaHallService.getWithoutSeatLayout(cinemaHallId);
         if (cinemaHall == null) {
-            response.setStatus(404);
-            return new ErrorResponse("Resource not found");
+            return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
         }
         result.put("cinemaHallId", cinemaHall.getCinemaHallId());
         result.put("cinemaId", cinemaHall.getCinema().getCinemaId());
         result.put("hallName", cinemaHall.getHallName());
-        response.setStatus(200);
         return result;
     }
 
@@ -62,12 +61,10 @@ public class CinemaHallController {
         RestResponse result = new RestResponse();
         CinemaHall cinemaHall = cinemaHallService.getWithSeatLayout(cinemaHallId);
         if (cinemaHall == null) {
-            response.setStatus(404);
-            return new ErrorResponse("Resource not found");
+            return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
         }
         result.put("cinemaHallId", cinemaHall.getCinemaHallId());
         result.put("seatLayout", cinemaHall.getSeatLayout());
-        response.setStatus(200);
         return result;
     }
 
