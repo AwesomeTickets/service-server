@@ -25,6 +25,8 @@ public class CinemaHallService {
      */
     public CinemaHall getWithoutSeatLayout(Integer cinemaHallId) {
         List<Object[]> list = cinemaHallRepo.findWithoutSeatLayout(cinemaHallId);
+        if (list.size() == 0) return null;
+
         Object[] o = list.get(0);
         Integer cinemaID = (Integer)o[1];
         String name = (String )o[2];
