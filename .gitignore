@@ -9,6 +9,7 @@ log.txt
 *.gz
 *.out
 *.tar
+.awesometickets
 
 # Front-end resoures
 src/main/webapp/fonts/

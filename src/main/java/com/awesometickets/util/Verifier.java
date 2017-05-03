@@ -34,6 +34,8 @@ public class Verifier {
         return instance;
     }
 
+    private Verifier() {}
+
     /**
      * Send verification sms code.
      *
@@ -79,8 +81,11 @@ public class Verifier {
 
     /**
      * Initialize a {@code Verifier} instance.
+     *
+     * @param id The LC id
+     * @param key The LC key
      */
-    private Verifier() {
+    public void init(String id, String key) {
         StringHttpMessageConverter converter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
         converter.setWriteAcceptCharset(false);
         restTemplate = new RestTemplate();
@@ -88,8 +93,8 @@ public class Verifier {
         mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         headers = new HttpHeaders();
-        headers.add("X-LC-Id", "");
-        headers.add("X-LC-Key", "");
+        headers.add("X-LC-Id", id);
+        headers.add("X-LC-Key", key);
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
