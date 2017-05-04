@@ -5,6 +5,7 @@ import org.hibernate.annotations.*;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
@@ -45,8 +46,7 @@ public class Movie implements Serializable {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "country_id", foreignKey=@ForeignKey(name="FK_R_Movie_Country"))
     public Country getCountry() {
         return country;
     }
@@ -56,8 +56,7 @@ public class Movie implements Serializable {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_status_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "movie_status_id", foreignKey=@ForeignKey(name="FK_R_Movie_MovieStatus"))
     public MovieStatus getMovieStatus() {
         return movieStatus;
     }
@@ -67,8 +66,7 @@ public class Movie implements Serializable {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_type_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "movie_type_id", foreignKey=@ForeignKey(name="FK_R_Movie_MovieType"))
     public MovieType getMovieType() {
         return movieType;
     }
@@ -79,8 +77,8 @@ public class Movie implements Serializable {
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "R_Movie_MovieStyle",
-            joinColumns = {@JoinColumn(name = "movie_id", referencedColumnName = "movie_id")},
-            inverseJoinColumns = {@JoinColumn(name = "movie_style_id", referencedColumnName ="movie_style_id")})
+            joinColumns = {@JoinColumn(name = "movie_id", referencedColumnName = "movie_id", foreignKey=@ForeignKey(name="FK_R_MovieStyle_Movie"))},
+            inverseJoinColumns = {@JoinColumn(name = "movie_style_id", referencedColumnName ="movie_style_id", foreignKey=@ForeignKey(name="FK_R_Movie_MovieStyle"))})
     public Set<MovieStyle> getMovieStyleSet() {
         return movieStyleSet;
     }
