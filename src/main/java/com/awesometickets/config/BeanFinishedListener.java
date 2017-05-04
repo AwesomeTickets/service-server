@@ -1,6 +1,6 @@
 package com.awesometickets.config;
 
-import com.awesometickets.util.Verifier;
+import com.awesometickets.business.services.SmsService;
 import com.awesometickets.web.controller.response.ErrorStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +30,7 @@ public class BeanFinishedListener implements ApplicationListener<ContextRefreshe
             LOG.info("Beans constructed.");
             loadConfig();
             ErrorStatus.init();
-            Verifier.getInstance().init(configs[0], configs[1]);
+            SmsService.getInstance().init(configs[0], configs[1]);
         }
     }
 
