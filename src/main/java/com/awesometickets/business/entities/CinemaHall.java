@@ -1,8 +1,5 @@
 package com.awesometickets.business.entities;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -50,8 +47,7 @@ public class CinemaHall implements Serializable {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "cinema_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "cinema_id", foreignKey=@ForeignKey(name="FK_R_CinemaHall_Cinema"))
     public Cinema getCinema() {
         return cinema;
     }

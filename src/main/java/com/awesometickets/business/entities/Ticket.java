@@ -1,8 +1,5 @@
 package com.awesometickets.business.entities;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 
 @Entity
@@ -29,8 +26,7 @@ public class Ticket {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "user_id", foreignKey=@ForeignKey(name="FK_R_Ticket_User"))
     public User getUser() {
         return user;
     }
