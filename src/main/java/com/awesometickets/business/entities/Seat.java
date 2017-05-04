@@ -17,6 +17,7 @@ public class Seat implements Serializable {
     private Integer col;
     private Boolean available;
     private MovieOnShow movieOnShow;
+    private Ticket ticket;
 
     public Seat() {
         super();
@@ -71,5 +72,16 @@ public class Seat implements Serializable {
 
     public void setMovieOnShow(MovieOnShow movieOnShow) {
         this.movieOnShow = movieOnShow;
+    }
+
+    @OneToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ticket_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 }
