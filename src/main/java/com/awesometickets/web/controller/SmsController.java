@@ -2,6 +2,7 @@ package com.awesometickets.web.controller;
 
 import com.awesometickets.business.services.SmsService;
 import com.awesometickets.util.LogUtil;
+import com.awesometickets.util.PhoneNumUtil;
 import com.awesometickets.web.controller.response.ErrorResponse;
 import com.awesometickets.web.controller.response.ErrorStatus;
 import com.awesometickets.web.controller.response.RestResponse;
@@ -31,7 +32,7 @@ public class SmsController {
     public RestResponse sendSms(@PathVariable String phoneNum,
                                             HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-        if (phoneNum.length() != 11) return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        if (!PhoneNumUtil.isPhone(phoneNum)) return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
 
         if (smsService.sendSmsCode(phoneNum)) {
             RestResponse res = new RestResponse();
@@ -48,7 +49,7 @@ public class SmsController {
     public RestResponse checkSmsCode(@PathVariable String phoneNum,
                                 HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-        if (phoneNum.length() != 11) return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        if (!PhoneNumUtil.isPhone(phoneNum)) return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
 
         String code = request.getParameter("code");
 
