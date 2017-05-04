@@ -1,4 +1,4 @@
-package com.awesometickets.util;
+package com.awesometickets.business.services;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -6,35 +6,36 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
 
-
 /**
  * Manage sms and captcha verification.
  */
-public class Verifier {
-    private static final Logger LOG = LoggerFactory.getLogger(Verifier.class);
+public class SmsService {
+    private static final Logger LOG = LoggerFactory.getLogger(SmsService.class);
     private static final String URL_ROOT = "https://api.leancloud.cn/1.1";
     private static final String URL_REQ_SMS = URL_ROOT + "/requestSmsCode";
     private static final String URL_VRF_SMS = URL_ROOT + "/verifySmsCode";
-    private static final Verifier instance = new Verifier();
+    private static final SmsService instance = new SmsService();
     private RestTemplate restTemplate;
     private ObjectMapper mapper;
     private HttpHeaders headers;
 
     /**
-     * Return the only {@code Verifier} instance.
+     * Return the only {@code SmsService} instance.
      */
-    public static Verifier getInstance() {
+    public static SmsService getInstance() {
         return instance;
     }
 
-    private Verifier() {}
+    private SmsService() {}
 
     /**
      * Send verification sms code.
@@ -44,7 +45,7 @@ public class Verifier {
      */
     public boolean sendSmsCode(String phone) {
         try {
-            String body = new ReqSmsParam(phone).toJSON();
+            String body = new SmsService.ReqSmsParam(phone).toJSON();
             LOG.info("sendSmsCode() req body: " + body);
             HttpEntity<String> reqEntity = new HttpEntity<String>(body, headers);
             String res = restTemplate.postForObject(URL_REQ_SMS, reqEntity, String.class);
@@ -80,7 +81,7 @@ public class Verifier {
     }
 
     /**
-     * Initialize a {@code Verifier} instance.
+     * Initialize a {@code SmsService} instance.
      *
      * @param id The LC id
      * @param key The LC key
