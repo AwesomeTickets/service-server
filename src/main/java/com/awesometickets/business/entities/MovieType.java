@@ -26,7 +26,7 @@ public class MovieType implements Serializable {
         this.movieTypeId = movieTypeId;
     }
 
-    @Column(name = "type_name", nullable = false, unique = true)
+    @Column(name = "type_name", nullable = false)
     public String getTypeName() {
         return typeName;
     }
