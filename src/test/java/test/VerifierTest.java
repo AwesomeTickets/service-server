@@ -2,8 +2,10 @@ package test;
 
 import com.awesometickets.business.services.SmsService;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class VerifierTest extends BaseTest {
 
     @Test
