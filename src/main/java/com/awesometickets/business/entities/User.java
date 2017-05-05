@@ -24,7 +24,7 @@ public class User {
         this.userId = userId;
     }
 
-    @Column(name = "phone_num", nullable = false, length=11)
+    @Column(name = "phone_num", nullable = false, length=11, unique = true)
     public String getPhoneNum() {
         return phoneNum;
     }
