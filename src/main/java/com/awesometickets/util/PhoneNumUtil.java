@@ -36,9 +36,10 @@ public class PhoneNumUtil {
     private static final Pattern isPhonePattern = Pattern.compile(PHONE_PATTERN);
 
     /**
-     * Check if the phone number is valid
-     * @param phoneNum
-     * @return
+     * Check if the phone number is valid.
+     *
+     * @param phoneNum The phone number
+     * @return True if the phone number is valid
      */
     public static boolean isPhone(String phoneNum){
         boolean flag = false;
