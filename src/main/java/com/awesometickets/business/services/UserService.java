@@ -10,15 +10,26 @@ public class UserService {
     @Autowired
     private UserRepository userRepo;
 
+    /**
+     * Create a user with his phone number, do nothing if the phone number exists.
+     *
+     * @param phoneNum The phone number to save a new user
+     */
     public void createUserWithPhoneNum(String phoneNum) {
         if (!isPhoneNumExist(phoneNum)) {
             User user = new User();
             user.setPhoneNum(phoneNum);
+            // The default purchase count is four.
             user.setRemainPurchase(4);
             userRepo.save(user);
         }
     }
 
+    /**
+     * Check if a phone number exists.
+     *
+     * @param phoneNum The phone number to check
+     */
     public boolean isPhoneNumExist(String phoneNum) {
         return userRepo.findByPhoneNum(phoneNum).size() > 0;
     }
