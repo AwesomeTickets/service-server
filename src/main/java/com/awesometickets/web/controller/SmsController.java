@@ -1,6 +1,7 @@
 package com.awesometickets.web.controller;
 
 import com.awesometickets.business.services.SmsService;
+import com.awesometickets.business.services.UserService;
 import com.awesometickets.util.LogUtil;
 import com.awesometickets.util.PhoneNumUtil;
 import com.awesometickets.web.controller.response.ErrorResponse;
@@ -8,6 +9,7 @@ import com.awesometickets.web.controller.response.ErrorStatus;
 import com.awesometickets.web.controller.response.RestResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +25,12 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/resource/sms")
 public class SmsController {
-    private static final Logger LOG = LoggerFactory.getLogger(SmsController.class);
+    @Autowired
+    private UserService userService;
+
     private SmsService smsService = SmsService.getInstance();
+
+    private static final Logger LOG = LoggerFactory.getLogger(SmsController.class);
 
     @RequestMapping(path = "/{phoneNum}",
             method = RequestMethod.GET,
@@ -54,6 +60,7 @@ public class SmsController {
         String code = request.getParameter("code");
 
         if (smsService.verifySmsCode(phoneNum, code)) {
+            userService.createUserWithPhoneNum(phoneNum);
             RestResponse res = new RestResponse();
             res.put("phoneNum", phoneNum);
             return res;
