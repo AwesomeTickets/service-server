@@ -11,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,13 +30,14 @@ public class SmsController {
     private static final Logger LOG = LoggerFactory.getLogger(SmsController.class);
 
     @RequestMapping(path = "/{phoneNum}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse sendSms(@PathVariable String phoneNum,
-                                            HttpServletRequest request, HttpServletResponse response) {
+                                HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-        if (!PhoneNumUtil.isPhone(phoneNum)) return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
-
+        if (!PhoneNumUtil.isPhone(phoneNum)) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        }
         if (smsService.sendSmsCode(phoneNum)) {
             RestResponse res = new RestResponse();
             res.put("phoneNum", phoneNum);
@@ -50,15 +48,15 @@ public class SmsController {
     }
 
     @RequestMapping(path = "/{phoneNum}/check",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+                    method = RequestMethod.POST,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse checkSmsCode(@PathVariable String phoneNum,
-                                HttpServletRequest request, HttpServletResponse response) {
+                                     @RequestParam("code") String code,
+                                     HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-        if (!PhoneNumUtil.isPhone(phoneNum)) return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
-
-        String code = request.getParameter("code");
-
+        if (!PhoneNumUtil.isPhone(phoneNum)) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        }
         if (smsService.verifySmsCode(phoneNum, code)) {
             userService.createUserWithPhoneNum(phoneNum);
             RestResponse res = new RestResponse();

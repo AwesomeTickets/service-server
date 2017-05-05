@@ -29,6 +29,12 @@ public class ViewController {
         return "index";
     }
 
+    @RequestMapping(path = "/test", method = RequestMethod.GET)
+    public String test(HttpServletRequest request, HttpServletResponse response) {
+        LogUtil.logReq(LOG, request);
+        return "test";
+    }
+
     @RequestMapping(path = "/tickets", method = RequestMethod.GET)
     public String tickets(HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
