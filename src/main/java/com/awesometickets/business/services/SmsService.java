@@ -45,7 +45,7 @@ public class SmsService {
      */
     public boolean sendSmsCode(String phone) {
         try {
-            String body = new SmsService.ReqSmsParam(phone).toJSON();
+            String body = new ReqSmsParam(phone).toJSON();
             LOG.info("sendSmsCode() req body: " + body);
             HttpEntity<String> reqEntity = new HttpEntity<String>(body, headers);
             String res = restTemplate.postForObject(URL_REQ_SMS, reqEntity, String.class);
