@@ -1,4 +1,4 @@
-package test;
+package test.controller;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import test.BaseTest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -17,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @Transactional
-public class WebAPITest extends BaseTest {
+public class RestControllerTest extends BaseTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
