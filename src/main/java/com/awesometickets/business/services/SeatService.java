@@ -37,4 +37,15 @@ public class SeatService {
         }
         return seatList;
     }
+
+    /**
+     * Return a seat in a show with show id and its position row and col.
+     * @param row
+     * @param col
+     * @param movieOnShowId
+     * @return
+     */
+    public Seat getByRowAndColAndMovieOnShowId(Integer row, Integer col, Integer movieOnShowId) {
+        return seatRepo.findByRowAndColAndMovieOnShowId(row, col, movieOnShowId);
+    }
 }
