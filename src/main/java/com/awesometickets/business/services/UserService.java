@@ -37,12 +37,12 @@ public class UserService {
     }
 
     /**
-     * Get a user using the phone number
+     * Get a user's id using the phone number
      *
      * @param phoneNum The phone number
      */
-    public User getUserByPhoneNum(String phoneNum) {
-        List<User> users = userRepo.findByPhoneNum(phoneNum);
+    public Integer getUserByPhoneNum(String phoneNum) {
+        List<Integer> users = userRepo.findByPhoneNum(phoneNum);
         if (users.size() == 0) return null;
         else return users.get(0);
     }
