@@ -41,18 +41,30 @@ public class SeatService {
     /**
      * Check the seats is available and it will put the seat entities to the list.
      * @param seatList The list to put the seat entities
-     * @param seats
-     * @param movieOnShowId
      * @return True if the seats are all available
      */
-    public boolean checkSeatsAvailable(List<Seat> seatList, Integer[] seats, Integer movieOnShowId) {
+    public boolean checkSeatsAvailable(List<Seat> seatList) {
+        for (Seat seat : seatList) {
+            if (!seat.getAvailable()) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check the seats is exist and it will put the seat entities to the list.
+     * @param seatList The list to put the seat entities
+     * @return True if the seats are all exist
+     */
+    public boolean checkSeatExist(List<Seat> seatList, Integer[] seats, Integer movieOnShowId) {
         for (int i = 0; i < seats.length; ) {
             int row = seats[i++];
             int col = seats[i++];
-            seatList.add(seatRepo.findByRowAndColAndMovieOnShowId(row, col, movieOnShowId));
-        }
-        for (Seat seat : seatList) {
-            if (!seat.getAvailable()) return false;
+            Seat seat = seatRepo.findByRowAndColAndMovieOnShowId(row, col, movieOnShowId);
+            if (seat == null) {
+                seatList.clear();
+                return false;
+            }
+            seatList.add(seat);
         }
         return true;
     }

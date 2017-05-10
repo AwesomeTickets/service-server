@@ -54,7 +54,7 @@ public class TicketController {
         if (!validator.checkPhoneNum(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
         } else if (!validator.checkSeatsFormat(seats)) {
-            return new ErrorResponse(response, ErrorStatus.SEAT_NOT_FOUND);
+            return new ErrorResponse(response, ErrorStatus.BAD_REQUEST);
         }
 
         User user = userService.getUserByPhoneNum(phoneNum);
@@ -65,15 +65,18 @@ public class TicketController {
         }
 
         List<Seat> seatList = new ArrayList<Seat>();
-        if (!seatService.checkSeatsAvailable(seatList, seats, movieOnShowId)) {
+        if (!seatService.checkSeatExist(seatList, seats, movieOnShowId)) {
+            return new ErrorResponse(response, ErrorStatus.SEAT_NOT_FOUND);
+        } else if (!seatService.checkSeatsAvailable(seatList)) {
             return new ErrorResponse(response, ErrorStatus.SEAT_UNAVAILABLE);
         }
 
-        String code = ticketService.buyTicketAndGenerateCode(seatList, user);
         List<Integer[]> dataList = new LinkedList<Integer[]>();
         for (Seat seat : seatList) {
             dataList.add(new Integer[] {seat.getRow(), seat.getCol()});
         }
+
+        String code = ticketService.buyTicketAndGenerateCode(seatList, user);
         RestResponse re = new RestResponse();
         re.put("movieOnShowId", movieOnShowId);
         re.put("seats", dataList);
