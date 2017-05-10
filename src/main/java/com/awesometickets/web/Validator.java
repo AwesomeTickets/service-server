@@ -1,9 +1,15 @@
-package com.awesometickets.util;
+package com.awesometickets.web;
+
+import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PhoneNumUtil {
+/**
+ * Validation of all request parameters.
+ */
+@Component
+public class Validator {
     /**
      * China TELECOM phone number
      * at 133,153,180,181,189,177,1700,173
@@ -41,7 +47,7 @@ public class PhoneNumUtil {
      * @param phoneNum The phone number
      * @return True if the phone number is valid
      */
-    public static boolean isPhone(String phoneNum){
+    public boolean checkPhoneNum(String phoneNum) {
         boolean flag = false;
         try {
             Matcher m = isPhonePattern.matcher(phoneNum);
@@ -49,8 +55,18 @@ public class PhoneNumUtil {
         } catch (Exception e) {
             flag = false;
         }
-
         return flag;
     }
+
+    /**
+     * Check the seats format.
+     * @param seats
+     * @return True if the seats array is valid
+     */
+    public boolean checkSeatsFormat(Integer[] seats) {
+        return !(seats.length > 8 || seats.length < 2 || seats.length % 2 != 0);
+    }
+
+
 
 }

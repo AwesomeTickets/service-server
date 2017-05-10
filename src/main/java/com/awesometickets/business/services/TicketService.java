@@ -31,18 +31,15 @@ public class TicketService {
 
     /**
      * Buy a ticket.
-     * @param seatSet The seats in the ticket
+     * @param seatList The seats in the ticket
      * @param user The buyer
      * @return The generated code
      */
-    public String buyTicketAndGenerateCode(Set<Seat> seatSet, User user) {
+    public String buyTicketAndGenerateCode(List<Seat> seatList, User user) {
         Ticket ticket = new Ticket();
         String code = genCode();
         String codeDigest = digest(code);
 
-        for (Seat seat : seatSet) {
-            if (!seat.getAvailable()) return null;
-        }
         user.setRemainPurchase(user.getRemainPurchase()-1);
         ticket.setDigest(codeDigest);
         ticket.setValid(true);
@@ -50,7 +47,7 @@ public class TicketService {
         ticketRepo.save(ticket);
 
         saveCode(code);
-        for (Seat seat : seatSet) {
+        for (Seat seat : seatList) {
             seat.setTicket(ticket);
             seat.setAvailable(false);
             seatRepo.save(seat);
