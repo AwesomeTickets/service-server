@@ -14,10 +14,10 @@ public class TicketCodeServiceTest extends BaseTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(TicketCodeServiceTest.class);
 
-    @Autowired
+//    @Autowired
     private TicketCodeService ticketCodeService;
 
-    @Test
+//    @Test
     public void testCreateAndSaveCode() throws Exception {
         for (int i = 0; i < 5; ++i) {
             String code = ticketCodeService.genCode();
@@ -28,7 +28,7 @@ public class TicketCodeServiceTest extends BaseTest {
         }
     }
 
-    @Test
+//    @Test
     public void testDigest() throws Exception {
         Assert.assertTrue(ticketCodeService.digest("").equals("d41d8cd98f00b204e9800998ecf8427e"));
         Assert.assertTrue(ticketCodeService.digest("The quick brown fox jumps over the lazy dog")
