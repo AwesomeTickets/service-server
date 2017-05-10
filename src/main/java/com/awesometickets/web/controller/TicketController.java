@@ -7,6 +7,7 @@ import com.awesometickets.business.services.TicketService;
 import com.awesometickets.business.services.UserService;
 import com.awesometickets.util.LogUtil;
 import com.awesometickets.util.PhoneNumUtil;
+import com.awesometickets.web.Validator;
 import com.awesometickets.web.controller.response.ErrorResponse;
 import com.awesometickets.web.controller.response.ErrorStatus;
 import com.awesometickets.web.controller.response.RestResponse;
@@ -41,6 +42,9 @@ public class TicketController {
     @Autowired
     private SeatService seatService;
 
+    @Autowired
+    private Validator validator;
+
     @RequestMapping(path = "",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -50,16 +54,12 @@ public class TicketController {
                                   HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
 
-        if (!PhoneNumUtil.isPhone(phoneNum)) {
-            return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        Integer userId = -1;
+        int errorCode = validator.validateTicketParams(userId, phoneNum, seats);
+        if (errorCode != -1) {
+            return new ErrorResponse(response, errorCode);
         }
-        if (seats.length > 8 || seats.length < 2 || seats.length % 2 != 0) {
-            return new ErrorResponse(response, ErrorStatus.BAD_REQUEST);
-        }
-        User user = userService.getUserByPhoneNum(phoneNum);
-        if (user == null) {
-            return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
-        }
+
 
         Set<Seat> seatSet = new HashSet<Seat>();
         for (int i = 0; i < seats.length; ) {
