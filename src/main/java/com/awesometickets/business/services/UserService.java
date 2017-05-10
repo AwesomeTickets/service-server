@@ -5,6 +5,8 @@ import com.awesometickets.business.entities.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -32,5 +34,16 @@ public class UserService {
      */
     public boolean isPhoneNumExist(String phoneNum) {
         return userRepo.findByPhoneNum(phoneNum).size() > 0;
+    }
+
+    /**
+     * Get a user using the phone number
+     *
+     * @param phoneNum The phone number
+     */
+    public User getUserByPhoneNum(String phoneNum) {
+        List<User> users = userRepo.findByPhoneNum(phoneNum);
+        if (users.size() == 0) return null;
+        else return users.get(0);
     }
 }
