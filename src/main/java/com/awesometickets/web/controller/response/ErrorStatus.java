@@ -21,7 +21,7 @@ public class ErrorStatus {
     public static final int PURCHASE_UNAVAILABLE = 203;
     public static final int PHONE_MISMATCH = 300;
     public static final int TICKET_CODE_NOT_FOUND = 301;
-    public static final int TICKET_CHECKED = 400;
+    public static final int TICKET_CHECKED = 302;
 
     private static Map<Integer, String> infoMap;
     private static Map<Integer, Integer> statusMap;
