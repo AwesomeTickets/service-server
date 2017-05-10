@@ -1,5 +1,6 @@
 package test.controller;
 
+import com.awesometickets.web.controller.response.ErrorStatus;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.springframework.web.context.WebApplicationContext;
 import test.BaseTest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -190,5 +192,85 @@ public class RestControllerTest extends BaseTest {
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
             .andExpect(jsonPath("$.count").isNumber())
             .andExpect(jsonPath("$.data").isArray());
+    }
+
+    /**
+     * Ticket API
+     */
+    @Test
+    public void testBuyTicket() throws Exception {
+        // No exception
+        mockMvc.perform(post("/resource/ticket")
+            .param("movieOnShowId", "1")
+            .param("phoneNum", "18812345678")
+            .param("seats", "1,1,1,2,1,3"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.*").value(Matchers.hasSize(4)))
+            .andExpect(jsonPath("$.movieOnShowId").value(1))
+            .andExpect(jsonPath("$.seats").value(Matchers.hasSize(3)))
+            .andExpect(jsonPath("$.seats[0][0]").value(1))
+            .andExpect(jsonPath("$.seats[0][1]").value(1))
+            .andExpect(jsonPath("$.seats[1][0]").value(1))
+            .andExpect(jsonPath("$.seats[1][1]").value(2))
+            .andExpect(jsonPath("$.seats[2][0]").value(1))
+            .andExpect(jsonPath("$.seats[2][1]").value(3))
+            .andExpect(jsonPath("$.phoneNum").value("18812345678"))
+            .andExpect(jsonPath("$.ticketCode").isString());
+        // PHONE_INVALID_FORMAT
+        mockMvc.perform(post("/resource/ticket")
+            .param("movieOnShowId", "1")
+            .param("phoneNum", "99912345678")
+            .param("seats", "1,1,1,2,1,3"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
+            .andExpect(jsonPath("$.code").value(100));
+        // SEAT_NOT_FOUND
+//        mockMvc.perform(post("/resource/ticket")
+//            .param("movieOnShowId", "1")
+//            .param("phoneNum", "18812345678")
+//            .param("seats", "1,1,0,0,1,3"))
+//            .andExpect(status().isBadRequest())
+//            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+//            .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
+//            .andExpect(jsonPath("$.code").value(201));
+        // PHONE_NOT_VERIFIED
+        mockMvc.perform(post("/resource/ticket")
+            .param("movieOnShowId", "1")
+            .param("phoneNum", "18812345679")
+            .param("seats", "1,1,1,2,1,3"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
+            .andExpect(jsonPath("$.code").value(202));
+        // PURCHASE_UNAVAILABLE
+        mockMvc.perform(post("/resource/ticket")
+            .param("movieOnShowId", "1")
+            .param("phoneNum", "18813572648")
+            .param("seats", "1,1,1,2,1,3"))
+            .andExpect(status().isForbidden())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
+            .andExpect(jsonPath("$.code").value(203));
+        // SEAT_UNAVAILABLE
+        mockMvc.perform(post("/resource/ticket")
+            .param("movieOnShowId", "1")
+            .param("phoneNum", "18812345678")
+            .param("seats", "1,1,1,2,1,4"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
+            .andExpect(jsonPath("$.code").value(200));
+    }
+
+    @Test
+    public void testCheckTicket() throws Exception {
+        // TODO
+    }
+
+    @Test
+    public void testGetTicketInfo() throws Exception {
+        // TODO
     }
 }
