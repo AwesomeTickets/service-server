@@ -17,6 +17,7 @@ import java.util.Set;
 
 @Service
 public class TicketService {
+
     @Autowired
     private TicketRepository ticketRepo;
 
@@ -87,13 +88,12 @@ public class TicketService {
         return seatRepo.findByTicketIdWithMovieOnShowAndTicket(ticket.getTicketId());
     }
 
-
     /**
      * Generate a ticket code with 10 characters.
      *
      * @return The generated ticket code
      */
-    private String genCode() {
+    public String genCode() {
         String codeStr;
         do {
             double code = random.nextDouble() * 8999999999D + 1000000000D;
@@ -107,7 +107,7 @@ public class TicketService {
      *
      * @param code The ticket code to save
      */
-    private void saveCode(String code) {
+    public void saveCode(String code) {
         TicketCode ticketCode = new TicketCode();
         ticketCode.setCode(code);
         codeRepo.save(ticketCode);
@@ -119,7 +119,7 @@ public class TicketService {
      * @param code The ticket code to check
      * @return True if the ticket code has been generated.
      */
-    private boolean hasCode(String code) {
+    public boolean hasCode(String code) {
         return codeRepo.findOne(code) != null;
     }
 
@@ -129,7 +129,7 @@ public class TicketService {
      * @param code The ticket code
      * @return The digest string with 32 characters
      */
-    private String digest(String code) {
+    public String digest(String code) {
         return DigestUtils.md5DigestAsHex(code.getBytes());
     }
 }
