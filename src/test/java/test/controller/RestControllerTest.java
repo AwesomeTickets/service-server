@@ -227,14 +227,14 @@ public class RestControllerTest extends BaseTest {
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
             .andExpect(jsonPath("$.code").value(100));
         // SEAT_NOT_FOUND
-//        mockMvc.perform(post("/resource/ticket")
-//            .param("movieOnShowId", "1")
-//            .param("phoneNum", "18812345678")
-//            .param("seats", "1,1,0,0,1,3"))
-//            .andExpect(status().isBadRequest())
-//            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-//            .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
-//            .andExpect(jsonPath("$.code").value(201));
+        mockMvc.perform(post("/resource/ticket")
+            .param("movieOnShowId", "1")
+            .param("phoneNum", "18812345678")
+            .param("seats", "1,1,0,0,1,3"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
+            .andExpect(jsonPath("$.code").value(201));
         // PHONE_NOT_VERIFIED
         mockMvc.perform(post("/resource/ticket")
             .param("movieOnShowId", "1")
