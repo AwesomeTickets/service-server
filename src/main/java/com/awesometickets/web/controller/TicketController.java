@@ -46,12 +46,13 @@ public class TicketController {
     private Validator validator;
 
     @RequestMapping(path = "",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse buyTicket(@RequestParam("movieOnShowId") Integer movieOnShowId,
-                                  @RequestParam("phoneNum") String phoneNum,
-                                  @RequestParam("seats") Integer[] seats,
-                                  HttpServletRequest request, HttpServletResponse response) {
+                    method = RequestMethod.POST,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse buyTicket(
+        @RequestParam("movieOnShowId") Integer movieOnShowId,
+        @RequestParam("phoneNum") String phoneNum,
+        @RequestParam("seats") Integer[] seats,
+        HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
 
         Integer userId = -1;
@@ -85,11 +86,12 @@ public class TicketController {
     }
 
     @RequestMapping(path = "/check",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse ticketCheck(@RequestParam("ticketCode") String ticketCode,
-                                  @RequestParam("phoneNum") String phoneNum,
-                                  HttpServletRequest request, HttpServletResponse response) {
+                    method = RequestMethod.POST,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse ticketCheck(
+        @RequestParam("ticketCode") String ticketCode,
+        @RequestParam("phoneNum") String phoneNum,
+        HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
 
         if (!PhoneNumUtil.isPhone(phoneNum)) {
@@ -116,11 +118,12 @@ public class TicketController {
     }
 
     @RequestMapping(path = "/info",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse ticketInfo(@RequestParam("ticketCode") String ticketCode,
-                                    @RequestParam("phoneNum") String phoneNum,
-                                    HttpServletRequest request, HttpServletResponse response) {
+                    method = RequestMethod.POST,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse ticketInfo(
+        @RequestParam("ticketCode") String ticketCode,
+        @RequestParam("phoneNum") String phoneNum,
+        HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
 
         if (!PhoneNumUtil.isPhone(phoneNum)) {
@@ -146,8 +149,4 @@ public class TicketController {
         re.put("phoneNum", phoneNum);
         return re;
     }
-
-
-
-
 }
