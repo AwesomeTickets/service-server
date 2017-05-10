@@ -17,6 +17,7 @@ public class ErrorStatus {
     public static final int SMS_MISMATCH = 102;
     public static final int SEAT_UNAVAILABLE = 200;
     public static final int SEAT_NOT_FOUND = 201;
+    public static final int PHONE_NOT_VERIFIED = 202;
     public static final int PHONE_MISMATCH = 300;
     public static final int TICKET_CODE_NOT_FOUND = 301;
     public static final int TICKET_CHECKED = 400;
@@ -63,6 +64,8 @@ public class ErrorStatus {
         statusMap.put(SEAT_UNAVAILABLE, 400);
         infoMap.put(SEAT_NOT_FOUND, "Seat not found.");
         statusMap.put(SEAT_NOT_FOUND, 400);
+        infoMap.put(PHONE_NOT_VERIFIED, "Unverified phone number.");
+        statusMap.put(PHONE_NOT_VERIFIED, 400);
         infoMap.put(PHONE_MISMATCH, "Wrong phone number.");
         statusMap.put(PHONE_MISMATCH, 400);
         infoMap.put(TICKET_CODE_NOT_FOUND, "Ticket code not found.");
