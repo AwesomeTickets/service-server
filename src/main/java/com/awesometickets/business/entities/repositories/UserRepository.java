@@ -10,6 +10,5 @@ import java.util.List;
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
 
-    @Query("select u.userId from User u where u.phoneNum= ?1")
-    List<Integer> findByPhoneNum(String phoneNum);
+    List<User> findByPhoneNum(String phoneNum);
 }
