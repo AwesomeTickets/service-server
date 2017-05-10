@@ -18,7 +18,7 @@ public class TicketServiceTest extends BaseTest {
 
     @Test
     public void testCreateAndSaveCode() throws Exception {
-        for (int i = 0; i < 5; ++i) {
+        for (int i = 0; i < 3; ++i) {
             String code = ticketService.genCode();
             LOG.info("Test code: " + code);
             Assert.assertFalse(ticketService.hasCode(code));
