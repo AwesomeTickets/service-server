@@ -37,7 +37,7 @@ public class UserService {
     }
 
     /**
-     * Get a user using the phone number
+     * Get a user's id using the phone number
      *
      * @param phoneNum The phone number
      */
