@@ -19,7 +19,7 @@ import java.nio.charset.Charset;
  * Manage sms and captcha verification.
  */
 public class SmsService {
-    private static final Logger LOG = LoggerFactory.getLogger(SmsService.class);
+    private static final Logger Log = LoggerFactory.getLogger(SmsService.class);
     private static final String URL_ROOT = "https://api.leancloud.cn/1.1";
     private static final String URL_REQ_SMS = URL_ROOT + "/requestSmsCode";
     private static final String URL_VRF_SMS = URL_ROOT + "/verifySmsCode";
@@ -46,14 +46,14 @@ public class SmsService {
     public boolean sendSmsCode(String phone) {
         try {
             String body = new ReqSmsParam(phone).toJSON();
-            LOG.info("sendSmsCode() req body: " + body);
+            Log.info("sendSmsCode() req body: " + body);
             HttpEntity<String> reqEntity = new HttpEntity<String>(body, headers);
             String res = restTemplate.postForObject(URL_REQ_SMS, reqEntity, String.class);
-            LOG.info("sendSmsCode() res: " + res);
+            Log.info("sendSmsCode() res: " + res);
             return true;
         } catch (HttpClientErrorException e) {
-            LOG.error("sendSmsCode() res: " + e.getMessage());
-            LOG.error("sendSmsCode() res: " + e.getResponseBodyAsString());
+            Log.error("sendSmsCode() res: " + e.getMessage());
+            Log.error("sendSmsCode() res: " + e.getResponseBodyAsString());
             return false;
         }
     }
@@ -68,14 +68,14 @@ public class SmsService {
     public boolean verifySmsCode(String phone, String code) {
         try {
             String url = URL_VRF_SMS + "/" + code + "?mobilePhoneNumber=" + phone;
-            LOG.info("verifySmsCode() url: " + url);
+            Log.info("verifySmsCode() url: " + url);
             HttpEntity<String> reqEntity = new HttpEntity<String>(headers);
             String res = restTemplate.postForObject(url, reqEntity, String.class);
-            LOG.info("verifySmsCode() res: " + res);
+            Log.info("verifySmsCode() res: " + res);
             return true;
         } catch (HttpClientErrorException e) {
-            LOG.error("verifySmsCode() res: " + e.getMessage());
-            LOG.error("verifySmsCode() res: " + e.getResponseBodyAsString());
+            Log.error("verifySmsCode() res: " + e.getMessage());
+            Log.error("verifySmsCode() res: " + e.getResponseBodyAsString());
             return false;
         }
     }

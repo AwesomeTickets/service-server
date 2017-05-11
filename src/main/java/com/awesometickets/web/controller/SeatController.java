@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping("/resource/seat")
 public class SeatController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SeatController.class);
+    private static final Logger Log = LoggerFactory.getLogger(SeatController.class);
 
     @Autowired
     private SeatService seatService;
@@ -42,7 +42,7 @@ public class SeatController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getUnavailableSeat(@RequestParam("movieOnShowId") Integer movieOnShowId,
                                            HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         List<Integer[]> dataList = new LinkedList<Integer[]>();
         List<Seat> seats = seatService.getUnavailable(movieOnShowId);
         for (Seat seat : seats) {
