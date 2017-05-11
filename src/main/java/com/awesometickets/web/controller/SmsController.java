@@ -30,14 +30,14 @@ public class SmsController {
 
     private SmsService smsService = SmsService.getInstance();
 
-    private static final Logger LOG = LoggerFactory.getLogger(SmsController.class);
+    private static final Logger Log = LoggerFactory.getLogger(SmsController.class);
 
     @RequestMapping(path = "/{phoneNum}",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse sendSms(@PathVariable String phoneNum,
                                 HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         if (!validator.checkPhoneNum(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
         }
@@ -56,7 +56,7 @@ public class SmsController {
     public RestResponse checkSmsCode(@PathVariable String phoneNum,
                                      @RequestParam("code") String code,
                                      HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         if (!validator.checkPhoneNum(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
         }
