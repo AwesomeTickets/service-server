@@ -11,7 +11,7 @@ import test.BaseTest;
 
 public class TicketServiceTest extends BaseTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TicketServiceTest.class);
+    private static final Logger Log = LoggerFactory.getLogger(TicketServiceTest.class);
 
     @Autowired
     private TicketService ticketService;
@@ -20,7 +20,7 @@ public class TicketServiceTest extends BaseTest {
     public void testCreateAndSaveCode() throws Exception {
         for (int i = 0; i < 3; ++i) {
             String code = ticketService.genCode();
-            LOG.info("Test code: " + code);
+            Log.info("Test code: " + code);
             Assert.assertFalse(ticketService.hasCode(code));
             ticketService.saveCode(code);
             Assert.assertTrue(ticketService.hasCode(code));

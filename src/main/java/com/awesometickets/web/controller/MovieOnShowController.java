@@ -29,7 +29,7 @@ import com.awesometickets.web.controller.response.ErrorResponse;
 @RequestMapping("/resource/movie-on-show")
 public class MovieOnShowController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MovieOnShowController.class);
+    private static final Logger Log = LoggerFactory.getLogger(MovieOnShowController.class);
 
     @Autowired
     private MovieOnShowService movieOnShowService;
@@ -47,7 +47,7 @@ public class MovieOnShowController {
         @RequestParam("showDate") Date showDate,
         @RequestParam("showTime") Time showTime,
         HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieId, cinemaHallId, showDate, showTime);
         if (movieOnShow == null) {
@@ -68,7 +68,7 @@ public class MovieOnShowController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getMovieOnShowByID(@PathVariable Integer movieOnShowId,
                                            HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         RestResponse result = new RestResponse();
         MovieOnShow movieOnShow = movieOnShowService.getMovieOnShow(movieOnShowId);
         if (movieOnShow == null) {
@@ -89,7 +89,7 @@ public class MovieOnShowController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getRecentMovieOnShow(@RequestParam("movieId") Integer movieId,
                                              HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         final int range = 3;
         // Date date = Calendar.getInstance().getTime();
         Date date = Date.valueOf("2017-05-01");
@@ -119,7 +119,7 @@ public class MovieOnShowController {
         @RequestParam("cinemaId") Integer cinemaId,
         @RequestParam("showDate") Date showDate,
         HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         List<Integer> idsList = movieOnShowService.getMovieOnShowByDate(movieId, showDate, cinemaId);
         return new CollectionResponse(idsList);
     }
@@ -132,7 +132,7 @@ public class MovieOnShowController {
         @RequestParam("cinemaId") Integer cinemaId,
         @RequestParam("showDate") Date showDate,
         HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         RestResponse result = new RestResponse();
         Object[] objs = movieOnShowService.getBriefMovieOnShowByDate(movieId, showDate, cinemaId);
         List<String> timeList = (List<String>)objs[1];
