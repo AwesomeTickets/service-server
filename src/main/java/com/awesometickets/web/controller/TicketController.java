@@ -1,6 +1,7 @@
 package com.awesometickets.web.controller;
 
 import com.awesometickets.business.entities.Seat;
+import com.awesometickets.business.entities.Ticket;
 import com.awesometickets.business.entities.User;
 import com.awesometickets.business.services.SeatService;
 import com.awesometickets.business.services.TicketService;
@@ -85,68 +86,80 @@ public class TicketController {
         return re;
     }
 
-//    @RequestMapping(path = "/check",
-//                    method = RequestMethod.POST,
-//                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    public RestResponse ticketCheck(
-//        @RequestParam("ticketCode") String ticketCode,
-//        @RequestParam("phoneNum") String phoneNum,
-//        HttpServletRequest request, HttpServletResponse response) {
-//        LogUtil.logReq(LOG, request);
-//
-//        if (!PhoneNumUtil.isPhone(phoneNum)) {
-//            return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
-//        }
-//        User user = userService.getUserByPhoneNum(phoneNum);
-//        if (user == null) {
-//            return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
-//        }
-//        List<Seat> seatList = ticketService.checkTicket(ticketCode, user);
-//        if (seatList == null) {
-//            return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
-//        }
-//
-//        List<Integer[]> dataList = new LinkedList<Integer[]>();
-//        for (Seat seat : seatList) {
-//            dataList.add(new Integer[] {seat.getRow(), seat.getCol()});
-//        }
-//        RestResponse re = new RestResponse();
-//        re.put("movieOnShowId", seatList.get(0).getMovieOnShow().getMovieOnShowId());
-//        re.put("seats", dataList);
-//        re.put("phoneNum", phoneNum);
-//        return re;
-//    }
-//
-//    @RequestMapping(path = "/info",
-//                    method = RequestMethod.POST,
-//                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    public RestResponse ticketInfo(
-//        @RequestParam("ticketCode") String ticketCode,
-//        @RequestParam("phoneNum") String phoneNum,
-//        HttpServletRequest request, HttpServletResponse response) {
-//        LogUtil.logReq(LOG, request);
-//
-//        if (!PhoneNumUtil.isPhone(phoneNum)) {
-//            return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
-//        }
-//        User user = userService.getUserByPhoneNum(phoneNum);
-//        if (user == null) {
-//            return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
-//        }
-//        List<Seat> seatList = ticketService.ticketInfo(ticketCode, user);
-//        if (seatList == null) {
-//            return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
-//        }
-//
-//        List<Integer[]> dataList = new LinkedList<Integer[]>();
-//        for (Seat seat : seatList) {
-//            dataList.add(new Integer[] {seat.getRow(), seat.getCol()});
-//        }
-//        RestResponse re = new RestResponse();
-//        re.put("movieOnShowId", seatList.get(0).getMovieOnShow().getMovieOnShowId());
-//        re.put("seats", dataList);
-//        re.put("valid", seatList.get(0).getTicket().getValid());
-//        re.put("phoneNum", phoneNum);
-//        return re;
-//    }
+    @RequestMapping(path = "/check",
+                    method = RequestMethod.POST,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse ticketCheck(
+        @RequestParam("ticketCode") String ticketCode,
+        @RequestParam("phoneNum") String phoneNum,
+        HttpServletRequest request, HttpServletResponse response) {
+        LogUtil.logReq(LOG, request);
+
+        if (!validator.checkPhoneNum(phoneNum)) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        }
+        if (!ticketService.codeExist(ticketCode)) {
+            return new ErrorResponse(response, ErrorStatus.TICKET_CODE_NOT_FOUND);
+        }
+        User user = userService.getUserByPhoneNum(phoneNum);
+        if (user == null) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_MISMATCH);
+        }
+        Ticket ticket = ticketService.getTicket(ticketCode, user);
+        if (ticket == null) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_MISMATCH);
+        }
+        if (!ticketService.checkTicket(ticket)) {
+            return new ErrorResponse(response, ErrorStatus.TICKET_CHECKED);
+        }
+        List<Seat> seatList = ticketService.getTicketSeats(ticket);
+
+        List<Integer[]> dataList = new LinkedList<Integer[]>();
+        for (Seat seat : seatList) {
+            dataList.add(new Integer[] {seat.getRow(), seat.getCol()});
+        }
+        RestResponse re = new RestResponse();
+        re.put("movieOnShowId", seatList.get(0).getMovieOnShow().getMovieOnShowId());
+        re.put("seats", dataList);
+        re.put("phoneNum", phoneNum);
+        return re;
+    }
+
+    @RequestMapping(path = "/info",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse ticketInfo(
+        @RequestParam("ticketCode") String ticketCode,
+        @RequestParam("phoneNum") String phoneNum,
+        HttpServletRequest request, HttpServletResponse response) {
+        LogUtil.logReq(LOG, request);
+
+        if (!validator.checkPhoneNum(phoneNum)) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        }
+        if (!ticketService.codeExist(ticketCode)) {
+            return new ErrorResponse(response, ErrorStatus.TICKET_CODE_NOT_FOUND);
+        }
+
+        User user = userService.getUserByPhoneNum(phoneNum);
+        if (user == null) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_MISMATCH);
+        }
+        Ticket ticket = ticketService.getTicket(ticketCode, user);
+        if (ticket == null) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_MISMATCH);
+        }
+        List<Seat> seatList = ticketService.getTicketSeats(ticket);
+
+        List<Integer[]> dataList = new LinkedList<Integer[]>();
+        for (Seat seat : seatList) {
+            dataList.add(new Integer[] {seat.getRow(), seat.getCol()});
+        }
+        RestResponse re = new RestResponse();
+        re.put("movieOnShowId", seatList.get(0).getMovieOnShow().getMovieOnShowId());
+        re.put("seats", dataList);
+        re.put("valid", seatList.get(0).getTicket().getValid());
+        re.put("phoneNum", phoneNum);
+        return re;
+    }
 }
