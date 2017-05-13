@@ -6,6 +6,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import test.BaseTest;
 
+@Ignore
 public class SmsServiceTest extends BaseTest {
 
     private SmsService smsService = SmsService.getInstance();
