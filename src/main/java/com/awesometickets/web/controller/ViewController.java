@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class ViewController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ViewController.class);
+    private static final Logger Log = LoggerFactory.getLogger(ViewController.class);
     
     public ViewController() {
         super();
@@ -25,13 +25,19 @@ public class ViewController {
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public String index(HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         return "index";
+    }
+
+    @RequestMapping(path = "/test", method = RequestMethod.GET)
+    public String test(HttpServletRequest request, HttpServletResponse response) {
+        LogUtil.logReq(Log, request);
+        return "test";
     }
 
     @RequestMapping(path = "/tickets", method = RequestMethod.GET)
     public String tickets(HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         return "tickets";
     }
 

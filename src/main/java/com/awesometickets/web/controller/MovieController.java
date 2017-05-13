@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping("/resource/movie")
 public class MovieController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MovieController.class);
+    private static final Logger Log = LoggerFactory.getLogger(MovieController.class);
 
     @Autowired
     private MovieService movieService;
@@ -42,7 +42,7 @@ public class MovieController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getMovieDetailsByID(@PathVariable Integer movieId,
                                             HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         Movie movie = movieService.getMovieWithAllDetails(movieId);
         if (movie == null) {
             return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
@@ -70,7 +70,7 @@ public class MovieController {
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getOnShowMovieIDs(HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         List<Integer> movieIDs = movieService.getMovieByStatus("on");
         return new CollectionResponse(movieIDs);
     }
@@ -79,7 +79,7 @@ public class MovieController {
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getComingSoonMovieIDs(HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         List<Integer> movieIDs = movieService.getMovieByStatus("soon");
         return new CollectionResponse(movieIDs);
     }
@@ -89,7 +89,7 @@ public class MovieController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getPopularMovies(@RequestParam(value="count", defaultValue="3") int count,
                                          HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         if (count < 0) {
             return new ErrorResponse(response, ErrorStatus.BAD_REQUEST);
         }

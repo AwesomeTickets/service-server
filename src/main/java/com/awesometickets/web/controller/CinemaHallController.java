@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/resource/cinema-hall")
 public class CinemaHallController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CinemaHallController.class);
+    private static final Logger Log = LoggerFactory.getLogger(CinemaHallController.class);
 
     @Autowired
     private CinemaHallService cinemaHallService;
@@ -40,7 +40,7 @@ public class CinemaHallController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getCinemaHallWithoutSeatByID(@PathVariable Integer cinemaHallId,
                                                      HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         RestResponse result = new RestResponse();
         CinemaHall cinemaHall = cinemaHallService.getWithoutSeatLayout(cinemaHallId);
         if (cinemaHall == null) {
@@ -57,7 +57,7 @@ public class CinemaHallController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getCinemaHallWithSeatByID(@PathVariable Integer cinemaHallId,
                                                   HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         RestResponse result = new RestResponse();
         CinemaHall cinemaHall = cinemaHallService.getWithSeatLayout(cinemaHallId);
         if (cinemaHall == null) {
