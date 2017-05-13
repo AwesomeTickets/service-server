@@ -317,7 +317,6 @@ public class RestControllerTest extends BaseTest {
     }
 
     @Test
-    @Ignore
     public void testCheckTicket() throws Exception {
         String correctPhoneNum = "18812345678";
         // Buy tickets first
