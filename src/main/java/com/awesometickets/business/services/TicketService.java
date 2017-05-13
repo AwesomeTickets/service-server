@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -57,18 +58,47 @@ public class TicketService {
     }
 
     /**
-     * Fetch a ticket and make the ticket invalid.
+     * Fetch a ticket.
      * @param ticketCode
      * @param user
      * @return The seats with movieOnShow and ticket entity inside.
+     *         @{null} if the user and code is not match,
      */
-    public List<Seat> checkTicket(String ticketCode, User user) {
+    public Ticket getTicket(String ticketCode, User user) {
         String digest = digest(ticketCode);
         Ticket ticket = ticketRepo.findByDigestAndUser(digest, user);
-        if (ticket == null) return null;
+        return ticket;
+    }
+
+    /**
+     * Fetch the seats in a ticket.
+     * @param ticket
+     * @return
+     */
+    public List<Seat> getTicketSeats(Ticket ticket) {
+        return seatRepo.findByTicketIdWithMovieOnShowAndTicket(ticket.getTicketId());
+    }
+
+    /**
+     * Check a ticket.
+     * @param ticket
+     * @return True if the ticket checked successfully.
+     *         False if the ticket has already been checked.
+     */
+    public boolean checkTicket(Ticket ticket) {
+        if (!ticket.getValid()) return false;
         ticket.setValid(false);
         ticketRepo.save(ticket);
-        return seatRepo.findByTicketIdWithMovieOnShowAndTicket(ticket.getTicketId());
+        return true;
+    }
+
+    /**
+     * Check a code exists or not.
+     * @param code
+     * @return True if code exist.
+     */
+    public boolean codeExist(String code) {
+        return !(codeRepo.findOne(code) == null);
     }
 
 
