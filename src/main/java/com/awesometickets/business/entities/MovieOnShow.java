@@ -1,8 +1,5 @@
 package com.awesometickets.business.entities;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import java.io.Serializable;
@@ -77,8 +74,7 @@ public class MovieOnShow implements Serializable {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "movie_id", foreignKey=@ForeignKey(name="FK_R_MovieOnShow_Movie"))
     public Movie getMovie() {
         return movie;
     }
@@ -88,8 +84,7 @@ public class MovieOnShow implements Serializable {
     }
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "cinema_hall_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "cinema_hall_id", foreignKey=@ForeignKey(name="FK_R_MovieOnShow_CinemaHall"))
     public CinemaHall getCinemaHall() {
         return cinemaHall;
     }
@@ -99,7 +94,6 @@ public class MovieOnShow implements Serializable {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "movieOnShow")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     public Set<Seat> getSeatSet() {
         return seatSet;
     }

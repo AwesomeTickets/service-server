@@ -1,4 +1,4 @@
-package com.awesometickets.util;
+package com.awesometickets.business.services;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -6,33 +6,36 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
 
-
 /**
  * Manage sms and captcha verification.
  */
-public class Verifier {
-    private static final Logger LOG = LoggerFactory.getLogger(Verifier.class);
+public class SmsService {
+    private static final Logger Log = LoggerFactory.getLogger(SmsService.class);
     private static final String URL_ROOT = "https://api.leancloud.cn/1.1";
     private static final String URL_REQ_SMS = URL_ROOT + "/requestSmsCode";
     private static final String URL_VRF_SMS = URL_ROOT + "/verifySmsCode";
-    private static final Verifier instance = new Verifier();
+    private static final SmsService instance = new SmsService();
     private RestTemplate restTemplate;
     private ObjectMapper mapper;
     private HttpHeaders headers;
 
     /**
-     * Return the only {@code Verifier} instance.
+     * Return the only {@code SmsService} instance.
      */
-    public static Verifier getInstance() {
+    public static SmsService getInstance() {
         return instance;
     }
+
+    private SmsService() {}
 
     /**
      * Send verification sms code.
@@ -43,14 +46,14 @@ public class Verifier {
     public boolean sendSmsCode(String phone) {
         try {
             String body = new ReqSmsParam(phone).toJSON();
-            LOG.info("sendSmsCode() req body: " + body);
+            Log.info("sendSmsCode() req body: " + body);
             HttpEntity<String> reqEntity = new HttpEntity<String>(body, headers);
             String res = restTemplate.postForObject(URL_REQ_SMS, reqEntity, String.class);
-            LOG.info("sendSmsCode() res: " + res);
+            Log.info("sendSmsCode() res: " + res);
             return true;
         } catch (HttpClientErrorException e) {
-            LOG.error("sendSmsCode() res: " + e.getMessage());
-            LOG.error("sendSmsCode() res: " + e.getResponseBodyAsString());
+            Log.error("sendSmsCode() res: " + e.getMessage());
+            Log.error("sendSmsCode() res: " + e.getResponseBodyAsString());
             return false;
         }
     }
@@ -65,22 +68,25 @@ public class Verifier {
     public boolean verifySmsCode(String phone, String code) {
         try {
             String url = URL_VRF_SMS + "/" + code + "?mobilePhoneNumber=" + phone;
-            LOG.info("verifySmsCode() url: " + url);
+            Log.info("verifySmsCode() url: " + url);
             HttpEntity<String> reqEntity = new HttpEntity<String>(headers);
             String res = restTemplate.postForObject(url, reqEntity, String.class);
-            LOG.info("verifySmsCode() res: " + res);
+            Log.info("verifySmsCode() res: " + res);
             return true;
         } catch (HttpClientErrorException e) {
-            LOG.error("verifySmsCode() res: " + e.getMessage());
-            LOG.error("verifySmsCode() res: " + e.getResponseBodyAsString());
+            Log.error("verifySmsCode() res: " + e.getMessage());
+            Log.error("verifySmsCode() res: " + e.getResponseBodyAsString());
             return false;
         }
     }
 
     /**
-     * Initialize a {@code Verifier} instance.
+     * Initialize a {@code SmsService} instance.
+     *
+     * @param id The LC id
+     * @param key The LC key
      */
-    private Verifier() {
+    public void init(String id, String key) {
         StringHttpMessageConverter converter = new StringHttpMessageConverter(Charset.forName("UTF-8"));
         converter.setWriteAcceptCharset(false);
         restTemplate = new RestTemplate();
@@ -88,8 +94,8 @@ public class Verifier {
         mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         headers = new HttpHeaders();
-        headers.add("X-LC-Id", "");
-        headers.add("X-LC-Key", "");
+        headers.add("X-LC-Id", id);
+        headers.add("X-LC-Key", key);
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 

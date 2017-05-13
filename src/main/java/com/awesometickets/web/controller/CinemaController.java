@@ -28,7 +28,7 @@ import com.awesometickets.business.services.CinemaService;
 @RequestMapping("/resource/cinema")
 public class CinemaController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CinemaController.class);
+    private static final Logger Log = LoggerFactory.getLogger(CinemaController.class);
 
     @Autowired
     private CinemaService cinemaService;
@@ -42,7 +42,7 @@ public class CinemaController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse getCinemaByID(@PathVariable Integer cinemaId,
                                       HttpServletRequest request, HttpServletResponse response) {
-        LogUtil.logReq(LOG, request);
+        LogUtil.logReq(Log, request);
         Cinema cinema = cinemaService.getCinema(cinemaId);
         if (cinema == null) {
             return new ErrorResponse(response, ErrorStatus.RESOURCE_NOT_FOUND);
