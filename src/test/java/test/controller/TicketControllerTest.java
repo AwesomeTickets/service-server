@@ -170,7 +170,7 @@ public class TicketControllerTest extends RestControllerTest {
         String correctTicketCode = mapper.readValue(res.getResponse().getContentAsString(),
             BuyTicketResult.class).ticketCode;
         // PHONE_INVALID_FORMAT
-        mockMvc.perform(get("/resource/ticket/info")
+        mockMvc.perform(post("/resource/ticket/info")
             .param("ticketCode", correctTicketCode)
             .param("phoneNum", TEST_INVALID_PHONE))
             .andExpect(status().isBadRequest())
@@ -178,7 +178,7 @@ public class TicketControllerTest extends RestControllerTest {
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
             .andExpect(jsonPath("$.code").value(100));
         // TICKET_CODE_NOT_FOUND
-        mockMvc.perform(get("/resource/ticket/info")
+        mockMvc.perform(post("/resource/ticket/info")
             .param("ticketCode", "12345678910")
             .param("phoneNum", TEST_AVAILABLE_PHONE))
             .andExpect(status().isBadRequest())
@@ -186,7 +186,7 @@ public class TicketControllerTest extends RestControllerTest {
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
             .andExpect(jsonPath("$.code").value(301));
         // PHONE_MISMATCH
-        mockMvc.perform(get("/resource/ticket/info")
+        mockMvc.perform(post("/resource/ticket/info")
             .param("ticketCode", correctTicketCode)
             .param("phoneNum", TEST_UNVERIFIED_PHONE))
             .andExpect(status().isBadRequest())
@@ -194,7 +194,7 @@ public class TicketControllerTest extends RestControllerTest {
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
             .andExpect(jsonPath("$.code").value(300));
         // Get info
-        mockMvc.perform(get("/resource/ticket/info")
+        mockMvc.perform(post("/resource/ticket/info")
             .param("ticketCode", correctTicketCode)
             .param("phoneNum", TEST_AVAILABLE_PHONE))
             .andExpect(status().isOk())
@@ -213,7 +213,7 @@ public class TicketControllerTest extends RestControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
         // Get info
-        mockMvc.perform(get("/resource/ticket/info")
+        mockMvc.perform(post("/resource/ticket/info")
             .param("ticketCode", correctTicketCode)
             .param("phoneNum", TEST_AVAILABLE_PHONE))
             .andExpect(status().isOk())

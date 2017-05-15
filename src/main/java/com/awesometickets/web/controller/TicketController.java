@@ -126,7 +126,7 @@ public class TicketController {
     }
 
     @RequestMapping(path = "/info",
-                    method = RequestMethod.GET,
+                    method = RequestMethod.POST,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse ticketInfo(
         @RequestParam("ticketCode") String ticketCode,
