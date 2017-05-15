@@ -60,13 +60,12 @@ public class TicketService {
     /**
      * Fetch a ticket.
      * @param ticketCode
-     * @param user
      * @return The seats with movieOnShow and ticket entity inside.
-     *         @{null} if the user and code is not match,
+     *         @{null} if code is not exist,
      */
-    public Ticket getTicket(String ticketCode, User user) {
+    public Ticket getTicket(String ticketCode) {
         String digest = digest(ticketCode);
-        Ticket ticket = ticketRepo.findByDigestAndUser(digest, user);
+        Ticket ticket = ticketRepo.findByDigest(digest);
         return ticket;
     }
 
@@ -99,20 +98,6 @@ public class TicketService {
      */
     public boolean codeExist(String code) {
         return !(codeRepo.findOne(code) == null);
-    }
-
-
-    /**
-     * Get the info of a ticket.
-     * @param ticketCode
-     * @param user
-     * @return The seats with movieOnShow and ticket entity inside.
-     */
-    public List<Seat> ticketInfo(String ticketCode, User user) {
-        String digest = digest(ticketCode);
-        Ticket ticket = ticketRepo.findByDigestAndUser(digest, user);
-        if (ticket == null) return null;
-        return seatRepo.findByTicketIdWithMovieOnShowAndTicket(ticket.getTicketId());
     }
 
     /**

@@ -44,7 +44,7 @@ public class Ticket {
         this.valid = valid;
     }
 
-    @Column(name = "digest", nullable = false, length=32)
+    @Column(name = "digest", nullable = false, length=32, unique = true)
     public String getDigest() {
         return digest;
     }
