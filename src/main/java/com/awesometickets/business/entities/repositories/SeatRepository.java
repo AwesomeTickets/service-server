@@ -13,6 +13,7 @@ public interface SeatRepository extends CrudRepository<Seat, Integer> {
     @Query("select s.row, s.col from Seat s where s.movieOnShow.movieOnShowId = ?1 AND s.available = ?2")
     List<Object[]> findByMovieOnShowIDAndAvailable(Integer movieOnShowId, Boolean available);
 
+    // TODO No need to join 'MovieOnShow' table
     @Query("from Seat s " +
             "left outer join fetch s.movieOnShow " +
             "left outer join fetch s.ticket " +
