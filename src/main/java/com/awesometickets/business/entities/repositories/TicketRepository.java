@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TicketRepository extends CrudRepository<Ticket, Integer> {
-    // TODO find using digest only
-    Ticket findByDigestAndUser(String digest, User user);
+
+    Ticket findByDigest(String digest);
 }

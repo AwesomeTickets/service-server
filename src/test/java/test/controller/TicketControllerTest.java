@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class TicketControllerTest extends RestControllerTest {
     private static final String TEST_AVAILABLE_PHONE = "18812345678";
-    private static final String TEST_UNAVAILABLE_PHONE = "18813572468";
+    private static final String TEST_UNAVAILABLE_PHONE = "18813572648";
     private static final String TEST_INVALID_PHONE = "99912345678";
     private static final String TEST_UNVERIFIED_PHONE = "18812345679";
 
