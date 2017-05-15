@@ -105,7 +105,7 @@ public class TicketController {
         if (user == null) {
             return new ErrorResponse(response, ErrorStatus.PHONE_MISMATCH);
         }
-        Ticket ticket = ticketService.getTicket(ticketCode, user);
+        Ticket ticket = ticketService.getTicket(ticketCode);
         if (ticket == null) {
             return new ErrorResponse(response, ErrorStatus.PHONE_MISMATCH);
         }
@@ -145,7 +145,7 @@ public class TicketController {
         if (user == null) {
             return new ErrorResponse(response, ErrorStatus.PHONE_MISMATCH);
         }
-        Ticket ticket = ticketService.getTicket(ticketCode, user);
+        Ticket ticket = ticketService.getTicket(ticketCode);
         if (ticket == null) {
             return new ErrorResponse(response, ErrorStatus.PHONE_MISMATCH);
         }
