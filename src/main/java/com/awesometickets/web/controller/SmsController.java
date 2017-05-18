@@ -38,7 +38,7 @@ public class SmsController {
     public RestResponse sendSms(@PathVariable String phoneNum,
                                 HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(Log, request);
-        if (!validator.checkPhoneNum(phoneNum)) {
+        if (!validator.isValidPhone(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
         }
         if (smsService.sendSmsCode(phoneNum)) {
@@ -58,7 +58,7 @@ public class SmsController {
                                      @RequestParam("code") String code,
                                      HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(Log, request);
-        if (!validator.checkPhoneNum(phoneNum)) {
+        if (!validator.isValidPhone(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
         }
         if (smsService.verifySmsCode(phoneNum, code)) {
