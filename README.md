@@ -2,8 +2,6 @@
 
 Server of AwesomeTickets system.
 
-[Dashboard](https://github.com/AwesomeTickets/Dashboard)
-
 ## Installation
 
 1. Download [Maven](http://maven.apache.org/download.cgi).
