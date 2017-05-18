@@ -6,26 +6,22 @@ Server of AwesomeTickets system.
 
 1. Download [Maven](http://maven.apache.org/download.cgi).
 
-2. Build and run:
+2. Run server:
 
-    - foreground
+    ```python
+    # Foreground
+    python3 run.py
 
-        ```sh
-        $ python server.py
-        ```
-
-    - background
-
-        ```sh
-        $ python deploy.py
-        ```
+    # Background
+    python3 run.py -b
+    ```
 
 3. The application should be available at http://localhost:8080
 
 4. Run unit tests:
 
-    ```sh
-    $ mvn clean test
+    ```python
+    python3 run.py -t
     ```
 
 ## License
