@@ -1,6 +1,5 @@
 package com.awesometickets.web.controller.response;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,11 +16,15 @@ public class ErrorStatus {
     public static final int SMS_MISMATCH = 102;
     public static final int SEAT_UNAVAILABLE = 200;
     public static final int SEAT_NOT_FOUND = 201;
-    public static final int PHONE_NOT_VERIFIED = 202;
+    public static final int USER_NOT_FOUND = 202;
     public static final int PURCHASE_UNAVAILABLE = 203;
     public static final int PHONE_MISMATCH = 300;
     public static final int TICKET_CODE_NOT_FOUND = 301;
     public static final int TICKET_CHECKED = 302;
+    public static final int PASSWORD_INVALID_FORMAT = 400;
+    public static final int PHONE_REGISTERED = 401;
+    public static final int PASSWORD_MISMATCH = 402;
+    public static final int SESSION_NOT_FOUND = 403;
 
     private static Map<Integer, String> infoMap;
     private static Map<Integer, Integer> statusMap;
@@ -58,21 +61,29 @@ public class ErrorStatus {
         statusMap.put(PHONE_INVALID_FORMAT, 400);
         infoMap.put(SMS_SEND_FAIL, "Fail to send sms code.");
         statusMap.put(SMS_SEND_FAIL, 400);
-        infoMap.put(SMS_MISMATCH, "Wrong sms code.");
+        infoMap.put(SMS_MISMATCH, "Incorrect sms code.");
         statusMap.put(SMS_MISMATCH, 400);
         infoMap.put(SEAT_UNAVAILABLE, "Seat already taken.");
         statusMap.put(SEAT_UNAVAILABLE, 400);
         infoMap.put(SEAT_NOT_FOUND, "Seat not found.");
         statusMap.put(SEAT_NOT_FOUND, 400);
-        infoMap.put(PHONE_NOT_VERIFIED, "Unverified phone number.");
-        statusMap.put(PHONE_NOT_VERIFIED, 400);
+        infoMap.put(USER_NOT_FOUND, "User not registered.");
+        statusMap.put(USER_NOT_FOUND, 400);
         infoMap.put(PURCHASE_UNAVAILABLE, "The user with this phone cannot buy more tickets today.");
         statusMap.put(PURCHASE_UNAVAILABLE, 403);
-        infoMap.put(PHONE_MISMATCH, "Wrong phone number.");
+        infoMap.put(PHONE_MISMATCH, "Incorrect phone number.");
         statusMap.put(PHONE_MISMATCH, 400);
         infoMap.put(TICKET_CODE_NOT_FOUND, "Ticket code not found.");
         statusMap.put(TICKET_CODE_NOT_FOUND, 400);
         infoMap.put(TICKET_CHECKED, "Ticket already checked.");
         statusMap.put(TICKET_CHECKED, 400);
+        infoMap.put(PASSWORD_INVALID_FORMAT, "Invalid password format.");
+        statusMap.put(PASSWORD_INVALID_FORMAT, 400);
+        infoMap.put(PHONE_REGISTERED, "The phone is registered. Please use another phone.");
+        statusMap.put(PHONE_REGISTERED, 403);
+        infoMap.put(PASSWORD_MISMATCH, "Incorrect password.");
+        statusMap.put(PASSWORD_MISMATCH, 403);
+        infoMap.put(SESSION_NOT_FOUND, "Session not found. Maybe you haven't login.");
+        statusMap.put(SESSION_NOT_FOUND, 403);
     }
 }
