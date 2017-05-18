@@ -73,7 +73,7 @@ public class TicketControllerTest extends RestControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
             .andExpect(jsonPath("$.code").value(201));
-        // PHONE_NOT_VERIFIED
+        // USER_NOT_FOUND
         mockMvc.perform(post("/resource/ticket")
             .param("movieOnShowId", "1")
             .param("phoneNum", TEST_UNVERIFIED_PHONE)
