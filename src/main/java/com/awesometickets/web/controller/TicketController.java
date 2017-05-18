@@ -60,7 +60,7 @@ public class TicketController {
 
         User user = userService.getUserByPhoneNum(phoneNum);
         if (user == null) {
-            return new ErrorResponse(response, ErrorStatus.PHONE_NOT_VERIFIED);
+            return new ErrorResponse(response, ErrorStatus.USER_NOT_FOUND);
         } else if (user.getRemainPurchase() == 0) {
             return new ErrorResponse(response, ErrorStatus.PURCHASE_UNAVAILABLE);
         }

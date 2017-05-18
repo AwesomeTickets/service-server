@@ -50,6 +50,7 @@ public class SmsController {
         }
     }
 
+    @Deprecated
     @RequestMapping(path = "/{phoneNum}/check",
                     method = RequestMethod.POST,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
