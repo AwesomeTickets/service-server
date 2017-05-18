@@ -12,13 +12,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Ignore
+
 public class SmsControllerTest extends RestControllerTest {
     private static final String TEST_INVALID_PHONE = "99912345678";
-    private static final String TEST_VALID_PHONE = "13538773281";
-    private static final String TEST_SMS_CODE = "916217";
+    private static final String TEST_VALID_PHONE = "15012901007";
+    private static final String TEST_SMS_CODE = "739043";
 
     @Test
+    @Ignore
     public void testSendSms() throws Exception {
         // PHONE_INVALID_FORMAT
         mockMvc.perform(get("/resource/sms/" + TEST_INVALID_PHONE))

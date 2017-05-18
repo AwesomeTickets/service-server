@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class User {
     private Integer userId;
     private String phoneNum;
+    private String password;
     private Integer remainPurchase;
 
     public User() {
@@ -31,6 +32,15 @@ public class User {
 
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
+    }
+
+    @Column(name = "password", nullable = false, length=32)
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Column(name = "remain_purchase", nullable = false)
