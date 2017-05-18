@@ -44,10 +44,10 @@ public class Validator {
     /**
      * Check if the phone number is valid.
      *
-     * @param phoneNum The phone number
+     * @param phoneNum The phone number to be checked
      * @return True if the phone number is valid
      */
-    public boolean checkPhoneNum(String phoneNum) {
+    public boolean isValidPhone(String phoneNum) {
         boolean flag = false;
         try {
             Matcher m = isPhonePattern.matcher(phoneNum);
@@ -60,13 +60,11 @@ public class Validator {
 
     /**
      * Check the seats format.
-     * @param seats
+     *
+     * @param seats The seats list to be checked
      * @return True if the seats array is valid
      */
-    public boolean checkSeatsFormat(Integer[] seats) {
-        return !(seats.length > 8 || seats.length < 2 || seats.length % 2 != 0);
+    public boolean isValidSeats(Integer[] seats) {
+        return seats.length <= 8 && seats.length >= 2 && seats.length % 2 == 0;
     }
-
-
-
 }
