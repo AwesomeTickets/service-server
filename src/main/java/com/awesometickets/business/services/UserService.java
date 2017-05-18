@@ -21,8 +21,8 @@ public class UserService {
         if (!isPhoneNumExist(phoneNum)) {
             User user = new User();
             user.setPhoneNum(phoneNum);
-            // The default purchase count is four.
-            user.setRemainPurchase(4);
+            user.setPassword("");
+            user.setRemainPurchase(99999);
             userRepo.save(user);
         }
     }
