@@ -8,7 +8,7 @@ public class Ticket {
     private Integer ticketId;
     private User user;
     private Boolean valid;
-    private String digest;
+    private String code;
 
     public Ticket() {
         super();
@@ -44,12 +44,12 @@ public class Ticket {
         this.valid = valid;
     }
 
-    @Column(name = "digest", nullable = false, length=32, unique = true)
-    public String getDigest() {
-        return digest;
+    @Column(name = "code", nullable = false, length=10, unique = true)
+    public String getCode() {
+        return code;
     }
 
-    public void setDigest(String digest) {
-        this.digest = digest;
+    public void setCode(String code) {
+        this.code = code;
     }
 }

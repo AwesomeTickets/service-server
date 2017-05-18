@@ -2,19 +2,15 @@ package com.awesometickets.business.services;
 
 import com.awesometickets.business.entities.Seat;
 import com.awesometickets.business.entities.Ticket;
-import com.awesometickets.business.entities.TicketCode;
 import com.awesometickets.business.entities.User;
 import com.awesometickets.business.entities.repositories.SeatRepository;
-import com.awesometickets.business.entities.repositories.TicketCodeRepository;
 import com.awesometickets.business.entities.repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
+
 
 @Service
 public class TicketService {
@@ -23,81 +19,67 @@ public class TicketService {
     private TicketRepository ticketRepo;
 
     @Autowired
-    private TicketCodeRepository codeRepo;
-
-    @Autowired
     private SeatRepository seatRepo;
 
     private Random random = new Random();
 
     /**
      * Buy a ticket.
-     * @param seatList The seats in the ticket
-     * @param user The buyer
-     * @return The generated code
+     *
+     * @param seatList The seats to be bought
+     * @param user The user to buy the ticket
+     * @return The ticket code of the ticket
      */
     public String buyTicketAndGenerateCode(List<Seat> seatList, User user) {
+        String ticketCode = genCode();
         Ticket ticket = new Ticket();
-        String code = genCode();
-        String codeDigest = digest(code);
-
-        user.setRemainPurchase(user.getRemainPurchase()-1);
-        ticket.setDigest(codeDigest);
+        ticket.setCode(ticketCode);
         ticket.setValid(true);
         ticket.setUser(user);
         ticketRepo.save(ticket);
-
-        saveCode(code);
         for (Seat seat : seatList) {
             seat.setTicket(ticket);
             seat.setAvailable(false);
             seatRepo.save(seat);
         }
-
-        return code;
+        user.setRemainPurchase(user.getRemainPurchase() - 1);
+        return ticketCode;
     }
 
     /**
-     * Fetch a ticket.
-     * @param ticketCode
-     * @return The seats with movieOnShow and ticket entity inside.
-     *         @{null} if code is not exist,
+     * Find a ticket by its code.
+     *
+     * @param code The ticket code
+     * @return The ticket object, or null if ticket not exist
      */
-    public Ticket getTicket(String ticketCode) {
-        String digest = digest(ticketCode);
-        Ticket ticket = ticketRepo.findByDigest(digest);
-        return ticket;
+    public Ticket findByCode(String code) {
+        return ticketRepo.findByCode(code);
     }
 
     /**
-     * Fetch the seats in a ticket.
-     * @param ticket
-     * @return
+     * Fetch the seats of a ticket.
+     *
+     * @param ticket The ticket
+     * @return The seats list
      */
-    public List<Seat> getTicketSeats(Ticket ticket) {
+    public List<Seat> findTicketSeats(Ticket ticket) {
         return seatRepo.findByTicketIdWithMovieOnShowAndTicket(ticket.getTicketId());
     }
 
     /**
-     * Check a ticket.
-     * @param ticket
+     * Make a ticket invalid.
+     *
+     * @param ticket The ticket to be processed.
      * @return True if the ticket checked successfully.
      *         False if the ticket has already been checked.
      */
     public boolean checkTicket(Ticket ticket) {
-        if (!ticket.getValid()) return false;
+        if (!ticket.getValid()) {
+            return false;
+        }
         ticket.setValid(false);
         ticketRepo.save(ticket);
         return true;
-    }
-
-    /**
-     * Check a code exists or not.
-     * @param code
-     * @return True if code exist.
-     */
-    public boolean codeExist(String code) {
-        return !(codeRepo.findOne(code) == null);
     }
 
     /**
@@ -105,7 +87,7 @@ public class TicketService {
      *
      * @return The generated ticket code
      */
-    public String genCode() {
+    private String genCode() {
         String codeStr;
         do {
             double code = random.nextDouble() * 8999999999D + 1000000000D;
@@ -115,33 +97,12 @@ public class TicketService {
     }
 
     /**
-     * Save a ticket code to database.
-     *
-     * @param code The ticket code to save
-     */
-    public void saveCode(String code) {
-        TicketCode ticketCode = new TicketCode();
-        ticketCode.setCode(code);
-        codeRepo.save(ticketCode);
-    }
-
-    /**
      * Check if a ticket code has been generated.
      *
      * @param code The ticket code to check
      * @return True if the ticket code has been generated.
      */
-    public boolean hasCode(String code) {
-        return codeRepo.findOne(code) != null;
-    }
-
-    /**
-     * Generate the digest of a ticket code.
-     *
-     * @param code The ticket code
-     * @return The digest string with 32 characters
-     */
-    public String digest(String code) {
-        return DigestUtils.md5DigestAsHex(code.getBytes());
+    private boolean hasCode(String code) {
+        return !ticketRepo.findUserIdByCode(code).isEmpty();
     }
 }
