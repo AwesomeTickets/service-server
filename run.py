@@ -20,6 +20,6 @@ elif background:
         os.remove("nohup.out")
     except Exception as e:
         pass
-    os.system("nohup mvn clean tomcat7:run-war &")
+    os.system("nohup mvn -Dmaven.test.skip=true clean tomcat7:run-war &")
 else:
-    os.system("mvn clean compile tomcat7:run")
+    os.system("mvn clean tomcat7:run")

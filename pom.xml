@@ -11,8 +11,8 @@
     <packaging>war</packaging>
 
     <properties>
-        <server.port>8080</server.port>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <springframework.version>4.3.3.RELEASE</springframework.version>
         <javax-servlet-api.version>3.1.0</javax-servlet-api.version>
         <thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
@@ -40,8 +40,10 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>${tomcat7-maven-plugin.version}</version>
                 <configuration>
-                    <port>${server.port}</port>
+                    <hostName>localhost</hostName>
+                    <port>8080</port>
                     <path>/</path>
+                    <uriEncoding>UTF-8</uriEncoding>
                 </configuration>
             </plugin>
             <plugin>
