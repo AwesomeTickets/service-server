@@ -14,44 +14,9 @@
     <context:component-scan base-package="com.awesometickets"/>
 
     <mvc:annotation-driven/>
-    <mvc:resources mapping="/fonts/**" location="/fonts/" />
-    <mvc:resources mapping="/layouts/**" location="/layouts/" />
-    <mvc:resources mapping="/scripts/**" location="/scripts/" />
-    <mvc:resources mapping="/static/**" location="/static/" />
-    <mvc:resources mapping="/styles/**" location="/styles/" />
 
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="Messages" />
-    </bean>
-
-    <!-- SpringResourceTemplateResolver automatically integrates with Spring's own -->
-    <!-- resource resolution infrastructure, which is highly recommended.          -->
-    <bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
-        <property name="prefix" value="/WEB-INF/templates/" />
-        <property name="suffix" value=".html" />
-        <!-- HTML is the default value, added here for the sake of clarity.          -->
-        <property name="templateMode" value="HTML" />
-        <!-- Template cache is true by default. Set to false if you want             -->
-        <!-- templates to be automatically updated when modified.                    -->
-        <property name="cacheable" value="true" />
-        <property name="characterEncoding" value="utf-8" />
-    </bean>
-
-    <!-- SpringTemplateEngine automatically applies SpringStandardDialect and      -->
-    <!-- enables Spring's own MessageSource message resolution mechanisms.         -->
-    <bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
-        <property name="templateResolver" ref="templateResolver" />
-        <!-- Enabling the SpringEL compiler with Spring 4.2.4 or newer can speed up  -->
-        <!-- execution in most scenarios, but might be incompatible with specific    -->
-        <!-- cases when expressions in one template are reused across different data -->
-        <!-- types, so this flag is "false" by default for safer backwards            -->
-        <!-- compatibility.                                                          -->
-        <property name="enableSpringELCompiler" value="true" />
-    </bean>
-
-    <bean id="viewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
-        <property name="templateEngine" ref="templateEngine" />
-        <property name="characterEncoding" value="utf-8" />
     </bean>
 
     <bean id="exceptionResolver" class="com.awesometickets.config.ExceptionHandler"/>
