@@ -10,10 +10,10 @@ Server that provides RESTful services of AwesomeTickets system. See the [APIs](h
 
     ```python
     # Foreground
-    python3 run.py
+    python run.py
 
     # Background
-    python3 run.py -b
+    python run.py -b
     ```
 
 3. The application should be available at http://localhost:8080
@@ -21,7 +21,7 @@ Server that provides RESTful services of AwesomeTickets system. See the [APIs](h
 4. Run unit tests:
 
     ```python
-    python3 run.py -t
+    python run.py -t
     ```
 
 ## License
