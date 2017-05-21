@@ -16,6 +16,7 @@ public class RedisService {
     }
 
     public String getSingleValueByKey(String key) {
+        if (!jedis.exists(key)) return null;
         return jedis.get(key);
     }
 
