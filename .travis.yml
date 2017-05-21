@@ -27,4 +27,4 @@ before_script:
   - cd ..
 
 script:
-  - python run.py -t
+  - mvn clean test
