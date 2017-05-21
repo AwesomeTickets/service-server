@@ -15,6 +15,15 @@
 
     <mvc:annotation-driven/>
 
+    <mvc:interceptors>
+        <bean id="cacheInterceptor" class="com.awesometickets.web.interceptor.CacheInterceptor"/>
+    </mvc:interceptors>
+
+    <bean id="redisService" class="com.awesometickets.web.RedisService">
+        <property name="redisServerIP" value="localhost"/>
+        <property name="redisServerPort" value="6379"/>
+    </bean>
+
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="Messages" />
     </bean>
