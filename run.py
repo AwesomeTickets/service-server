@@ -25,7 +25,7 @@ cmd_foreground = 'mvn clean tomcat7:run %s' % (var_urand)
 
 if test:
     print("exec: " + cmd_test)
-    os.system(cmd_test)
+    sys.exit(os.system(cmd_test))
 elif background:
     try:
         os.remove("nohup.out")
