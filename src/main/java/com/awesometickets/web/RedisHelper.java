@@ -6,14 +6,14 @@ import javax.annotation.PostConstruct;
 
 
 /**
- * Service that provides methods to communicate with redis.
+ * Provide methods to communicate with redis.
  */
-public class RedisService {
+public class RedisHelper {
     private Jedis jedis;
-    private String ip;
+    private String host;
     private int port;
 
-    public RedisService() {}
+    public RedisHelper() {}
 
     public void set(String key, String value) {
         jedis.set(key, value);
@@ -34,18 +34,18 @@ public class RedisService {
     @PostConstruct
     public void setupAndConnect() {
         try {
-            jedis = new Jedis(ip, port);
+            jedis = new Jedis(host, port);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public String getIp() {
-        return ip;
+    public String getHost() {
+        return host;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public void setHost(String host) {
+        this.host = host;
     }
 
     public int getPort() {

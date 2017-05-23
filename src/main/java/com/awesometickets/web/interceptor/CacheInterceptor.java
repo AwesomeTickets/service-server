@@ -1,6 +1,6 @@
 package com.awesometickets.web.interceptor;
 
-import com.awesometickets.web.RedisService;
+import com.awesometickets.web.RedisHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CacheInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private RedisService redisService;
+    private RedisHelper redisHelper;
 
     private static final Logger Log = LoggerFactory.getLogger(CacheInterceptor.class);
 
