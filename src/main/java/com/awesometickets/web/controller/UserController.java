@@ -60,11 +60,11 @@ public class UserController {
         if (!validator.isValidPhone(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
         }
-        if (userService.hasUser(phoneNum)) {
-            return new ErrorResponse(response, ErrorStatus.PHONE_REGISTERED);
-        }
         if (!smsService.verifySmsCode(phoneNum, smsCode)) {
             return new ErrorResponse(response, ErrorStatus.SMS_MISMATCH);
+        }
+        if (userService.hasUser(phoneNum)) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_REGISTERED);
         }
         User user = userService.addUser(phoneNum, password);
         sessionManager.addUser(user, request);
