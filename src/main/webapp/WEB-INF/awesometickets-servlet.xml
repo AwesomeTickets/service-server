@@ -12,7 +12,6 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="com.awesometickets"/>
-    <context:property-placeholder location="classpath:config.properties" />
 
     <mvc:annotation-driven/>
     <mvc:interceptors>
@@ -21,6 +20,32 @@
             <bean id="cacheInterceptor" class="com.awesometickets.web.interceptor.CacheInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>/config.properties</value>
+        </property>
+        <property name="fileEncoding" value="utf-8" />
+    </bean>
+
+    <bean id="cookieSerializer" class="org.springframework.session.web.http.DefaultCookieSerializer">
+        <property name="cookieName" value="${cookie.name}" />
+        <property name="cookiePath" value="${cookie.path}" />
+        <property name="useSecureCookie" value="${cookie.secure}" />
+        <property name="useHttpOnlyCookie" value="${cookie.httpOnly}" />
+        <property name="cookieMaxAge" value="${cookie.maxAge}" />
+    </bean>
+
+    <bean id="sessionRepositoryFilter"
+          class="org.springframework.session.web.http.SessionRepositoryFilter">
+        <constructor-arg ref="sessionRepository"/>
+        <property name="httpSessionStrategy">
+            <bean class="org.springframework.session.web.http.CookieHttpSessionStrategy">
+                <property name="cookieSerializer" ref="cookieSerializer" />
+            </bean>
+        </property>
+    </bean>
 
     <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>
 

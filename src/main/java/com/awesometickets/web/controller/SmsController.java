@@ -22,8 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/resource/sms")
 public class SmsController {
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private Validator validator;
@@ -41,6 +39,7 @@ public class SmsController {
         if (!validator.isValidPhone(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
         }
+        // TODO 若手机号已经注册，则不再发短信
         if (smsService.sendSmsCode(phoneNum)) {
             RestResponse res = new RestResponse();
             res.put("phoneNum", phoneNum);
@@ -62,7 +61,6 @@ public class SmsController {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
         }
         if (smsService.verifySmsCode(phoneNum, code)) {
-            userService.createUserWithPhoneNum(phoneNum);
             RestResponse res = new RestResponse();
             res.put("phoneNum", phoneNum);
             return res;
