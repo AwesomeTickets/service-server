@@ -23,8 +23,8 @@
     </mvc:interceptors>
 
     <bean id="redisService" class="com.awesometickets.web.RedisService">
-        <property name="redisServerIP" value="localhost"/>
-        <property name="redisServerPort" value="6379"/>
+        <property name="ip" value="localhost"/>
+        <property name="port" value="6379"/>
     </bean>
 
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
