@@ -1,15 +1,17 @@
-package test.util;
+package test.redis;
 
 import com.awesometickets.web.RedisHelper;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import test.BaseTest;
 
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class RedisHelperTest extends BaseTest {
+public class RedisTest extends BaseTest {
 
     @Autowired
     private RedisHelper redisHelper;
