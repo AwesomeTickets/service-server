@@ -2,11 +2,12 @@ package com.awesometickets.business.services;
 
 import com.awesometickets.business.entities.User;
 import com.awesometickets.business.entities.repositories.UserRepository;
-import com.awesometickets.util.MD5Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.util.List;
+
 
 @Service
 public class UserService {
@@ -19,12 +20,11 @@ public class UserService {
      * @param password raw password, will be dealt with MD5
      */
     public User registerUserWithRawPassword(String phoneNum, String password) {
-        String md5pw = MD5Parser.getMD5(password);
         User user = null;
         if (!isPhoneNumExist(phoneNum)) {
             user = new User();
             user.setPhoneNum(phoneNum);
-            user.setPassword(md5pw);
+            user.setPassword(digest(password));
             user.setRemainPurchase(99999);
             userRepo.save(user);
         }
@@ -32,13 +32,13 @@ public class UserService {
     }
 
     /**
-     * Get a user, with password which has been dealt with MD5.
-     * @param phoneNum
-     * @param password
-     * @return
+     * Find a user by phone number and password.
+     *
+     * @param phoneNum The phone number
+     * @param password The password
      */
-    public User getUserWithMD5Password(String phoneNum, String password) {
-        return userRepo.findByPhoneNumAndPassword(phoneNum, password);
+    public User findUser(String phoneNum, String password) {
+        return userRepo.findByPhoneNumAndPassword(phoneNum, digest(password));
     }
 
     /**
@@ -74,5 +74,15 @@ public class UserService {
         List<User> users = userRepo.findByPhoneNum(phoneNum);
         if (users.size() == 0) return null;
         else return users.get(0);
+    }
+
+    /**
+     * Generate the digest of a message.
+     *
+     * @param msg The message
+     * @return The digest string with 32 characters
+     */
+    private String digest(String msg) {
+        return DigestUtils.md5DigestAsHex(msg.getBytes());
     }
 }
