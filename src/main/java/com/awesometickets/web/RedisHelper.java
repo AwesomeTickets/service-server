@@ -1,5 +1,10 @@
 package com.awesometickets.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.PostConstruct;
@@ -8,51 +13,33 @@ import javax.annotation.PostConstruct;
 /**
  * Provide methods to communicate with redis.
  */
+@Component
 public class RedisHelper {
-    private Jedis jedis;
-    private String host;
-    private int port;
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+    private ValueOperations<String, String> operations;
+
+    @PostConstruct
+    public void init() {
+        operations = redisTemplate.opsForValue();
+    }
 
     public RedisHelper() {}
 
     public void set(String key, String value) {
-        jedis.set(key, value);
+        operations.set(key, value);
     }
 
     public String get(String key) {
-        return jedis.get(key);
+        return operations.get(key);
     }
 
     public boolean exists(String key) {
-        return jedis.exists(key);
+        return redisTemplate.hasKey(key);
     }
 
     public void del(String key) {
-        jedis.del(key);
-    }
-
-    @PostConstruct
-    public void setupAndConnect() {
-        try {
-            jedis = new Jedis(host, port);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
+        redisTemplate.delete(key);
     }
 }
