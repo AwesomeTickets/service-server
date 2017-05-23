@@ -25,9 +25,9 @@
                 <prop key="hibernate.dialect">com.awesometickets.config.MySQL5Dialect</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
-                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/awesome_tickets?createDatabaseIfNotExist=true&amp;useSSL=false</prop>
-                <prop key="hibernate.connection.username">root</prop>
-                <prop key="hibernate.connection.password">123456</prop>
+                <prop key="hibernate.connection.url">${db.url}</prop>
+                <prop key="hibernate.connection.username">${db.user}</prop>
+                <prop key="hibernate.connection.password">${db.password}</prop>
                 <prop key="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</prop>
                 <prop key="hibernate.c3p0.min_size">5</prop>
                 <prop key="hibernate.c3p0.max_size">20</prop>
@@ -45,7 +45,8 @@
           class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor">
     </bean>
 
-    <jpa:repositories base-package="com.awesometickets.business.entities" transaction-manager-ref="transactionManager"
+    <jpa:repositories base-package="com.awesometickets.business.entities"
+                      transaction-manager-ref="transactionManager"
                       entity-manager-factory-ref="entityManagerFactory"/>
 
 </beans>

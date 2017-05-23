@@ -12,9 +12,9 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="com.awesometickets"/>
+    <context:property-placeholder location="classpath:config.properties" />
 
     <mvc:annotation-driven/>
-
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/resource/*"/>
@@ -22,13 +22,9 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
-    <bean id="redisService" class="com.awesometickets.web.RedisService">
-        <property name="ip" value="localhost"/>
-        <property name="port" value="6379"/>
-    </bean>
-
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename" value="Messages" />
+    <bean id="redisService" class="com.awesometickets.web.RedisHelper">
+        <property name="host" value="${redis.host}"/>
+        <property name="port" value="${redis.port}"/>
     </bean>
 
     <bean id="exceptionResolver" class="com.awesometickets.config.ExceptionHandler"/>
