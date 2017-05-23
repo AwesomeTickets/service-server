@@ -4,50 +4,55 @@ import redis.clients.jedis.Jedis;
 
 import javax.annotation.PostConstruct;
 
+
 /**
- * Cache service.
+ * Service that provides methods to communicate with redis.
  */
 public class RedisService {
-    private Jedis jedis = null;
-    private String redisServerIP = null;
-    private Integer redisServerPort = null;
+    private Jedis jedis;
+    private String ip;
+    private int port;
 
-    public RedisService() {
+    public RedisService() {}
+
+    public void set(String key, String value) {
+        jedis.set(key, value);
     }
 
-    public String getSingleValueByKey(String key) {
-        if (!jedis.exists(key)) return null;
+    public String get(String key) {
         return jedis.get(key);
     }
 
-    public void setSingleValue(String key, String value) {
-        jedis.set(key, value);
+    public boolean exists(String key) {
+        return jedis.exists(key);
+    }
+
+    public void del(String key) {
+        jedis.del(key);
     }
 
     @PostConstruct
     public void setupAndConnect() {
-        if (redisServerIP == null) redisServerIP = "localhost";
-        if (redisServerPort == null) redisServerPort = 6379;
         try {
-            jedis = new Jedis(this.redisServerIP, this.redisServerPort);
+            jedis = new Jedis(ip, port);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public String getRedisServerIP() {
-        return redisServerIP;
-    }
-    public void setRedisServerIP(String redisServerIP) {
-        this.redisServerIP = redisServerIP;
+    public String getIp() {
+        return ip;
     }
 
-    public Integer getRedisServerPort() {
-        return redisServerPort;
-    }
-    public void setRedisServerPort(String redisServerPort) {
-        this.redisServerPort = Integer.valueOf(redisServerPort);
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
+    public int getPort() {
+        return port;
+    }
 
+    public void setPort(int port) {
+        this.port = port;
+    }
 }
