@@ -11,6 +11,4 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Integer> {
 
     List<User> findByPhoneNum(String phoneNum);
-
-    User findByPhoneNumAndPassword(String phoneNum, String password);
 }

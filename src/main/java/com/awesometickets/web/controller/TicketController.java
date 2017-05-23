@@ -56,7 +56,7 @@ public class TicketController {
         } else if (!validator.isValidSeats(seats)) {
             return new ErrorResponse(response, ErrorStatus.BAD_REQUEST);
         }
-        User user = userService.getUserByPhoneNum(phoneNum);
+        User user = userService.findUser(phoneNum);
         if (user == null) {
             return new ErrorResponse(response, ErrorStatus.USER_NOT_FOUND);
         } else if (user.getRemainPurchase() == 0) {
@@ -96,7 +96,7 @@ public class TicketController {
         if (ticket == null) {
             return new ErrorResponse(response, ErrorStatus.TICKET_CODE_NOT_FOUND);
         }
-        User user = userService.getUserByPhoneNum(phoneNum);
+        User user = userService.findUser(phoneNum);
         if (user == null) {
             return new ErrorResponse(response, ErrorStatus.USER_NOT_FOUND);
         } else if (!user.getUserId().equals(ticket.getUser().getUserId())) {
@@ -132,7 +132,7 @@ public class TicketController {
         if (ticket == null) {
             return new ErrorResponse(response, ErrorStatus.TICKET_CODE_NOT_FOUND);
         }
-        User user = userService.getUserByPhoneNum(phoneNum);
+        User user = userService.findUser(phoneNum);
         if (user == null) {
             return new ErrorResponse(response, ErrorStatus.USER_NOT_FOUND);
         } else if (!user.getUserId().equals(ticket.getUser().getUserId())) {
