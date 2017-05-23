@@ -4,7 +4,6 @@ import com.awesometickets.business.entities.User;
 import com.awesometickets.business.services.SmsService;
 import com.awesometickets.business.services.UserService;
 import com.awesometickets.util.LogUtil;
-import com.awesometickets.util.MD5Parser;
 import com.awesometickets.web.SessionService;
 import com.awesometickets.web.Validator;
 import com.awesometickets.web.controller.response.ErrorResponse;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * RESTFul API of user resources.
@@ -76,8 +76,7 @@ public class UserController {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
         }
 
-        String md5pw = MD5Parser.getMD5(password);
-        User user = userService.getUserWithMD5Password(phoneNum, md5pw);
+        User user = userService.findUser(phoneNum, password);
         if (user == null) {
             return new ErrorResponse(response, ErrorStatus.PASSWORD_MISMATCH);
         }
