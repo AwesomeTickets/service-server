@@ -15,65 +15,50 @@ public class UserService {
     private UserRepository userRepo;
 
     /**
-     * Create a user, do nothing if the phone number exists.
-     * @param phoneNum the user phone number
-     * @param password raw password, will be dealt with MD5
+     * Insert a user to database.
+     *
+     * @param phoneNum The phone number of the user
+     * @param password The password
+     * @return The user inserted
      */
-    public User registerUserWithRawPassword(String phoneNum, String password) {
-        User user = null;
-        if (!isPhoneNumExist(phoneNum)) {
-            user = new User();
-            user.setPhoneNum(phoneNum);
-            user.setPassword(digest(password));
-            user.setRemainPurchase(99999);
-            userRepo.save(user);
-        }
+    public User addUser(String phoneNum, String password) {
+        User user = new User();
+        user.setPhoneNum(phoneNum);
+        user.setPassword(digest(password));
+        user.setRemainPurchase(99999);
+        userRepo.save(user);
         return user;
     }
 
     /**
-     * Find a user by phone number and password.
-     *
-     * @param phoneNum The phone number
-     * @param password The password
-     */
-    public User findUser(String phoneNum, String password) {
-        return userRepo.findByPhoneNumAndPassword(phoneNum, digest(password));
-    }
-
-    /**
-     * Create a user with his phone number, do nothing if the phone number exists.
-     *
-     * @param phoneNum The phone number to save a new user
-     */
-    public void createUserWithPhoneNum(String phoneNum) {
-        if (!isPhoneNumExist(phoneNum)) {
-            User user = new User();
-            user.setPhoneNum(phoneNum);
-            user.setPassword("");
-            user.setRemainPurchase(99999);
-            userRepo.save(user);
-        }
-    }
-
-    /**
-     * Check if a phone number exists.
-     *
-     * @param phoneNum The phone number to check
-     */
-    public boolean isPhoneNumExist(String phoneNum) {
-        return userRepo.findByPhoneNum(phoneNum).size() > 0;
-    }
-
-    /**
-     * Get a user's id using the phone number
+     * Check if a user exists by its phone number.
      *
      * @param phoneNum The phone number
      */
-    public User getUserByPhoneNum(String phoneNum) {
+    public boolean hasUser(String phoneNum) {
+        return findUser(phoneNum) != null;
+    }
+
+    /**
+     * Find a user by its phone number.
+     *
+     * @param phoneNum The phone number
+     * @return The user object, or null if user does not exist
+     */
+    public User findUser(String phoneNum) {
         List<User> users = userRepo.findByPhoneNum(phoneNum);
-        if (users.size() == 0) return null;
-        else return users.get(0);
+        return users.isEmpty() ? null : users.get(0);
+    }
+
+    /**
+     * Check if password matches.
+     *
+     * @param password The password to be checked
+     * @param correctPassword The correct password
+     * @return True if password matches
+     */
+    public boolean checkPassword(String password, String correctPassword) {
+        return correctPassword.equals(digest(password));
     }
 
     /**
