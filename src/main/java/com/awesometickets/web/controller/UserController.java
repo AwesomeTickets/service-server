@@ -59,7 +59,8 @@ public class UserController {
         LogUtil.logReq(Log, request);
         if (!validator.isValidPhone(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
-        } else if (!validator.isValidPassword(password)) {
+        }
+        if (!validator.isValidPassword(password)) {
             return new ErrorResponse(response, ErrorStatus.PASSWORD_INVALID_FORMAT);
         }
         if (!smsService.verifySmsCode(phoneNum, smsCode)) {
@@ -85,10 +86,10 @@ public class UserController {
         LogUtil.logReq(Log, request);
         if (!validator.isValidPhone(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
-        } else if (!validator.isValidPassword(password)) {
+        }
+        if (!validator.isValidPassword(password)) {
             return new ErrorResponse(response, ErrorStatus.PASSWORD_INVALID_FORMAT);
         }
-
         User user = userService.findUser(phoneNum);
         if (user == null) {
             return new ErrorResponse(response, ErrorStatus.USER_NOT_FOUND);
@@ -105,7 +106,7 @@ public class UserController {
     @RequestMapping(path = "/session/drop",
                     method = RequestMethod.POST,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse doLogout(
+    public RestResponse logout(
         @RequestParam("phoneNum") String phoneNum,
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(Log, request);
