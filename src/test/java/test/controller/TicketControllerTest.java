@@ -1,6 +1,7 @@
 package test.controller;
 
 import org.hamcrest.Matchers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
@@ -12,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@Ignore
 public class TicketControllerTest extends RestControllerTest {
     private static final String TEST_AVAILABLE_PHONE = "18812345678";
     private static final String TEST_UNAVAILABLE_PHONE = "18813572468";
