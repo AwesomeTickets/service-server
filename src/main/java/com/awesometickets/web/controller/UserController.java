@@ -2,10 +2,12 @@ package com.awesometickets.web.controller;
 
 import com.awesometickets.business.entities.User;
 import com.awesometickets.business.services.SmsService;
+import com.awesometickets.business.services.TicketService;
 import com.awesometickets.business.services.UserService;
 import com.awesometickets.util.LogUtil;
 import com.awesometickets.web.SessionManager;
 import com.awesometickets.web.Validator;
+import com.awesometickets.web.controller.response.CollectionResponse;
 import com.awesometickets.web.controller.response.ErrorResponse;
 import com.awesometickets.web.controller.response.ErrorStatus;
 import com.awesometickets.web.controller.response.RestResponse;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
 
 
 /**
@@ -33,6 +36,9 @@ public class UserController {
 
     @Autowired
     private Validator validator;
+
+    @Autowired
+    private TicketService ticketService;
 
     @Autowired
     private SessionManager sessionManager;
@@ -75,6 +81,25 @@ public class UserController {
         res.put("phoneNum", phoneNum);
         return res;
     }
+
+    @RequestMapping(path = "/user/{phoneNum}/ticket",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse userTickets(@PathVariable("phoneNum") String phoneNum,
+                          HttpServletRequest request, HttpServletResponse response) {
+        LogUtil.logReq(Log, request);
+        if (!validator.isValidPhone(phoneNum)) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        }
+        String sessionPhone = sessionManager.getUserPhone(request);
+        if (sessionPhone == null || !phoneNum.equals(sessionPhone)) {
+            return new ErrorResponse(response, ErrorStatus.SESSION_NOT_FOUND);
+        }
+
+        CollectionResponse cr = new CollectionResponse(ticketService.getAllTicketsByPhoneNum(phoneNum));
+        return cr;
+    }
+
 
     @RequestMapping(path = "/session",
                     method = RequestMethod.POST,
