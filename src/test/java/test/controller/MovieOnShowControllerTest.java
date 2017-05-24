@@ -32,7 +32,7 @@ public class MovieOnShowControllerTest extends RestControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andReturn();
-        MovieOnShowResult result = mapper.readValue(res.getResponse().getContentAsString(), MovieOnShowResult.class);
+        MovieOnShowResult result = objMapper.readValue(res.getResponse().getContentAsString(), MovieOnShowResult.class);
         // Search by details
         mockMvc.perform(get("/resource/movie-on-show")
             .param("movieId", String.valueOf(result.movieId))

@@ -55,7 +55,9 @@ public class TicketController {
         @RequestParam("seats") Integer[] seats,
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-
+        if (!validator.isValidPhone(phoneNum)) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        }
         if (!validator.isValidSeats(seats)) {
             return new ErrorResponse(response, ErrorStatus.BAD_REQUEST);
         }
@@ -67,7 +69,6 @@ public class TicketController {
         if (user.getRemainPurchase() == 0) {
             return new ErrorResponse(response, ErrorStatus.PURCHASE_UNAVAILABLE);
         }
-
         List<Seat> seatList = new ArrayList<Seat>();
         if (!seatService.checkSeatExist(seatList, seats, movieOnShowId)) {
             return new ErrorResponse(response, ErrorStatus.SEAT_NOT_FOUND);
