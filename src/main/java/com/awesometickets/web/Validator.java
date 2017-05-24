@@ -67,4 +67,27 @@ public class Validator {
     public boolean isValidSeats(Integer[] seats) {
         return seats.length <= 8 && seats.length >= 2 && seats.length % 2 == 0;
     }
+
+    /**
+     * Check the password format
+     * @param password
+     * @return True if the password contains letter and number, and is more than 6 characters.
+     */
+    public boolean isValidPassword(String password) {
+        if (password.length() < 6) {
+            return  false;
+        }
+        boolean letterFlag = false;
+        boolean numFlag = false;
+        for (int i = 0; i < password.length(); i++) {
+            if (password.charAt(i) <= 'Z' && password.charAt(i) >= 'A' ||
+                password.charAt(i) <= 'z' && password.charAt(i) >= 'a') {
+                letterFlag = true;
+            } else if (password.charAt(i) <= '9' && password.charAt(i) >= '0') {
+                numFlag = true;
+            }
+        }
+        return (letterFlag && numFlag);
+    }
+
 }
