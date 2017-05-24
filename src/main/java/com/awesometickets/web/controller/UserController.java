@@ -59,6 +59,8 @@ public class UserController {
         LogUtil.logReq(Log, request);
         if (!validator.isValidPhone(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        } else if (!validator.isValidPassword(password)) {
+            return new ErrorResponse(response, ErrorStatus.PASSWORD_INVALID_FORMAT);
         }
         if (!smsService.verifySmsCode(phoneNum, smsCode)) {
             return new ErrorResponse(response, ErrorStatus.SMS_MISMATCH);
@@ -83,7 +85,10 @@ public class UserController {
         LogUtil.logReq(Log, request);
         if (!validator.isValidPhone(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        } else if (!validator.isValidPassword(password)) {
+            return new ErrorResponse(response, ErrorStatus.PASSWORD_INVALID_FORMAT);
         }
+
         User user = userService.findUser(phoneNum);
         if (user == null) {
             return new ErrorResponse(response, ErrorStatus.USER_NOT_FOUND);
