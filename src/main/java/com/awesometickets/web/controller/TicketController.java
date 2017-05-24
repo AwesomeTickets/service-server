@@ -7,6 +7,7 @@ import com.awesometickets.business.services.SeatService;
 import com.awesometickets.business.services.TicketService;
 import com.awesometickets.business.services.UserService;
 import com.awesometickets.util.LogUtil;
+import com.awesometickets.web.SessionManager;
 import com.awesometickets.web.Validator;
 import com.awesometickets.web.controller.response.ErrorResponse;
 import com.awesometickets.web.controller.response.ErrorStatus;
@@ -42,6 +43,9 @@ public class TicketController {
     @Autowired
     private Validator validator;
 
+    @Autowired
+    private SessionManager sessionManager;
+
     @RequestMapping(path = "",
                     method = RequestMethod.POST,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -51,17 +55,19 @@ public class TicketController {
         @RequestParam("seats") Integer[] seats,
         HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(LOG, request);
-        if (!validator.isValidPhone(phoneNum)) {
-            return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
-        } else if (!validator.isValidSeats(seats)) {
+
+        if (!validator.isValidSeats(seats)) {
             return new ErrorResponse(response, ErrorStatus.BAD_REQUEST);
         }
-        User user = userService.findUser(phoneNum);
-        if (user == null) {
-            return new ErrorResponse(response, ErrorStatus.USER_NOT_FOUND);
-        } else if (user.getRemainPurchase() == 0) {
+        String sessionPhoneNum = sessionManager.getUserPhone(request);
+        if (sessionPhoneNum == null || !phoneNum.equals(sessionPhoneNum)) {
+            return new ErrorResponse(response, ErrorStatus.SESSION_NOT_FOUND);
+        }
+        User user = userService.findUser(sessionPhoneNum);
+        if (user.getRemainPurchase() == 0) {
             return new ErrorResponse(response, ErrorStatus.PURCHASE_UNAVAILABLE);
         }
+
         List<Seat> seatList = new ArrayList<Seat>();
         if (!seatService.checkSeatExist(seatList, seats, movieOnShowId)) {
             return new ErrorResponse(response, ErrorStatus.SEAT_NOT_FOUND);
