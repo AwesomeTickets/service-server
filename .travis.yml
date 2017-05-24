@@ -26,6 +26,8 @@ before_script:
   - cd Database
   - python init_db.py
   - cd ..
+  - touch .awesometickets
+  - echo ${LCK} > .awesometickets
 
 script:
   - mvn clean test
