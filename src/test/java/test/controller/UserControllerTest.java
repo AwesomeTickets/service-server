@@ -42,6 +42,98 @@ public class UserControllerTest extends RestSessionControllerTest {
     }
 
     @Test
+    public void testQueryTicketHistory() throws Exception {
+        // Buy four tickets
+        MvcResult res1 = mockMvc.perform(post(URI_TICKET_BUY)
+            .param("movieOnShowId", "1")
+            .param("phoneNum", TEST_PHONE_USER)
+            .param("seats", "1,1")
+            .session(session))
+            .andExpect(status().isOk())
+            .andReturn();
+        String ticketCode1 = objMapper.readValue(res1.getResponse().getContentAsString(),
+            TicketControllerTest.BuyTicketResult.class).ticketCode;
+        MvcResult res2 = mockMvc.perform(post(URI_TICKET_BUY)
+            .param("movieOnShowId", "2")
+            .param("phoneNum", TEST_PHONE_USER)
+            .param("seats", "2,1,2,2")
+            .session(session))
+            .andExpect(status().isOk())
+            .andReturn();
+        String ticketCode2 = objMapper.readValue(res2.getResponse().getContentAsString(),
+            TicketControllerTest.BuyTicketResult.class).ticketCode;
+        MvcResult res3 = mockMvc.perform(post(URI_TICKET_BUY)
+            .param("movieOnShowId", "3")
+            .param("phoneNum", TEST_PHONE_USER)
+            .param("seats", "3,1,3,2,3,3")
+            .session(session))
+            .andExpect(status().isOk())
+            .andReturn();
+        String ticketCode3 = objMapper.readValue(res3.getResponse().getContentAsString(),
+            TicketControllerTest.BuyTicketResult.class).ticketCode;
+        MvcResult res4 = mockMvc.perform(post(URI_TICKET_BUY)
+            .param("movieOnShowId", "4")
+            .param("phoneNum", TEST_PHONE_USER)
+            .param("seats", "4,1,4,2,4,3,4,4")
+            .session(session))
+            .andExpect(status().isOk())
+            .andReturn();
+        String ticketCode4 = objMapper.readValue(res4.getResponse().getContentAsString(),
+            TicketControllerTest.BuyTicketResult.class).ticketCode;
+        // Invalidate ticket 2 and 4
+        mockMvc.perform(post(URI_TICKET_CHECK)
+            .param("ticketCode", ticketCode2)
+            .param("phoneNum", TEST_PHONE_USER))
+            .andExpect(status().isOk());
+        mockMvc.perform(post(URI_TICKET_CHECK)
+            .param("ticketCode", ticketCode4)
+            .param("phoneNum", TEST_PHONE_USER))
+            .andExpect(status().isOk());
+        // Check history
+        mockMvc.perform(get(URI_USER_HISTORY, TEST_PHONE_USER)
+            .session(session))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
+            .andExpect(jsonPath("$.count").value(4))
+            .andExpect(jsonPath("$.data").value(Matchers.hasSize(4)))
+
+            .andExpect(jsonPath("$.data[0].*").value(Matchers.hasSize(4)))
+            .andExpect(jsonPath("$.data[0].code").value(ticketCode3))
+            .andExpect(jsonPath("$.data[0].valid").value(true))
+            .andExpect(jsonPath("$.data[0].movieOnShowId").value(3))
+            .andExpect(jsonPath("$.data[0].seats").value(Matchers.hasSize(3)))
+            .andExpect(jsonPath("$.data[0].seats[0][0]").value(3))
+            .andExpect(jsonPath("$.data[0].seats[1][0]").value(3))
+            .andExpect(jsonPath("$.data[0].seats[2][0]").value(3))
+
+            .andExpect(jsonPath("$.data[1].*").value(Matchers.hasSize(4)))
+            .andExpect(jsonPath("$.data[1].code").value(ticketCode1))
+            .andExpect(jsonPath("$.data[1].valid").value(true))
+            .andExpect(jsonPath("$.data[1].movieOnShowId").value(1))
+            .andExpect(jsonPath("$.data[1].seats").value(Matchers.hasSize(1)))
+            .andExpect(jsonPath("$.data[1].seats[0][0]").value(1))
+
+            .andExpect(jsonPath("$.data[2].*").value(Matchers.hasSize(4)))
+            .andExpect(jsonPath("$.data[2].code").value(ticketCode4))
+            .andExpect(jsonPath("$.data[2].valid").value(false))
+            .andExpect(jsonPath("$.data[2].movieOnShowId").value(4))
+            .andExpect(jsonPath("$.data[2].seats").value(Matchers.hasSize(4)))
+            .andExpect(jsonPath("$.data[2].seats[0][0]").value(4))
+            .andExpect(jsonPath("$.data[2].seats[1][0]").value(4))
+            .andExpect(jsonPath("$.data[2].seats[2][0]").value(4))
+            .andExpect(jsonPath("$.data[2].seats[3][0]").value(4))
+
+            .andExpect(jsonPath("$.data[3].*").value(Matchers.hasSize(4)))
+            .andExpect(jsonPath("$.data[3].code").value(ticketCode2))
+            .andExpect(jsonPath("$.data[3].valid").value(false))
+            .andExpect(jsonPath("$.data[3].movieOnShowId").value(2))
+            .andExpect(jsonPath("$.data[3].seats").value(Matchers.hasSize(2)))
+            .andExpect(jsonPath("$.data[3].seats[0][0]").value(2))
+            .andExpect(jsonPath("$.data[3].seats[1][0]").value(2));
+    }
+
+    @Test
     public void testRegisterFailures() throws Exception {
         // PHONE_INVALID_FORMAT
         mockMvc.perform(post(URI_USER_REGISTER)
