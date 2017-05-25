@@ -25,6 +25,6 @@ public interface SeatRepository extends CrudRepository<Seat, Integer> {
 
     @Query("select s.ticket.code, s.ticket.valid, s.movieOnShow.movieOnShowId, s.row, s.col from Seat s " +
             "where s.ticket.user.phoneNum = ?1 " +
-            "order by s.ticket.ticketId desc")
+            "order by s.ticket.valid desc, s.ticket.ticketId desc")
     List<Object[]> findByUserIdWithAllTickets(String phoneNum);
 }
