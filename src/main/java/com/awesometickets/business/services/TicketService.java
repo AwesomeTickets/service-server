@@ -86,14 +86,13 @@ public class TicketService {
      * Query all tickets that the user buy.
      *
      * @param phoneNum the user's phone number.
-     * @return
      */
     public Collection<TicketHistoryDTO> getAllTicketsByPhoneNum(String phoneNum) {
         List<Object[]> los = seatRepo.findByUserIdWithAllTickets(phoneNum);
         Map<String, TicketHistoryDTO> map = new LinkedHashMap<String, TicketHistoryDTO>();
         for (int i = 0; i < los.size(); i++) {
             TicketHistoryDTO dto;
-            if (!map.containsKey(los.get(i)[0])) {
+            if (!map.containsKey((String) los.get(i)[0])) {
                 dto = new TicketHistoryDTO();
                 dto.code = (String)los.get(i)[0];
                 dto.valid = (Boolean) los.get(i)[1];
@@ -101,11 +100,10 @@ public class TicketService {
                 dto.seats = new ArrayList<Integer[]>();
                 map.put(dto.code, dto);
             } else {
-                dto = map.get(los.get(i)[0]);
+                dto = map.get((String) los.get(i)[0]);
             }
             dto.seats.add(new Integer[] {(Integer)los.get(i)[3], (Integer)los.get(i)[4]});
         }
-
         return map.values();
     }
 

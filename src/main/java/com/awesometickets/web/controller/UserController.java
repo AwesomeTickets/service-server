@@ -82,11 +82,12 @@ public class UserController {
         return res;
     }
 
-    @RequestMapping(path = "/user/{phoneNum}/ticket",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public RestResponse userTickets(@PathVariable("phoneNum") String phoneNum,
-                          HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/user/{phoneNum}/ticket/history",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse userTickets(
+        @PathVariable("phoneNum") String phoneNum,
+        HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(Log, request);
         if (!validator.isValidPhone(phoneNum)) {
             return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
@@ -95,11 +96,8 @@ public class UserController {
         if (sessionPhone == null || !phoneNum.equals(sessionPhone)) {
             return new ErrorResponse(response, ErrorStatus.SESSION_NOT_FOUND);
         }
-
-        CollectionResponse cr = new CollectionResponse(ticketService.getAllTicketsByPhoneNum(phoneNum));
-        return cr;
+        return new CollectionResponse(ticketService.getAllTicketsByPhoneNum(phoneNum));
     }
-
 
     @RequestMapping(path = "/session",
                     method = RequestMethod.POST,
