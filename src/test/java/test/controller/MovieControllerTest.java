@@ -15,7 +15,7 @@ public class MovieControllerTest extends RestControllerTest {
 
     @Test
     public void testGetMovieDetailsByID() throws Exception {
-        mockMvc.perform(get("/resource/movie/1"))
+        mockMvc.perform(get(URI_MOVIE, "1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(11)))
@@ -34,7 +34,7 @@ public class MovieControllerTest extends RestControllerTest {
 
     @Test
     public void testGetOnShowMovieIDs() throws Exception {
-        mockMvc.perform(get("/resource/movie/on"))
+        mockMvc.perform(get(URI_MOVIE_ON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
@@ -44,7 +44,7 @@ public class MovieControllerTest extends RestControllerTest {
 
     @Test
     public void testGetComingSoonMovieIDs() throws Exception {
-        mockMvc.perform(get("/resource/movie/soon"))
+        mockMvc.perform(get(URI_MOVIE_SOON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
@@ -54,7 +54,8 @@ public class MovieControllerTest extends RestControllerTest {
 
     @Test
     public void testGetPopularMovies() throws Exception {
-        mockMvc.perform(get("/resource/movie/popular?count=1"))
+        mockMvc.perform(get(URI_MOVIE_POPULAR)
+            .param("count", "1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))

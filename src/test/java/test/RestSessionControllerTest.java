@@ -30,7 +30,7 @@ public abstract class RestSessionControllerTest extends RestControllerTest {
     }
 
     private void registerTestUser() throws Exception {
-        MvcResult res = mockMvc.perform(post("/resource/user")
+        MvcResult res = mockMvc.perform(post(URI_USER_REGISTER)
             .param("phoneNum", TEST_PHONE_USER)
             .param("password", TEST_PASSWORD_VALID)
             .param("smsCode", TEST_SMS_CODE))
