@@ -2,14 +2,14 @@ package com.awesometickets.business.services;
 
 import com.awesometickets.business.entities.Seat;
 import com.awesometickets.business.entities.Ticket;
+import com.awesometickets.business.entities.TicketHistoryDTO;
 import com.awesometickets.business.entities.User;
 import com.awesometickets.business.entities.repositories.SeatRepository;
 import com.awesometickets.business.entities.repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 @Service
@@ -83,6 +83,33 @@ public class TicketService {
     }
 
     /**
+     * Query all tickets that the user buy.
+     *
+     * @param phoneNum the user's phone number.
+     * @return
+     */
+    public Collection<TicketHistoryDTO> getAllTicketsByPhoneNum(String phoneNum) {
+        List<Object[]> los = seatRepo.findByUserIdWithAllTickets(phoneNum);
+        Map<String, TicketHistoryDTO> map = new LinkedHashMap<String, TicketHistoryDTO>();
+        for (int i = 0; i < los.size(); i++) {
+            TicketHistoryDTO dto;
+            if (!map.containsKey(los.get(i)[0])) {
+                dto = new TicketHistoryDTO();
+                dto.code = (String)los.get(i)[0];
+                dto.valid = (Boolean) los.get(i)[1];
+                dto.movieOnShowId = (Integer) los.get(i)[2];
+                dto.seats = new ArrayList<Integer[]>();
+                map.put(dto.code, dto);
+            } else {
+                dto = map.get(los.get(i)[0]);
+            }
+            dto.seats.add(new Integer[] {(Integer)los.get(i)[3], (Integer)los.get(i)[4]});
+        }
+
+        return map.values();
+    }
+
+    /**
      * Generate a ticket code with 10 characters.
      *
      * @return The generated ticket code
@@ -105,4 +132,5 @@ public class TicketService {
     private boolean hasCode(String code) {
         return !ticketRepo.findUserIdByCode(code).isEmpty();
     }
+
 }
