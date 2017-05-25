@@ -28,13 +28,13 @@ public class MovieOnShowControllerTest extends RestControllerTest {
     @Test
     public void testGetMovieOnShowByDetails() throws Exception {
         // Get details
-        MvcResult res = mockMvc.perform(get("/resource/movie-on-show/1"))
+        MvcResult res = mockMvc.perform(get(URI_MOVIE_ON_SHOW, "1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andReturn();
         MovieOnShowResult result = objMapper.readValue(res.getResponse().getContentAsString(), MovieOnShowResult.class);
         // Search by details
-        mockMvc.perform(get("/resource/movie-on-show")
+        mockMvc.perform(get(URI_MOVIE_ON_SHOW_INFO)
             .param("movieId", String.valueOf(result.movieId))
             .param("cinemaHallId", String.valueOf(result.cinemaHallId))
             .param("showDate", String.valueOf(result.showDate))
@@ -53,7 +53,7 @@ public class MovieOnShowControllerTest extends RestControllerTest {
 
     @Test
     public void testGetMovieOnShowByID() throws Exception {
-        mockMvc.perform(get("/resource/movie-on-show/1"))
+        mockMvc.perform(get(URI_MOVIE_ON_SHOW, "1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(7)))
@@ -68,7 +68,8 @@ public class MovieOnShowControllerTest extends RestControllerTest {
 
     @Test
     public void testGetRecentMovieOnShow() throws Exception {
-        mockMvc.perform(get("/resource/movie-on-show/recent?movieId=1"))
+        mockMvc.perform(get(URI_MOVIE_ON_SHOW_RECENT)
+            .param("movieId", "1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
@@ -80,7 +81,10 @@ public class MovieOnShowControllerTest extends RestControllerTest {
 
     @Test
     public void testGetMovieOnShowByDay() throws Exception {
-        mockMvc.perform(get("/resource/movie-on-show/day?showDate=" + TEST_DATE + "&cinemaId=1&&movieId=1"))
+        mockMvc.perform(get(URI_MOVIE_ON_SHOW_DAY)
+            .param("showDate", TEST_DATE)
+            .param("cinemaId", "1")
+            .param("movieId", "1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
@@ -90,7 +94,10 @@ public class MovieOnShowControllerTest extends RestControllerTest {
 
     @Test
     public void testGetBriefMovieOnShowByDay() throws Exception {
-        mockMvc.perform(get("/resource/movie-on-show/day/brief?showDate=" + TEST_DATE + "&cinemaId=1&&movieId=1"))
+        mockMvc.perform(get(URI_MOVIE_ON_SHOW_DAY_BRIEF)
+            .param("showDate", TEST_DATE)
+            .param("cinemaId", "1")
+            .param("movieId", "1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))

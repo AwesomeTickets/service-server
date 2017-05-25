@@ -19,13 +19,13 @@ public class SmsControllerTest extends RestControllerTest {
     @Ignore
     public void testSendSms() throws Exception {
         // PHONE_INVALID_FORMAT
-        mockMvc.perform(get("/resource/sms/" + TEST_PHONE_INVALID))
+        mockMvc.perform(get(URI_SMS_GET, TEST_PHONE_INVALID))
             .andExpect(status().isBadRequest())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
             .andExpect(jsonPath("$.code").value(100));
         // Success
-        mockMvc.perform(get("/resource/sms/" + TEST_PHONE_USER))
+        mockMvc.perform(get(URI_SMS_GET, TEST_PHONE_USER))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(1)))
@@ -35,14 +35,14 @@ public class SmsControllerTest extends RestControllerTest {
     @Test
     public void testVerifySms() throws Exception {
         // PHONE_INVALID_FORMAT
-        mockMvc.perform(post("/resource/sms/" + TEST_PHONE_INVALID + "/check")
+        mockMvc.perform(post(URI_SMS_VERIFY, TEST_PHONE_INVALID)
             .param("code", TEST_SMS_CODE))
             .andExpect(status().isBadRequest())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
             .andExpect(jsonPath("$.code").value(100));
         // Success
-        mockMvc.perform(post("/resource/sms/" + TEST_PHONE_USER + "/check")
+        mockMvc.perform(post(URI_SMS_VERIFY, TEST_PHONE_USER)
             .param("code", TEST_SMS_CODE))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))

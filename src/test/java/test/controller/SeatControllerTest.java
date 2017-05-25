@@ -15,7 +15,8 @@ public class SeatControllerTest extends RestControllerTest {
 
     @Test
     public void testGetUnavailableSeat() throws Exception {
-        mockMvc.perform(get("/resource/seat/unavailable?movieOnShowId=1"))
+        mockMvc.perform(get(URI_SEAT_UNAVAILABLE)
+            .param("movieOnShowId", "1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
