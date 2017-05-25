@@ -15,7 +15,7 @@ public class CinemaHallControllerTest extends RestControllerTest {
 
     @Test
     public void testGetCinemaHallWithoutSeatByID() throws Exception {
-        mockMvc.perform(get("/resource/cinema-hall/1"))
+        mockMvc.perform(get(URI_HALL, "1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(3)))
@@ -26,7 +26,7 @@ public class CinemaHallControllerTest extends RestControllerTest {
 
     @Test
     public void testGetCinemaHallWithSeatByID() throws Exception {
-        mockMvc.perform(get("/resource/cinema-hall/1/seat-layout"))
+        mockMvc.perform(get(URI_HALL_LAYOUT, "1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))

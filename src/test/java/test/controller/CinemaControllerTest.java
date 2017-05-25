@@ -15,7 +15,7 @@ public class CinemaControllerTest extends RestControllerTest {
 
     @Test
     public void testGetCinemaByID() throws Exception {
-        mockMvc.perform(get("/resource/cinema/1"))
+        mockMvc.perform(get(URI_CINEMA, "1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(3)))
