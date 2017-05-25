@@ -22,4 +22,9 @@ public interface SeatRepository extends CrudRepository<Seat, Integer> {
             "AND s.col = ?2 " +
             "AND s.movieOnShow.movieOnShowId = ?3")
     Seat findByRowAndColAndMovieOnShowId(Integer row, Integer col, Integer movieOnShowId);
+
+    @Query("select s.ticket.code, s.ticket.valid, s.movieOnShow.movieOnShowId, s.row, s.col from Seat s " +
+            "where s.ticket.user.phoneNum = ?1 " +
+            "order by s.ticket.valid desc, s.ticket.ticketId desc")
+    List<Object[]> findByUserIdWithAllTickets(String phoneNum);
 }
