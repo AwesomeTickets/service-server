@@ -4,25 +4,23 @@ Server that provides RESTful services of AwesomeTickets system. See the [APIs](h
 
 ## Installation
 
-1. Download [Maven](http://maven.apache.org/download.cgi).
+- Requirements
 
-2. Run server:
+    - Maven 3.5.0
 
-    ```python
-    # Foreground
-    python run.py
+- Run locally
 
-    # Background
-    python run.py -b
+    ```bash
+    $ mvn clean tomcat7:run
     ```
 
-3. The application should be available at http://localhost:8080
+- Run unit tests
 
-4. Run unit tests:
-
-    ```python
-    python run.py -t
+    ```bash
+    $ mvn clean test
     ```
+
+**Notes:** Use `-Djava.security.egd=file:/dev/./urandom` if server starts slowly. ([details](http://nobodyiam.com/2016/06/07/tomcat-startup-slow/))
 
 ## License
 

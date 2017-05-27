@@ -10,11 +10,3 @@ log.txt
 *.out
 *.tar
 .awesometickets
-
-# Front-end resoures
-src/main/webapp/fonts/
-src/main/webapp/layouts/
-src/main/webapp/scripts/
-src/main/webapp/static/
-src/main/webapp/styles/
-src/main/webapp/WEB-INF/templates/tickets.html
