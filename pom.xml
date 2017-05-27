@@ -6,85 +6,72 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.awesometickets</groupId>
-    <artifactId>Tickets-Server</artifactId>
+    <artifactId>service-server</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
 
     <properties>
+        <server.host>localhost</server.host>
+        <server.port>8000</server.port>
+        <test.skip>false</test.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <springframework.version>4.3.3.RELEASE</springframework.version>
-        <spring-session.version>1.2.2.RELEASE</spring-session.version>
-        <jedis.version>2.9.0</jedis.version>
-        <javax-servlet-api.version>3.1.0</javax-servlet-api.version>
-        <jackson.version>2.8.7</jackson.version>
-        <junit.version>4.12</junit.version>
+        <spring-session.version>1.3.0.RELEASE</spring-session.version>
         <slf4j.version>1.6.1</slf4j.version>
-        <log4j.version>1.2.15</log4j.version>
-        <spring-data-jpa.version>1.11.1.RELEASE</spring-data-jpa.version>
-        <hibernate.version>5.0.11.Final</hibernate.version>
-        <hibernate-c3p0.version>5.0.11.Final</hibernate-c3p0.version>
-        <hibernate-validator.version>5.0.1.Final</hibernate-validator.version>
-        <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
-        <datasource-dbcp.version>7.0.65</datasource-dbcp.version>
-        <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
-        <json-path.version>2.2.0</json-path.version>
-        <mockito-core.version>2.7.19</mockito-core.version>
-        <hamcrest-library.version>1.3</hamcrest-library.version>
-        <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
     </properties>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>${tomcat7-maven-plugin.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
                 <configuration>
-                    <hostName>localhost</hostName>
-                    <port>8080</port>
-                    <path>/</path>
-                    <uriEncoding>UTF-8</uriEncoding>
+                    <skipTests>${test.skip}</skipTests>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <hostName>${server.host}</hostName>
+                    <port>${server.port}</port>
+                    <path>/</path>
+                    <uriEncoding>UTF-8</uriEncoding>
+                </configuration>
             </plugin>
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <id>build-dist</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>make-assembly-dist</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                                <configuration>
-                                    <descriptors>
-                                        <descriptor>${basedir}/src/assembly/sources.xml</descriptor>
-                                    </descriptors>
-                                    <appendAssemblyId>true</appendAssemblyId>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
     <dependencies>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Spring basics -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -138,16 +125,15 @@
             <artifactId>spring-orm</artifactId>
             <version>${springframework.version}</version>
         </dependency>
+
+        <!-- Redis -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${springframework.version}</version>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>${spring-data-jpa.version}</version>
-        </dependency>
+
+        <!-- Session -->
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session</artifactId>
@@ -158,43 +144,41 @@
             <artifactId>spring-session-data-redis</artifactId>
             <version>${spring-session.version}</version>
         </dependency>
+
+        <!-- Persistence -->
         <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>${jedis.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>${javax-servlet-api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate-validator.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-c3p0</artifactId>
-            <version>${hibernate-c3p0.version}</version>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>1.11.1.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector-java.version}</version>
+            <version>5.1.38</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-dbcp</artifactId>
-            <version>${datasource-dbcp.version}</version>
+            <version>7.0.65</version>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.2.10.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>5.2.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.4.1.Final</version>
+        </dependency>
+
+        <!-- Logs -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -210,7 +194,7 @@
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>${log4j.version}</version>
+            <version>1.2.15</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -227,33 +211,39 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- Unit tests -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${springframework.version}</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
+            <version>2.8.7</version>
         </dependency>
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-            <version>${json-path.version}</version>
+            <version>2.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>${mockito-core.version}</version>
+            <version>2.7.19</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-library</artifactId>
-            <version>${hamcrest-library.version}</version>
+            <version>1.3</version>
         </dependency>
     </dependencies>
-
 </project>
