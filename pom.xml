@@ -13,7 +13,7 @@
     <properties>
         <server.host>localhost</server.host>
         <server.port>8000</server.port>
-        <test.skip>false</test.skip>
+        <skipTests>false</skipTests>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <springframework.version>4.3.3.RELEASE</springframework.version>
@@ -33,7 +33,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
-                    <skipTests>${test.skip}</skipTests>
+                    <skipTests>${skipTests}</skipTests>
                 </configuration>
             </plugin>
             <plugin>
