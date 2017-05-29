@@ -22,11 +22,10 @@ Server that provides RESTful services of AwesomeTickets system. See the [APIs](h
     $ mvn clean test
     ```
 
-- Build with docker
+- Build docker image
 
     ```bash
     $ docker build -t service-server .
-    $ docker run --name service-server -p 8000:8000 -d service-server
     ```
 
 ## License
