@@ -1,4 +1,4 @@
-sudo: required
+sudo: false
 
 language: java
 
@@ -7,6 +7,10 @@ python:
 
 os:
   - linux
+
+cache:
+  directories:
+    - $HOME/.m2
 
 services:
   - mysql
@@ -23,9 +27,7 @@ before_script:
   - cd Database
   - pip install --user -r requirements.txt
   - python init.py
-  - cd ..
-  - touch .awesometickets
-  - echo ${LCK} > .awesometickets
+  - cd .. && echo ${LCK} > .awesometickets
 
 script:
   - mvn clean test
