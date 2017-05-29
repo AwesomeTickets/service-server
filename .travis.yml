@@ -9,9 +9,9 @@ os:
   - linux
 
 cache:
-  pip: true
   directories:
     - $HOME/.m2
+    - $HOME/.cache/pip
 
 services:
   - mysql
