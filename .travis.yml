@@ -9,7 +9,7 @@ os:
   - linux
 
 cache:
-  - pip
+  pip: true
   directories:
     - $HOME/.m2
 
