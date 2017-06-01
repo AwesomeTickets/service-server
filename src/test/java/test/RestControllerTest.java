@@ -32,6 +32,7 @@ public abstract class RestControllerTest extends BaseTest {
     protected static final String URI_SMS_GET = "/resource/sms/{phoneNum}";
     protected static final String URI_SMS_VERIFY = "/resource/sms/{phoneNum}/check";
     protected static final String URI_USER_REGISTER = "/resource/user";
+    protected static final String URI_USER_CHECK_REGISTER = "/resource/user/{phoneNum}";
     protected static final String URI_USER_LOGIN = "/resource/session";
     protected static final String URI_USER_LOGOUT = "/resource/session/drop";
     protected static final String URI_USER_SESSION_CHECK = "/resource/session/check";
