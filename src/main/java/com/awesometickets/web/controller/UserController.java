@@ -82,6 +82,21 @@ public class UserController {
         return res;
     }
 
+    @RequestMapping(path = "/user/{phoneNum}",
+                    method = RequestMethod.GET,
+                    produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public RestResponse checkRegister(
+        @PathVariable("phoneNum") String phoneNum,
+        HttpServletRequest request, HttpServletResponse response) {
+        LogUtil.logReq(Log, request);
+        if (!validator.isValidPhone(phoneNum)) {
+            return new ErrorResponse(response, ErrorStatus.PHONE_INVALID_FORMAT);
+        }
+        RestResponse res = new RestResponse();
+        res.put("register", userService.hasUser(phoneNum));
+        return res;
+    }
+
     @RequestMapping(path = "/user/{phoneNum}/ticket/history",
                     method = RequestMethod.GET,
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
