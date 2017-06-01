@@ -42,6 +42,29 @@ public class UserControllerTest extends RestSessionControllerTest {
     }
 
     @Test
+    public void testCheckRegister() throws Exception {
+        // PHONE_INVALID_FORMAT
+        mockMvc.perform(get(URI_USER_CHECK_REGISTER, TEST_PHONE_INVALID))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.*").value(Matchers.hasSize(2)))
+            .andExpect(jsonPath("$.info").isString())
+            .andExpect(jsonPath("$.code").value(100));
+        // REGISTER: false
+        mockMvc.perform(get(URI_USER_CHECK_REGISTER, TEST_PHONE_NOT_EXISTS))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.*").value(Matchers.hasSize(1)))
+            .andExpect(jsonPath("$.register").value(false));
+        // REGISTER: true
+        mockMvc.perform(get(URI_USER_CHECK_REGISTER, TEST_PHONE_USER))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.*").value(Matchers.hasSize(1)))
+            .andExpect(jsonPath("$.register").value(true));
+    }
+
+    @Test
     public void testQueryTicketHistory() throws Exception {
         // Buy four tickets
         MvcResult res1 = mockMvc.perform(post(URI_TICKET_BUY)
