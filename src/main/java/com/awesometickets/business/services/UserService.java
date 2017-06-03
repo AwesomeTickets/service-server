@@ -4,6 +4,8 @@ import com.awesometickets.business.entities.User;
 import com.awesometickets.business.entities.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class UserService {
      * @param password The password
      * @return The user inserted
      */
+    @Transactional(propagation= Propagation.REQUIRED)
     public User addUser(String phoneNum, String password) {
         User user = new User();
         user.setPhoneNum(phoneNum);

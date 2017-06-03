@@ -8,6 +8,8 @@ import com.awesometickets.business.entities.repositories.SeatRepository;
 import com.awesometickets.business.entities.repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -30,6 +32,7 @@ public class TicketService {
      * @param user The user to buy the ticket
      * @return The ticket code of the ticket
      */
+    @Transactional(propagation= Propagation.REQUIRED)
     public String buyTicketAndGenerateCode(List<Seat> seatList, User user) {
         String ticketCode = genCode();
         Ticket ticket = new Ticket();
@@ -73,6 +76,7 @@ public class TicketService {
      * @return True if the ticket checked successfully.
      *         False if the ticket has already been checked.
      */
+    @Transactional(propagation= Propagation.REQUIRED)
     public boolean checkTicket(Ticket ticket) {
         if (!ticket.getValid()) {
             return false;
