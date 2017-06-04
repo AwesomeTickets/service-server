@@ -23,7 +23,6 @@ public class UserService {
      * @param password The password
      * @return The user inserted
      */
-    @Transactional(propagation= Propagation.REQUIRED)
     public User addUser(String phoneNum, String password) {
         User user = new User();
         user.setPhoneNum(phoneNum);
