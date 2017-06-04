@@ -32,7 +32,7 @@ public class TicketService {
      * @param user The user to buy the ticket
      * @return The ticket code of the ticket
      */
-    @Transactional(propagation= Propagation.REQUIRED)
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Exception.class)
     public String buyTicketAndGenerateCode(List<Seat> seatList, User user) {
         String ticketCode = genCode();
         Ticket ticket = new Ticket();
@@ -76,7 +76,6 @@ public class TicketService {
      * @return True if the ticket checked successfully.
      *         False if the ticket has already been checked.
      */
-    @Transactional(propagation= Propagation.REQUIRED)
     public boolean checkTicket(Ticket ticket) {
         if (!ticket.getValid()) {
             return false;
@@ -116,6 +115,7 @@ public class TicketService {
      *
      * @return The generated ticket code
      */
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Exception.class)
     private String genCode() {
         String codeStr;
         do {
@@ -131,6 +131,7 @@ public class TicketService {
      * @param code The ticket code to check
      * @return True if the ticket code has been generated.
      */
+    @Transactional(propagation= Propagation.REQUIRED, rollbackFor = Exception.class)
     private boolean hasCode(String code) {
         return !ticketRepo.findUserIdByCode(code).isEmpty();
     }
