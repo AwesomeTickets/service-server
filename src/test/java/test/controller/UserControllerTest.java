@@ -26,7 +26,7 @@ public class UserControllerTest extends RestSessionControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(1)))
             .andExpect(jsonPath("$.phoneNum").value(TEST_PHONE_USER));
-        assertExpired(true);
+        assertSession("");
         // Login
         MvcResult res = mockMvc.perform(post(URI_USER_LOGIN)
             .param("phoneNum", TEST_PHONE_USER)
@@ -38,7 +38,7 @@ public class UserControllerTest extends RestSessionControllerTest {
             .andReturn();
         session = (MockHttpSession) res.getRequest().getSession(false);
         assertSession(session);
-        assertExpired(false);
+        assertSession(TEST_PHONE_USER);
     }
 
     @Test
@@ -261,12 +261,12 @@ public class UserControllerTest extends RestSessionControllerTest {
             .andExpect(jsonPath("$.code").value(403));
     }
 
-    private void assertExpired(boolean predicate) throws Exception {
+    private void assertSession(String phoneNum) throws Exception {
         mockMvc.perform(get(URI_USER_SESSION_CHECK)
             .session(session))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.*").value(Matchers.hasSize(1)))
-            .andExpect(jsonPath("$.expire").value(predicate));
+            .andExpect(jsonPath("$.phoneNum").value(phoneNum));
     }
 }

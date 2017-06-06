@@ -49,8 +49,9 @@ public class UserController {
                     produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public RestResponse checkSession(HttpServletRequest request, HttpServletResponse response) {
         LogUtil.logReq(Log, request);
+        String phoneNum = sessionManager.getUserPhone(request);
         RestResponse res = new RestResponse();
-        res.put("expire", !sessionManager.isSessionExists(request));
+        res.put("phoneNum", phoneNum == null ? "" : phoneNum);
         return res;
     }
 
