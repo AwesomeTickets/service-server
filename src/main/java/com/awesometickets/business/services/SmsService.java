@@ -104,7 +104,7 @@ public class SmsService {
      */
     private class ReqSmsParam {
         private String mobilePhoneNumber;
-        private int ttl = 2;
+        private int ttl = 10;
         private String op = "手机号验证";
 
         private ReqSmsParam(String phone) {
