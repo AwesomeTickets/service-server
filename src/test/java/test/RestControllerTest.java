@@ -41,7 +41,7 @@ public abstract class RestControllerTest extends BaseTest {
     protected static final String URI_TICKET_CHECK = "/resource/ticket/check";
     protected static final String URI_TICKET_INFO = "/resource/ticket/info";
 
-    protected static final String TEST_SMS_CODE = "448291";
+    protected static final String TEST_SMS_CODE = "498565";
     protected static final String TEST_PHONE_USER = "13512345678";
     protected static final String TEST_PHONE_UNAVAILABLE = "18813572468";
     protected static final String TEST_PHONE_INVALID = "99912345678";
