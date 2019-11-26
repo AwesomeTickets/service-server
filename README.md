@@ -1,4 +1,4 @@
-# ServiceServer [![Build Status](https://travis-ci.org/AwesomeTickets/ServiceServer.svg?branch=master)](https://travis-ci.org/AwesomeTickets/ServiceServer)
+# ServiceServer
 
 Server that provides RESTful services of AwesomeTickets system. See the [APIs](https://github.com/AwesomeTickets/Dashboard/blob/master/doc/api.md) available.
 
