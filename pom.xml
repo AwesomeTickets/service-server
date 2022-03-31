@@ -16,7 +16,7 @@
         <skipTests>false</skipTests>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <springframework.version>4.3.3.RELEASE</springframework.version>
+        <springframework.version>5.3.18</springframework.version>
         <spring-session.version>1.3.0.RELEASE</spring-session.version>
         <slf4j.version>1.6.1</slf4j.version>
     </properties>
